@@ -9,19 +9,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_dash: ^1.0.0
+  flutter_native_splash: ^2.3.4
+  font_awesome_flutter: ^10.6.0
 
 dev_dependencies:
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-
-asset:
-  - assets/
 
 flutter:
   uses-material-design: true
 
-fonts:
+  assets:
+    - assets/images/
+
+  fonts:
     - family: Inter
       fonts:
-          - asset: font\Inter-VariableFont_slnt,wght.ttf
+        - asset: font\Inter-VariableFont_slnt,wght.ttf
