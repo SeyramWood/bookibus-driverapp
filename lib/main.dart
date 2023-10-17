@@ -1,4 +1,6 @@
 import 'package:bookihub/config/theme/light_theme.dart';
+import 'package:bookihub/src/trip/presentation/views/map_view.dart';
+import 'package:bookihub/src/trip/presentation/views/trip_detail_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,11 +14,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       theme: LightTheme.themeData(),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      home: const TripDetails(),
     );
   }
 }
