@@ -1,0 +1,7 @@
+class CustomeImages {
+  static String logo = "assets/images/logo.png";
+  static String trips = "assets/images/trips.png";
+  static String delivery = "assets/images/delivery.png";
+  static String report = "assets/images/report.png";
+  static String profile = "assets/images/profile.png";
+}
