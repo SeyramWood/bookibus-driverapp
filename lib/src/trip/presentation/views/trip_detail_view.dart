@@ -1,15 +1,35 @@
+import 'dart:developer';
+
 import 'package:bookihub/shared/constant/colors.dart';
 import 'package:bookihub/shared/constant/dimensions.dart';
 import 'package:bookihub/shared/utils/divider.dart';
+import 'package:bookihub/shared/utils/exports.dart';
 import 'package:bookihub/src/trip/presentation/views/map_view.dart';
+import 'package:bookihub/src/trip/presentation/widgets/percentage_indicator.dart';
 import 'package:bookihub/src/trip/presentation/widgets/trip_inspect_row.dart';
 import 'package:flutter/material.dart';
 
-class TripDetails extends StatelessWidget {
+class TripDetails extends StatefulWidget {
   const TripDetails({super.key});
 
   @override
+  State<TripDetails> createState() => _TripDetailsState();
+}
+
+class _TripDetailsState extends State<TripDetails> {
+  bool value1 = false;
+  bool value2 = false;
+  bool value3 = false;
+  bool value4 = false;
+  bool value5 = false;
+  bool value6 = false;
+
+  double checkPercentage = 0.0;
+
+  @override
   Widget build(BuildContext context) {
+    bool isChecked = checkPercentage == 0.9999999999999999;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Trip Details')),
       body: Padding(
@@ -72,10 +92,13 @@ class TripDetails extends StatelessWidget {
                       borderRadius: borderRadius,
                       color: orange,
                     ),
-                    child: const Center(
+                    child: Center(
                         child: Text(
                       'View\nRoute',
-                      style: TextStyle(color: white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(color: white),
                     )),
                   ),
                 )
@@ -83,77 +106,133 @@ class TripDetails extends StatelessWidget {
             ),
           ),
           vSpace,
+          Divider(color: orange.withOpacity(.4)),
           vSpace,
           SizedBox(
             height: MediaQuery.sizeOf(context).height * .1,
             child: Material(
               borderRadius: borderRadius,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CircularProgressIndicator.adaptive(
-                    backgroundColor: grey,
-                    strokeWidth: 6,
+                  CircularPercentageIndicator(percentage: checkPercentage),
+                  const SizedBox(
+                    width: 20,
                   ),
                   Text(
                     'Pre-Trip Inspection',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontWeight: FontWeight.w600),
                   )
                 ],
               ),
             ),
           ),
           vSpace,
+          vSpace,
           Material(
             borderRadius: borderRadius,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: hPadding),
               child: Column(children: [
+                vSpace,
                 TripInspectRow(
                   label: 'Exterior Inspection',
-                  onChanged: (p0) {},
-                  value: false,
+                  onChanged: () {
+                    setState(() {
+                      value1 = !value1;
+                      value1
+                          ? checkPercentage = (checkPercentage + 1 / 6)
+                          : checkPercentage = (checkPercentage - 1 / 6);
+                    });
+                  },
+                  value: value1,
                 ),
                 divider,
                 TripInspectRow(
                   label: 'Interior Inspection',
-                  onChanged: (p0) {},
-                  value: false,
+                  onChanged: () {
+                    setState(() {
+                      value2 = !value2;
+                      value2
+                          ? checkPercentage = (checkPercentage + 1 / 6)
+                          : checkPercentage = (checkPercentage - 1 / 6);
+                    });
+                  },
+                  value: value2,
                 ),
                 divider,
                 TripInspectRow(
                   label: 'Engine Compartment',
-                  onChanged: (p0) {},
-                  value: false,
+                  onChanged: () {
+                    setState(() {
+                      value3 = !value3;
+                      value3
+                          ? checkPercentage = (checkPercentage + 1 / 6)
+                          : checkPercentage = (checkPercentage - 1 / 6);
+                    });
+                  },
+                  value: value3,
                 ),
                 divider,
                 TripInspectRow(
                   label: 'Brakes and Steering',
-                  onChanged: (p0) {},
-                  value: false,
+                  onChanged: () {
+                    setState(() {
+                      value4 = !value4;
+                      value4
+                          ? checkPercentage = (checkPercentage + 1 / 6)
+                          : checkPercentage = (checkPercentage - 1 / 6);
+                    });
+                  },
+                  value: value4,
                 ),
                 divider,
                 TripInspectRow(
                   label: 'Emergency Equipment',
-                  onChanged: (p0) {},
-                  value: false,
+                  onChanged: () {
+                    setState(() {
+                      value5 = !value5;
+                      value5
+                          ? checkPercentage = (checkPercentage + 1 / 6)
+                          : checkPercentage = (checkPercentage - 1 / 6);
+                    });
+                  },
+                  value: value5,
                 ),
                 divider,
                 TripInspectRow(
                   label: 'Fuel and Fluids',
-                  onChanged: (p0) {},
-                  value: false,
+                  onChanged: () {
+                    setState(() {
+                      value6 = !value6;
+                      value6
+                          ? checkPercentage = (checkPercentage + 1 / 6)
+                          : checkPercentage = (checkPercentage - 1 / 6);
+                    });
+                  },
+                  value: value6,
                 ),
+                vSpace,
               ]),
             ),
           ),
-          vSpace,
-          vSpace,
-          ElevatedButton(
-            onPressed: () {},
-            style:
-                ButtonStyle(backgroundColor: MaterialStateProperty.all(grey)),
-            child: const Text('Start Trip'),
+          const Spacer(),
+          SizedBox(
+            height: 56,
+            child: ElevatedButton(
+              onPressed: () {
+                if (isChecked) {
+                  log('here');
+                }
+              },
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(isChecked ? blue : grey)),
+              child: const Text('Start Trip'),
+            ),
           )
         ]),
       ),

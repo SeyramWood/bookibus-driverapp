@@ -28,48 +28,54 @@ class _RouteMapState extends State<RouteMap> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: _currentLocation == null
-          ? const Center(child: Text('Loading ...'))
-          : mounted?GoogleMap(
-              initialCameraPosition:
-                  const CameraPosition(target: _kGooglePlex, zoom: 13),
-              onMapCreated: (controller) => _mapController.complete(controller),
-              markers: {
-                Marker(
-                  markerId: const MarkerId('_currentLocation'),
-                  position: _currentLocation!,
-                  icon: BitmapDescriptor.defaultMarker,
-                ),
-                const Marker(
-                  markerId: MarkerId('sourceLocation'),
-                  position: _kGooglePlex,
-                  icon: BitmapDescriptor.defaultMarker,
-                ),
-                const Marker(
-                  markerId: MarkerId('destination'),
-                  position: _kend,
-                  icon: BitmapDescriptor.defaultMarker,
-                ),
-              },
-            ) :null ); }
+    return Scaffold(
+        body: _currentLocation == null
+            ? const Center(child: Text('Loading ...'))
+            : mounted
+                ? GoogleMap(
+                    initialCameraPosition:
+                        const CameraPosition(target: _kGooglePlex, zoom: 13),
+                    onMapCreated: (controller) =>
+                        _mapController.complete(controller),
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId('_currentLocation'),
+                        position: _currentLocation!,
+                        icon: BitmapDescriptor.defaultMarker,
+                      ),
+                      const Marker(
+                        markerId: MarkerId('sourceLocation'),
+                        position: _kGooglePlex,
+                        icon: BitmapDescriptor.defaultMarker,
+                      ),
+                      const Marker(
+                        markerId: MarkerId('destination'),
+                        position: _kend,
+                        icon: BitmapDescriptor.defaultMarker,
+                      ),
+                    },
+                  )
+                : null);
+  }
 
   Future<void> cameraPosition(LatLng pos) async {
     final GoogleMapController controller = await _mapController.future;
-    await controller.animateCamera(
-        CameraUpdate.newCameraPosition(CameraPosition(target: pos, zoom: 13)));
+    if (mounted) {
+      await controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: pos, zoom: 13),
+        ),
+      );
+    }
   }
 
   Future<void> getLocationUpdates() async {
-    print('I am here');
-
     bool isServiceEnabled;
     PermissionStatus persmissionGranted;
     isServiceEnabled = await _locationController.serviceEnabled();
     if (!isServiceEnabled) {
       isServiceEnabled = await _locationController.requestService();
     } else {
-      print('I am here to');
       return;
     }
 
@@ -81,20 +87,21 @@ class _RouteMapState extends State<RouteMap> {
         return;
       }
     }
-    print('I am here also');
 
-    _locationController.onLocationChanged.listen(
-      (currentLocation) {
-        if (currentLocation.latitude != null &&
-            currentLocation.longitude != null) {
-          setState(() {
-            _currentLocation =
-                LatLng(currentLocation.latitude!, currentLocation.longitude!);
-            cameraPosition(_currentLocation!);
-          });
-        }
-      },
-    );
+    if (mounted) {
+      _locationController.onLocationChanged.listen(
+        (currentLocation) {
+          if (currentLocation.latitude != null &&
+              currentLocation.longitude != null) {
+            setState(() {
+              _currentLocation =
+                  LatLng(currentLocation.latitude!, currentLocation.longitude!);
+              cameraPosition(_currentLocation!);
+            });
+          }
+        },
+      );
+    }
   }
 
   Future<List<LatLng>> getPolylinePoints() async {
@@ -109,8 +116,7 @@ class _RouteMapState extends State<RouteMap> {
     );
     if (result.points.isNotEmpty) {
       for (var pointLatLng in result.points) {
-        var newPoint = LatLng(pointLatLng.latitude, 
-        pointLatLng.longitude);
+        var newPoint = LatLng(pointLatLng.latitude, pointLatLng.longitude);
         coordinates.add(newPoint);
       }
     } else {
