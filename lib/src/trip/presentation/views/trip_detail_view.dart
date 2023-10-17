@@ -33,13 +33,25 @@ class TripDetails extends StatelessWidget {
                               margin: const EdgeInsets.all(10),
                               height: 50,
                               width: 50,
-                              child: Image.asset('asset/images/logo.png')),
-                          const Column(
+                              child: Image.asset('assets/images/logo.png')),
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Trip ID: MTGHD8'),
-                              Text('Bus Number: MTGHD8'),
+                              Text(
+                                'Trip ID: MTGHD8',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge!
+                                    .copyWith(color: titleColor),
+                              ),
+                              Text(
+                                'Bus Number: MTGHD8',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge!
+                                    .copyWith(color: titleColor),
+                              ),
                             ],
                           ),
                         ]),
@@ -58,7 +70,7 @@ class TripDetails extends StatelessWidget {
                     width: MediaQuery.sizeOf(context).width * .2,
                     decoration: BoxDecoration(
                       borderRadius: borderRadius,
-                      color: yellow,
+                      color: orange,
                     ),
                     child: const Center(
                         child: Text(
@@ -76,14 +88,17 @@ class TripDetails extends StatelessWidget {
             height: MediaQuery.sizeOf(context).height * .1,
             child: Material(
               borderRadius: borderRadius,
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  CircularProgressIndicator.adaptive(
+                  const CircularProgressIndicator.adaptive(
                     backgroundColor: grey,
                     strokeWidth: 6,
                   ),
-                  Text('Pre-Trip Inspection')
+                  Text(
+                    'Pre-Trip Inspection',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  )
                 ],
               ),
             ),

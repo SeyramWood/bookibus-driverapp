@@ -16,7 +16,7 @@ class TripsTab extends StatelessWidget {
         width: MediaQuery.of(context).size.width*.27,
         decoration: BoxDecoration(
           color: isSelectedIndex == index
-          ? blue : scaffold,
+          ? blue : bg,
           borderRadius: BorderRadius.circular(5),
           border: Border.all(
             color: isSelectedIndex == index

@@ -1,3 +1,4 @@
+import 'package:bookihub/shared/utils/divider.dart';
 import 'package:bookihub/shared/utils/exports.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 
@@ -78,17 +79,17 @@ class _TripCardState extends State<TripCard> {
                           children: [
                             Text(
                               widget.location!,
-                              style: const TextStyle(
-                                  color: black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(fontWeight: FontWeight.w600),
                             ),
                             Text(
                               widget.lDescription!,
-                              style: const TextStyle(
-                                  color: black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontWeight: FontWeight.w600),
                             )
                           ],
                         ),
@@ -110,7 +111,7 @@ class _TripCardState extends State<TripCard> {
                             }
                           },
                           child: SizedBox(
-                            width: MediaQuery.sizeOf(context).width * 0.17,
+                            width: MediaQuery.sizeOf(context).width * 0.19,
                             height: MediaQuery.sizeOf(context).height * 0.038,
                             child: Material(
                               shape: RoundedRectangleBorder(
@@ -128,10 +129,10 @@ class _TripCardState extends State<TripCard> {
                                     ),
                                     Text(
                                       "${selectedStartTime.hour > 11 ? selectedStartTime.hour - 12 : selectedStartTime.hour}:${selectedStartTime.minute} ${selectedStartTime.hour >= 12 ? 'pm' : 'am'}",
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(),
                                     ),
                                   ],
                                 ),
@@ -141,7 +142,7 @@ class _TripCardState extends State<TripCard> {
                         ),
                       ],
                     ),
-                    const Divider(),
+                    divider,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -150,17 +151,17 @@ class _TripCardState extends State<TripCard> {
                           children: [
                             Text(
                               widget.destination!,
-                              style: const TextStyle(
-                                  color: black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(fontWeight: FontWeight.w600),
                             ),
                             Text(
                               widget.dDescription!,
-                              style: const TextStyle(
-                                  color: black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontWeight: FontWeight.w600),
                             )
                           ],
                         ),
@@ -182,7 +183,7 @@ class _TripCardState extends State<TripCard> {
                             }
                           },
                           child: SizedBox(
-                            width: MediaQuery.sizeOf(context).width * 0.17,
+                            width: MediaQuery.sizeOf(context).width * 0.19,
                             height: MediaQuery.sizeOf(context).height * 0.038,
                             child: Material(
                               shape: RoundedRectangleBorder(
@@ -202,10 +203,10 @@ class _TripCardState extends State<TripCard> {
                                     ),
                                     Text(
                                       "${selectedStartTime.hour > 11 ? selectedStartTime.hour - 12 : selectedStartTime.hour}:${selectedStartTime.minute} ${selectedStartTime.hour >= 12 ? 'pm' : 'am'}",
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(),
                                     ),
                                   ],
                                 ),
