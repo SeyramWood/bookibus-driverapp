@@ -1,6 +1,7 @@
 import 'package:bookihub/shared/utils/exports.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 
@@ -15,3 +16,4 @@ class MainApp extends StatelessWidget {
         home: const MainPage());
   }
 }
+
