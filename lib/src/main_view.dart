@@ -35,8 +35,8 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          // elevation: 0,
+          backgroundColor: white,
+          elevation: 0,
 
           selectedItemColor: blue,
           unselectedItemColor: grey,
