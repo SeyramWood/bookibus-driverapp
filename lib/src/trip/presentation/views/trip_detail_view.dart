@@ -80,11 +80,12 @@ class _TripDetailsState extends State<TripDetails> {
                 GestureDetector(
                   onTap: () => showModalBottomSheet(
                     showDragHandle: true,
+                    isScrollControlled: true,
                     useSafeArea: true,
                     context: context,
                     builder: (context) => SizedBox(
-                        height: MediaQuery.sizeOf(context).height * .8,
-                        child: const RouteMap()),
+                        height: MediaQuery.sizeOf(context).height * .7,
+                        child: mounted ? const RouteMap() : null),
                   ),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * .2,

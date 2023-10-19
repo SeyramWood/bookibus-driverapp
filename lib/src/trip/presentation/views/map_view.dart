@@ -23,44 +23,44 @@ class _RouteMapState extends State<RouteMap> {
   @override
   void initState() {
     super.initState();
-    getLocationUpdates();
+    getLocationUpdates().then(
+      (value) {},
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: _currentLocation == null
-            ? const Center(child: Text('Loading ...'))
-            : mounted
-                ? GoogleMap(
-                    initialCameraPosition:
-                        const CameraPosition(target: _kGooglePlex, zoom: 13),
-                    onMapCreated: (controller) =>
-                        _mapController.complete(controller),
-                    markers: {
-                      Marker(
-                        markerId: const MarkerId('_currentLocation'),
-                        position: _currentLocation!,
-                        icon: BitmapDescriptor.defaultMarker,
-                      ),
-                      const Marker(
-                        markerId: MarkerId('sourceLocation'),
-                        position: _kGooglePlex,
-                        icon: BitmapDescriptor.defaultMarker,
-                      ),
-                      const Marker(
-                        markerId: MarkerId('destination'),
-                        position: _kend,
-                        icon: BitmapDescriptor.defaultMarker,
-                      ),
-                    },
-                  )
-                : null);
+            ? const Center(child: Text('Loading...'))
+            : GoogleMap(
+                initialCameraPosition:
+                    const CameraPosition(target: _kGooglePlex, zoom: 10),
+                onMapCreated: (controller) =>
+                    _mapController.complete(controller),
+                markers: {
+                  Marker(
+                    markerId: const MarkerId('_currentLocation'),
+                    position: _currentLocation!,
+                    icon: BitmapDescriptor.defaultMarker,
+                  ),
+                  const Marker(
+                    markerId: MarkerId('sourceLocation'),
+                    position: _kGooglePlex,
+                    icon: BitmapDescriptor.defaultMarker,
+                  ),
+                  const Marker(
+                    markerId: MarkerId('destination'),
+                    position: _kend,
+                    icon: BitmapDescriptor.defaultMarker,
+                  ),
+                },
+              ));
   }
 
   Future<void> cameraPosition(LatLng pos) async {
     final GoogleMapController controller = await _mapController.future;
-    if (mounted) {
+    {
       await controller.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(target: pos, zoom: 13),
@@ -70,34 +70,34 @@ class _RouteMapState extends State<RouteMap> {
   }
 
   Future<void> getLocationUpdates() async {
-    bool isServiceEnabled;
-    PermissionStatus persmissionGranted;
-    isServiceEnabled = await _locationController.serviceEnabled();
-    if (!isServiceEnabled) {
-      isServiceEnabled = await _locationController.requestService();
-    } else {
-      return;
-    }
+    {
+      bool isServiceEnabled;
+      PermissionStatus persmissionGranted;
 
-    persmissionGranted = await _locationController.hasPermission();
-
-    if (persmissionGranted == PermissionStatus.denied) {
-      persmissionGranted = await _locationController.requestPermission();
-      if (persmissionGranted != PermissionStatus.granted) {
-        return;
+      isServiceEnabled = await _locationController.serviceEnabled();
+      if (!isServiceEnabled) {
+        isServiceEnabled = await _locationController.requestService();
       }
-    }
 
-    if (mounted) {
+      persmissionGranted = await _locationController.hasPermission();
+      if (persmissionGranted == PermissionStatus.denied) {
+        persmissionGranted = await _locationController.requestPermission();
+        if (persmissionGranted != PermissionStatus.granted) {
+          return;
+        }
+      }
+
       _locationController.onLocationChanged.listen(
         (currentLocation) {
           if (currentLocation.latitude != null &&
               currentLocation.longitude != null) {
-            setState(() {
-              _currentLocation =
-                  LatLng(currentLocation.latitude!, currentLocation.longitude!);
-              cameraPosition(_currentLocation!);
-            });
+            if (mounted) {
+              setState(() {
+                _currentLocation = LatLng(
+                    currentLocation.latitude!, currentLocation.longitude!);
+                cameraPosition(_currentLocation!);
+              });
+            }
           }
         },
       );
