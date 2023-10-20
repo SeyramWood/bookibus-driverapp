@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:developer';
 
 import 'package:bookihub/shared/constant/keys.dart';
 import 'package:flutter/material.dart';
@@ -15,18 +17,24 @@ class RouteMap extends StatefulWidget {
 
 class _RouteMapState extends State<RouteMap> {
   final Location _locationController = Location();
-  static const LatLng _kGooglePlex = LatLng(5.1115, -1.3064);
-  static const LatLng _kend = LatLng(5.2115, -1.2064);
+  static const LatLng _kGoil = LatLng(5.1115, -1.2790);
+  static const LatLng _kend = LatLng(5.1345, -1.2500);
   LatLng? _currentLocation;
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
+
   @override
   void initState() {
     super.initState();
     getLocationUpdates().then(
-      (value) {},
+      (_) {
+        getPolylinePoints().then(
+          (value) => print(value),
+        );
+      },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +43,11 @@ class _RouteMapState extends State<RouteMap> {
             ? const Center(child: Text('Loading...'))
             : GoogleMap(
                 initialCameraPosition:
-                    const CameraPosition(target: _kGooglePlex, zoom: 10),
+                    const CameraPosition(target: _kGoil, zoom: 13),
                 onMapCreated: (controller) =>
                     _mapController.complete(controller),
+                zoomGesturesEnabled: true,
+                scrollGesturesEnabled: true,
                 markers: {
                   Marker(
                     markerId: const MarkerId('_currentLocation'),
@@ -46,7 +56,7 @@ class _RouteMapState extends State<RouteMap> {
                   ),
                   const Marker(
                     markerId: MarkerId('sourceLocation'),
-                    position: _kGooglePlex,
+                    position: _kGoil,
                     icon: BitmapDescriptor.defaultMarker,
                   ),
                   const Marker(
@@ -105,23 +115,44 @@ class _RouteMapState extends State<RouteMap> {
   }
 
   Future<List<LatLng>> getPolylinePoints() async {
-    List<LatLng> coordinates = [];
-    PolylinePoints polylinePoints = PolylinePoints();
+    try {
+      List<LatLng> coordinates = [];
+      PolylinePoints polylinePoints = PolylinePoints();
+      log(polylinePoints.toString());
 
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      Google_Maps_Api_Key,
-      PointLatLng(_kGooglePlex.latitude, _kGooglePlex.longitude),
-      PointLatLng(_kend.latitude, _kend.longitude),
-      travelMode: TravelMode.driving,
-    );
-    if (result.points.isNotEmpty) {
-      for (var pointLatLng in result.points) {
-        var newPoint = LatLng(pointLatLng.latitude, pointLatLng.longitude);
-        coordinates.add(newPoint);
+      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        Google_Maps_Api_Key,
+        PointLatLng(_kGoil.latitude, _kGoil.longitude),
+        PointLatLng(_kend.latitude, _kend.longitude),
+        travelMode: TravelMode.driving,
+      );
+      log(result.points[0].latitude.toString());
+
+      if (result.points.isNotEmpty) {
+        for (var pointLatLng in result.points) {
+          var newPoint = LatLng(pointLatLng.latitude, pointLatLng.longitude);
+          coordinates.add(newPoint);
+        }
+      } else {
+        print(result.errorMessage);
       }
-    } else {
-      print(result.errorMessage);
+      return coordinates;
+    } on SocketException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('$e'),
+        ));
+      }
+      return [];
+    } catch (e) {
+      log('Error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('$e'),
+        ));
+      }
+      return [];
     }
-    return coordinates;
   }
+
 }
