@@ -9,22 +9,40 @@ class TripInspectRow extends StatelessWidget {
     required this.label,
   });
   final bool value;
-  final void Function(bool)? onChanged;
+  final void Function()? onChanged;
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label),
-        Switch(
-          onChanged: onChanged,
-          activeColor: blue,
-          inactiveTrackColor: grey,
-          value: value,
-        )
-      ],
+    return SizedBox(
+      height: 30,
+      child: GestureDetector(
+        onTap: onChanged,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(label),
+            value
+                ? Image.asset('assets/icons/toggle.png')
+                : Image.asset('assets/icons/inactive_toggle.png'),
+      
+            // Transform.scale(
+            //   scale: 0.85, // Adjust the scale factor as needed
+            //   child: Switch(
+            //     onChanged: onChanged,
+            //     trackOutlineColor: MaterialStateProperty.all(white),
+            //     thumbColor: MaterialStateProperty.all(white),
+            //     activeColor: blue,
+            //     inactiveTrackColor: switchColor,
+            //     inactiveThumbImage:
+            //         AssetImage('assets/icons/inactive_toggle.png'),
+            //     // thumbIcon: MaterialStateProperty.all(),
+            //     value: value,
+            //   ),
+            // )
+          ],
+        ),
+      ),
     );
   }
 }

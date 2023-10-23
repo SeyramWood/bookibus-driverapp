@@ -1,7 +1,7 @@
 import 'package:bookihub/shared/utils/exports.dart';
 
-
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 
@@ -10,10 +10,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      theme: LightTheme.themeData(),
-      home:const MainPage()
-
-    );
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: LightTheme.themeData(),
+        home: const MainPage());
   }
 }
+
