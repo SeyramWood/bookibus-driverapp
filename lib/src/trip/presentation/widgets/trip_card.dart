@@ -1,3 +1,4 @@
+import 'package:bookihub/shared/constant/dimensions.dart';
 import 'package:bookihub/shared/utils/divider.dart';
 import 'package:bookihub/shared/utils/exports.dart';
 import 'package:flutter_dash/flutter_dash.dart';
@@ -9,11 +10,15 @@ class TripCard extends StatefulWidget {
       this.lDescription,
       this.destination,
       this.dDescription,
+      this.startTime,
+      this.endTime,
       this.onTap});
   final String? location;
   final String? lDescription;
   final String? destination;
   final String? dDescription;
+  final String? startTime;
+  final String? endTime;
   final void Function()? onTap;
 
   @override
@@ -21,8 +26,8 @@ class TripCard extends StatefulWidget {
 }
 
 class _TripCardState extends State<TripCard> {
-  String? startTime = "";
-  String? endTime = "";
+  String? startTime;
+  String? endTime;
 
   static TimeOfDay selectedStartTime = TimeOfDay.now();
   TimeOfDay selectedEndTime = TimeOfDay.now();
@@ -35,7 +40,7 @@ class _TripCardState extends State<TripCard> {
         height: MediaQuery.of(context).size.height * .15,
         width: MediaQuery.of(context).size.width * .27,
         decoration:
-            BoxDecoration(color: white, borderRadius: BorderRadius.circular(5)),
+            BoxDecoration(color: white, borderRadius: borderRadius),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
@@ -111,30 +116,32 @@ class _TripCardState extends State<TripCard> {
                             }
                           },
                           child: SizedBox(
-                            width: MediaQuery.sizeOf(context).width * 0.19,
+                            width: MediaQuery.sizeOf(context).width * 0.17,
                             height: MediaQuery.sizeOf(context).height * 0.038,
-                            child: Material(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  side:
-                                      const BorderSide(width: 1, color: green)),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.04,
-                                    ),
-                                    Text(
-                                      "${selectedStartTime.hour > 11 ? selectedStartTime.hour - 12 : selectedStartTime.hour}:${selectedStartTime.minute} ${selectedStartTime.hour >= 12 ? 'pm' : 'am'}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(),
-                                    ),
-                                  ],
+                            child: Center(
+                              child: Material(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: borderRadius,
+                                    side:
+                                        const BorderSide(width: 1, color: green)),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: MediaQuery.sizeOf(context).width *
+                                            0.04,
+                                      ),
+                                      Text(
+                                        "${selectedStartTime.hour > 11 ? selectedStartTime.hour - 12 : selectedStartTime.hour}:${selectedStartTime.minute} ${selectedStartTime.hour >= 12 ? 'pm' : 'am'}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -172,43 +179,45 @@ class _TripCardState extends State<TripCard> {
                           onTap: () async {
                             final TimeOfDay? timeOfDate = await showTimePicker(
                                 context: context,
-                                initialTime: selectedStartTime,
+                                initialTime: selectedEndTime,
                                 initialEntryMode: TimePickerEntryMode.dial);
                             if (timeOfDate != null) {
                               setState(() {
-                                selectedStartTime = timeOfDate;
+                                selectedEndTime = timeOfDate;
                                 endTime =
                                     "${timeOfDate.hour > 11 ? timeOfDate.hour - 12 : timeOfDate.hour}:${timeOfDate.minute} ${timeOfDate.hour >= 12 ? 'pm' : 'am'}";
                               });
                             }
                           },
                           child: SizedBox(
-                            width: MediaQuery.sizeOf(context).width * 0.19,
+                            width: MediaQuery.sizeOf(context).width * 0.17,
                             height: MediaQuery.sizeOf(context).height * 0.038,
-                            child: Material(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  side: const BorderSide(
-                                    width: 1,
-                                    color: orange,
-                                  )),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.04,
-                                    ),
-                                    Text(
-                                      "${selectedStartTime.hour > 11 ? selectedStartTime.hour - 12 : selectedStartTime.hour}:${selectedStartTime.minute} ${selectedStartTime.hour >= 12 ? 'pm' : 'am'}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(),
-                                    ),
-                                  ],
+                            child: Center(
+                              child: Material(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: borderRadius,
+                                    side: const BorderSide(
+                                      width: 1,
+                                      color: orange,
+                                    )),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: MediaQuery.sizeOf(context).width *
+                                            0.04,
+                                      ),
+                                      Text(
+                                        "${selectedEndTime.hour > 11 ? selectedEndTime.hour - 12 : selectedEndTime.hour}:${selectedEndTime.minute} ${selectedEndTime.hour >= 12 ? 'pm' : 'am'}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

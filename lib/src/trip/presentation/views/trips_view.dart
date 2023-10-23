@@ -11,9 +11,7 @@ class TripsView extends StatefulWidget {
 }
 
 int isSelected = 0;
-
-TimeOfDay selectedStartTime = TimeOfDay.now();
-TimeOfDay selectedEndTime = TimeOfDay.now();
+int selectedTab = 0;
 
 class _TripsViewState extends State<TripsView> {
   @override
@@ -40,16 +38,16 @@ class _TripsViewState extends State<TripsView> {
                     return TripsTab(
                       title: tabs[index]['title'],
                       index: index,
-                      isSelectedIndex: isSelected,
+                      isSelectedIndex: selectedTab,
                       onTap: () {
                         setState(() {
-                          isSelected = index;
+                          selectedTab = index;
                         });
                       },
                     );
                   }),
             ),
-            isSelected == 0
+            selectedTab == 0
                 ? SizedBox(
                     height: MediaQuery.sizeOf(context).height * 0.7,
                     child: ListView.separated(
