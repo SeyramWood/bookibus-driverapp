@@ -1,4 +1,7 @@
-import 'package:bookihub/shared/utils/exports.dart';
+
+import 'package:bookihub/src/config/theme/light_theme.dart';
+
+import 'src/shared/utils/exports.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
