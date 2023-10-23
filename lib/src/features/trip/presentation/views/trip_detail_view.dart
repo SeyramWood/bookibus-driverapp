@@ -50,8 +50,8 @@ class _TripDetailsState extends State<TripDetails> {
                           Container(
                               margin: const EdgeInsets.all(10),
                               height: 50,
-                              width: 50,
-                              child: Image.asset('assets/images/logo.png')),
+                              width: 60,
+                              child: Image.asset('assets/images/fleet.png')),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
