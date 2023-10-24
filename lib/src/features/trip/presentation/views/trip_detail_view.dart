@@ -1,11 +1,12 @@
 import 'dart:developer';
 
+import 'package:bookihub/src/features/trip/presentation/views/trip_started.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/divider.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/features/map/presentation/views/map_view.dart';
-import 'package:bookihub/src/features/trip/presentation/widgets/percentage_indicator.dart';
-import 'package:bookihub/src/features/trip/presentation/widgets/trip_inspect_row.dart';
+import 'package:bookihub/src/shared/widgets/percentage_indicator.dart';
+import 'package:bookihub/src/shared/widgets/trip_inspect_row.dart';
 
 class TripDetails extends StatefulWidget {
   const TripDetails({super.key});
@@ -220,11 +221,15 @@ class _TripDetailsState extends State<TripDetails> {
           ),
           const Spacer(),
           SizedBox(
-            height: 56,
+            height: MediaQuery.sizeOf(context).height * .07,
             child: ElevatedButton(
               onPressed: () {
                 if (isChecked) {
-                  log('here');
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const TripStartedView();
+                      },
+                    ));
                 }
               },
               style: ButtonStyle(

@@ -1,8 +1,5 @@
-import 'package:bookihub/src/features/trip/presentation/views/trip_detail_view.dart';
-import 'package:bookihub/src/shared/widgets/trip_card.dart';
-import 'package:bookihub/src/shared/widgets/trip_tab.dart';
+import 'package:bookihub/src/shared/utils/exports.dart';
 
-import '../../../../shared/utils/exports.dart';
 
 class TripsView extends StatefulWidget {
   const TripsView({super.key});
