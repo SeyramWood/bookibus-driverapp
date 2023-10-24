@@ -1,4 +1,3 @@
-
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 
 import '../utils/exports.dart';
@@ -16,8 +15,7 @@ class TripsTab extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: MediaQuery.sizeOf(context).height * .015,
-        width: MediaQuery.sizeOf(context).width * .27,
+        width: MediaQuery.sizeOf(context).width / 3.9,
         decoration: BoxDecoration(
             color: isSelectedIndex == index ? blue : bg,
             borderRadius: borderRadius,

@@ -1,6 +1,6 @@
+import 'package:bookihub/src/features/delivery/presentation/views/success_delivery.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/carousel.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
-import 'package:bookihub/src/features/trip/presentation/views/success_delivery.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:flutter/material.dart';
 
