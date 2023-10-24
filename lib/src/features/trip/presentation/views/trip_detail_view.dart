@@ -29,7 +29,12 @@ class _TripDetailsState extends State<TripDetails> {
     bool isChecked = checkPercentage == 0.9999999999999999;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Trip Details')),
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'Trip Details',
+            style: Theme.of(context).textTheme.headlineMedium,
+          )),
       body: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: hPadding, vertical: vPadding),
