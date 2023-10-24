@@ -1,8 +1,6 @@
+import 'package:bookihub/src/features/delivery/presentation/views/success_delivery.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/carousel.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
-import 'package:bookihub/src/features/trip/presentation/views/confirm_to_deliver.dart';
-import 'package:bookihub/src/features/trip/presentation/views/success_delivery.dart';
-import 'package:bookihub/src/features/trip/presentation/views/wrong_package_code.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +49,7 @@ class PackageDetailsView extends StatelessWidget {
             vSpace,
             vSpace,
             ElevatedButton(
-              onPressed: () => wrongPCode(context),
+              onPressed: () => successDelivery(context),
               child: const Text('Check Code'),
             )
           ]),

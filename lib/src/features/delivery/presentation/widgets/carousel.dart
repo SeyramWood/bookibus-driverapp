@@ -20,7 +20,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
   }
 
   final PageController _pageController = PageController();
-  int _currentPageIndex = 0;
+  final int _currentPageIndex = 0;
   @override
   void initState() {
     getImages();
@@ -44,7 +44,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
         itemBuilder: (context, index) {
           return showImage(imageUrl: widget.images[index]);
         },
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1, mainAxisExtent: 170, mainAxisSpacing: 10),
       ),
     );

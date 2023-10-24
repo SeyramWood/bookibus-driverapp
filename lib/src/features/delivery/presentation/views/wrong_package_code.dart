@@ -16,9 +16,10 @@ wrongPCode(BuildContext context) {
           children: [
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .1,
-              child: Image.asset(
-                'assets/images/fleet.png',
-                fit: BoxFit.cover,
+              child: const ImageIcon(
+                AssetImage('assets/images/i1.png'),
+                size: 50,
+                color: orange,
               ),
             ),
             vSpace,
@@ -33,15 +34,7 @@ wrongPCode(BuildContext context) {
           ],
         ),
       ),
-      actions: [
-        SizedBox(
-          width: 100,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('Close'),
-          ),
-        )
-      ],
+      
     ),
   );
 }

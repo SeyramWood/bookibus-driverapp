@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bookihub/src/features/trip/presentation/views/trip_started.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
