@@ -37,8 +37,8 @@ class _TripCardState extends State<TripCard> {
     return InkWell(
       onTap: widget.onTap,
       child: Container(
-        height: MediaQuery.of(context).size.height * .15,
-        width: MediaQuery.of(context).size.width * .27,
+        height: MediaQuery.sizeOf(context).height * .15,
+        width: MediaQuery.sizeOf(context).width * .27,
         decoration:
             BoxDecoration(color: white, borderRadius: borderRadius),
         child: Padding(

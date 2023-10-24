@@ -7,5 +7,7 @@ export 'package:bookihub/src/config/theme/light_theme.dart';
 export 'package:bookihub/src/main_view.dart';
 export 'package:bookihub/src/features/delivery/presentation/views/delivery_main_view.dart';
 export 'package:bookihub/src/features/profile/presentation/view/profile.dart';
-export 'package:bookihub/src/features/inspection/presentation/views/report.dart';
-
+export 'package:bookihub/src/features/reports/presentation/views/accident_report.dart';
+export 'package:bookihub/src/features/trip/presentation/views/trip_detail_view.dart';
+export 'package:bookihub/src/shared/widgets/trip_card.dart';
+export 'package:bookihub/src/shared/widgets/trip_tab.dart';
