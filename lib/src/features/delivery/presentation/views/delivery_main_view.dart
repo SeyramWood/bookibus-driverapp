@@ -2,7 +2,6 @@ import 'package:bookihub/src/features/delivery/presentation/provider/change.cont
 import 'package:bookihub/src/features/delivery/presentation/views/delivered_view.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
-import 'package:flutter/material.dart';
 
 import 'outgoing_delivery_view.dart';
 
@@ -89,7 +88,7 @@ class DeliveryView extends StatelessWidget {
                       vSpace,
                       Expanded(
                           child:
-                              deliveryState ? OutGoingView() : DeliveredView())
+                              deliveryState ? const OutGoingView() : const DeliveredView())
                     ],
                   ))),
     ));

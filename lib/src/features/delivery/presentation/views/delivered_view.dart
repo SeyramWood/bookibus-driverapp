@@ -12,7 +12,7 @@ class DeliveredView extends StatelessWidget {
       itemCount: 5,
       separatorBuilder: (context, index) => vSpace,
       itemBuilder: (context, index) {
-        return DeliveredInfoCard();
+        return const DeliveredInfoCard();
       },
     );
   }

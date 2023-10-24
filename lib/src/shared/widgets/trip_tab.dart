@@ -1,5 +1,4 @@
 
-import 'package:bookihub/src/shared/constant/colors.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 
 import '../utils/exports.dart';

@@ -3,6 +3,7 @@ import 'package:bookihub/src/shared/utils/exports.dart';
 
 confirmToDeliver(BuildContext context) {
   showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
       actionsAlignment: MainAxisAlignment.center,
@@ -16,9 +17,10 @@ confirmToDeliver(BuildContext context) {
           children: [
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .1,
-              child: Image.asset(
-                'assets/images/fleet.png',
-                fit: BoxFit.cover,
+              child: const ImageIcon(
+                AssetImage('assets/images/i1.png'),
+                color: blue,
+                size: 50,
               ),
             ),
             vSpace,
@@ -43,7 +45,7 @@ confirmToDeliver(BuildContext context) {
         SizedBox(
           width: 100,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pop(),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(white),
               side: MaterialStateProperty.all(
