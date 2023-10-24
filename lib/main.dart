@@ -1,4 +1,5 @@
-
+import 'package:bookihub/src/config/theme/light_theme.dart';
+import 'package:bookihub/src/features/authentication/login_view.dart';
 
 import 'src/shared/utils/exports.dart';
 
@@ -15,7 +16,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: LightTheme.themeData(),
-        home: const MainPage());
+        home: const LoginView());
   }
 }
 
