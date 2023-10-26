@@ -14,21 +14,11 @@ class _TripTrackingViewState extends State<TripTrackingView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Trip Tracker",
-        style: Theme.of(context).textTheme.headlineMedium!),
-        
+        title: Text("Trip Route",
+            style: Theme.of(context).textTheme.headlineMedium!),
         backgroundColor: bg,
       ),
-      body: 
-       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
-          child: SizedBox(
-            width: MediaQuery.sizeOf(context).width *1,
-            height: MediaQuery.sizeOf(context).height *.85,
-            child: const RouteMap()),
-        ),
-      ),
+      body: const RouteMap(),
     );
   }
 }

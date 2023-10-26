@@ -1,6 +1,7 @@
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 
-import '../utils/exports.dart';
+import '../../../../shared/utils/exports.dart';
+
 
 class TripsTab extends StatelessWidget {
   const TripsTab(

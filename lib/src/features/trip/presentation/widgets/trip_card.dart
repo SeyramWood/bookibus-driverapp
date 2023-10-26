@@ -164,23 +164,14 @@ class _TripCardState extends State<TripCard> {
   }
 }
 
-List<Map<String, String>> cards = [
-  {
+List<Map<String, String>> cards = List.generate(
+  10,
+  (index) => {
     "location": "Ho",
     "lDescription": "Big Market Station",
     "destination": "Kumasi",
     "dDescription": "Neoplan Station"
   },
-  {
-    "location": "Ho",
-    "lDescription": "Big Market Station",
-    "destination": "Kumasi",
-    "dDescription": "Neoplan Station"
-  },
-  {
-    "location": "Ho",
-    "lDescription": "Big Market Station",
-    "destination": "Kumasi",
-    "dDescription": "Neoplan Station"
-  }
-];
+);
+  
+  

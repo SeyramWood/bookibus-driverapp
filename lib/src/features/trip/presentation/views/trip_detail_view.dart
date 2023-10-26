@@ -5,7 +5,7 @@ import 'package:bookihub/src/shared/utils/divider.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/features/map/presentation/views/map_view.dart';
 import 'package:bookihub/src/shared/widgets/percentage_indicator.dart';
-import 'package:bookihub/src/shared/widgets/trip_inspect_row.dart';
+import 'package:bookihub/src/features/trip/presentation/widgets/trip_inspect_row.dart';
 
 class TripDetails extends StatefulWidget {
   const TripDetails({super.key});
