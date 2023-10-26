@@ -33,7 +33,7 @@ class _TripStartedViewState extends State<TripStartedView> {
             SizedBox(
                   height: MediaQuery.sizeOf(context).height * .02),
             SizedBox(
-              width: MediaQuery.sizeOf(context).width *.4,
+              width: MediaQuery.sizeOf(context).width *.33,
               height: MediaQuery.sizeOf(context).height * .06,
               child: CustomButton(
                 onPressed: (){
@@ -60,12 +60,13 @@ class _TripStartedViewState extends State<TripStartedView> {
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * .07,
                       child: Material(
+                        color: bg,
                         shape: OutlineInputBorder(
                             borderSide: const BorderSide(color: blue),
                             borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 20),
+                              vertical: 20, horizontal: 10),
                           child: Text(
                             "1 hour : 29 mins : 30 secs",
                             style: Theme.of(context)
