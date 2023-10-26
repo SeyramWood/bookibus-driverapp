@@ -32,6 +32,7 @@ class _TripStartedViewState extends State<TripStartedView> {
             ),
             SizedBox(height: MediaQuery.sizeOf(context).height * .02),
             SizedBox(
+
                 width: MediaQuery.sizeOf(context).width * .4,
                 height: MediaQuery.sizeOf(context).height * .06,
                 child: CustomButton(
@@ -70,6 +71,7 @@ class _TripStartedViewState extends State<TripStartedView> {
                           .textTheme
                           .bodyMedium!
                           .copyWith(fontWeight: FontWeight.w600, color: blue),
+
                     ),
                   ),
                 ),
