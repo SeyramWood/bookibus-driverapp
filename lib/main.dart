@@ -16,7 +16,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: LightTheme.themeData(),
-        home: const MainPage());
+        home: const LogIn());
   }
 }
 

@@ -41,7 +41,7 @@ class _RouteMapState extends State<RouteMap> {
             ? const Center(child: Text('Loading...'))
             : GoogleMap(
                 initialCameraPosition:
-                    const CameraPosition(target: _kGoil, zoom: 13),
+                    const CameraPosition(target: _kGoil, zoom: 8),
                 onMapCreated: (controller) {
                   _mapController.complete(controller);
                 },
@@ -51,23 +51,29 @@ class _RouteMapState extends State<RouteMap> {
                   Marker(
                     markerId: const MarkerId('_currentLocation'),
                     position: _currentLocation!,
-                    icon: BitmapDescriptor.defaultMarker,
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueCyan),
                   ),
-                  const Marker(
-                    markerId: MarkerId('sourceLocation'),
-                    position: _kGoil,
-                    icon: BitmapDescriptor.defaultMarker,
+                  Marker(
+                    markerId: const MarkerId('sourceLocation'),
+                    position: LatLng(_currentLocation!.latitude + .1,
+                        _currentLocation!.longitude - .2),
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueGreen),
                   ),
-                  const Marker(
-                      markerId: MarkerId('destination'),
-                      position: _kend,
+                  Marker(
+                      markerId: const MarkerId('destination'),
+                      position: LatLng(
+                        _currentLocation!.latitude + .01,
+                        _currentLocation!.longitude + .1,
+                      ),
                       icon: BitmapDescriptor.defaultMarker),
                 },
-                polylines: {
-                  const Polyline(
-                      polylineId: PolylineId('destination'),
-                      points: [_kGoil, _kend])
-                },
+                // polylines: {
+                //   const Polyline(
+                //       polylineId: PolylineId('destination'),
+                //       points: [_kGoil, _kend])
+                // },
               ));
   }
 
@@ -76,7 +82,7 @@ class _RouteMapState extends State<RouteMap> {
     {
       await controller.animateCamera(
         CameraUpdate.newCameraPosition(
-          CameraPosition(target: pos, zoom: 13),
+          CameraPosition(target: pos, zoom: 9),
         ),
       );
     }

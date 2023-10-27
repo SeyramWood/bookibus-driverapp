@@ -38,7 +38,7 @@ class FleetMgtReport extends StatelessWidget {
                   TextFormField(
                     cursorColor: grey,
                     decoration: InputDecoration(
-                        hintText: "John Doe",
+                        hintText: "When it occurred",
                         filled: true,
                         fillColor: white,
                         enabledBorder: OutlineInputBorder(
