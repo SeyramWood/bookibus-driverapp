@@ -4,9 +4,11 @@ class CustomButton extends StatelessWidget {
   CustomButton({
     super.key,
     this.title,
+    this.bgColor,
     this.onPressed
   });
   final String? title;
+  Color? bgColor = blue;
   void Function()? onPressed;
 
   @override
@@ -17,7 +19,7 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(blue)),
+            backgroundColor: MaterialStateProperty.all(bgColor)),
         child: Text(title!),
       ),
     );

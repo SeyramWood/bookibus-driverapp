@@ -11,7 +11,7 @@ class ReportView extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Incident Report',
-        style: Theme.of(context).textTheme.headlineMedium!),
+            style: Theme.of(context).textTheme.headlineMedium!),
         backgroundColor: bg,
       ),
       body: Padding(
@@ -63,8 +63,8 @@ class ReportCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: MediaQuery.sizeOf(context).height * .21,
-        width: MediaQuery.sizeOf(context).width * .39,
+        height: MediaQuery.sizeOf(context).height * .18,
+        width: MediaQuery.sizeOf(context).width * .37,
         decoration:
             BoxDecoration(borderRadius: BorderRadius.circular(5), color: white),
         child: Center(

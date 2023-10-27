@@ -17,7 +17,7 @@ class _TripStartedViewState extends State<TripStartedView> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Trip Details",
-            style: Theme.of(context).textTheme.headlineMedium!),
+        style: Theme.of(context).textTheme.headlineMedium!),
         backgroundColor: bg,
       ),
       body: Padding(

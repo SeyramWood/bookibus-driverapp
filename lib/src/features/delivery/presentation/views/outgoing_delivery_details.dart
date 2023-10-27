@@ -21,39 +21,40 @@ class PackageDetailsView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: hPadding)
                 .copyWith(top: hPadding + 7),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-              const ImageCarousel(
-                images: [
-                  "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0=",
-                  "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0=",
-                  "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0="
-                ],
-              ),
-              vSpace,
-              vSpace,
-              vSpace,
-              const InfoCard(),
-              vSpace,
-              vSpace,
-              vSpace,
-              Material(
-                borderRadius: borderRadius,
-                child: const TextField(
-                    decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 10),
-                  border: InputBorder.none,
-                  hintText: 'Enter package code',
-                )),
-              ),
-              vSpace,
-              vSpace,
-              vSpace,
-              ElevatedButton(
-                onPressed: () => successDelivery(context),
-                child: const Text('Check Code'),
-              )
-            ]),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const ImageCarousel(
+                    images: [
+                      "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0=",
+                      "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0=",
+                      "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0="
+                    ],
+                  ),
+                  vSpace,
+                  vSpace,
+                  vSpace,
+                  const InfoCard(),
+                  vSpace,
+                  vSpace,
+                  vSpace,
+                  Material(
+                    borderRadius: borderRadius,
+                    child: const TextField(
+                        decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 10),
+                      border: InputBorder.none,
+                      hintText: 'Enter package code',
+                    )),
+                  ),
+                  vSpace,
+                  vSpace,
+                  vSpace,
+                  ElevatedButton(
+                    onPressed: () => successDelivery(context),
+                    child: const Text('Check Code'),
+                  )
+                ]),
           ),
         ));
   }
