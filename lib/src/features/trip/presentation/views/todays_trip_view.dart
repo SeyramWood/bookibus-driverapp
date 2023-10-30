@@ -58,7 +58,6 @@ class _TodayTripsViewState extends State<TodayTripsView> {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   var trip = todayTrips[index];
-                  print('date: ${time.format(trip.arrivalDate)}');
                   return Padding(
                     padding: EdgeInsets.only(
                         bottom: cards[index] == cards.last ? vPadding : 0.0),
