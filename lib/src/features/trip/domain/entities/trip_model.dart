@@ -9,7 +9,7 @@ TripModel tripModelFromJson(String str) => TripModel.fromJson(json.decode(str));
 String tripModelToJson(TripModel data) => json.encode(data.toJson());
 
 class TripModel {
-  Data data;
+  Data? data;
   bool status;
 
   TripModel({
@@ -18,12 +18,12 @@ class TripModel {
   });
 
   factory TripModel.fromJson(Map<String, dynamic> json) => TripModel(
-        data: Data.fromJson(json["data"]),
+        data: Data.fromJson(json["data"] ?? {}),
         status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
+        "data": data?.toJson(),
         "status": status,
       };
 }
@@ -38,8 +38,8 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        count: json["count"],
-        trip: List<Trip>.from(json["data"].map((x) => Trip.fromJson(x))),
+        count: json["count"] ?? 0,
+        trip: List<Trip>.from(json["data"]?.map((x) => Trip.fromJson(x)) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
@@ -235,12 +235,12 @@ class InspectionStatus {
       );
 
   Map<String, dynamic> toJson() => {
-        "exterior": exterior,
-        "interior": interior,
-        "engineCompartment": engineCompartment,
-        "brakeAndSteering": brakeAndSteering,
-        "emergencyEquipment": emergencyEquipment,
-        "fuelAndFluid": fuelAndFluid,
+        "exterior": '$exterior',
+        "interior": '$interior',
+        "engineCompartment": '$engineCompartment',
+        "brakeAndSteering": '$brakeAndSteering',
+        "emergencyEquipment": '$emergencyEquipment',
+        "fuelAndFluid": '$fuelAndFluid',
       };
 }
 
@@ -321,7 +321,7 @@ class Vehicle {
   String registrationNumber;
   String model;
   int seat;
-  List<Image> images;
+  List<VImage> images;
 
   Vehicle({
     required this.id,
@@ -336,7 +336,8 @@ class Vehicle {
         registrationNumber: json["registrationNumber"],
         model: json["model"],
         seat: json["seat"],
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+        images:
+            List<VImage>.from(json["images"].map((x) => VImage.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -348,16 +349,16 @@ class Vehicle {
       };
 }
 
-class Image {
+class VImage {
   int id;
   String image;
 
-  Image({
+  VImage({
     required this.id,
     required this.image,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) => Image(
+  factory VImage.fromJson(Map<String, dynamic> json) => VImage(
         id: json["id"],
         image: json["image"],
       );

@@ -7,8 +7,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
+import '../provider/current_location_controller.dart';
+
 class RouteMap extends StatefulWidget {
-  const RouteMap({super.key});
+  const RouteMap({super.key, required this.from, required this.to});
+  final LatLng from;
+  final LatLng to;
 
   @override
   State<RouteMap> createState() => _RouteMapState();
@@ -37,36 +41,34 @@ class _RouteMapState extends State<RouteMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _currentLocation == null
-            ? const Center(child: Text('Loading...'))
-            : GoogleMap(
+        body: ValueListenableBuilder(
+            valueListenable: UpdateCurrentLocation(),
+            builder: (context, currentLocation, _) {
+              return GoogleMap(
                 initialCameraPosition:
-                    const CameraPosition(target: _kGoil, zoom: 8),
+                    CameraPosition(target: currentLocation, zoom: 8),
                 onMapCreated: (controller) {
                   _mapController.complete(controller);
+                  cameraPosition(currentLocation);
                 },
                 zoomGesturesEnabled: true,
                 scrollGesturesEnabled: true,
                 markers: {
                   Marker(
                     markerId: const MarkerId('_currentLocation'),
-                    position: _currentLocation!,
+                    position: currentLocation,
                     icon: BitmapDescriptor.defaultMarkerWithHue(
                         BitmapDescriptor.hueCyan),
                   ),
                   Marker(
-                    markerId: const MarkerId('sourceLocation'),
-                    position: LatLng(_currentLocation!.latitude + .1,
-                        _currentLocation!.longitude - .2),
+                    markerId: const MarkerId('departureLocation'),
+                    position: widget.from,
                     icon: BitmapDescriptor.defaultMarkerWithHue(
                         BitmapDescriptor.hueGreen),
                   ),
                   Marker(
                       markerId: const MarkerId('destination'),
-                      position: LatLng(
-                        _currentLocation!.latitude + .01,
-                        _currentLocation!.longitude + .1,
-                      ),
+                      position: widget.to,
                       icon: BitmapDescriptor.defaultMarker),
                 },
                 // polylines: {
@@ -74,7 +76,8 @@ class _RouteMapState extends State<RouteMap> {
                 //       polylineId: PolylineId('destination'),
                 //       points: [_kGoil, _kend])
                 // },
-              ));
+              );
+            }));
   }
 
   Future<void> cameraPosition(LatLng pos) async {
@@ -101,9 +104,6 @@ class _RouteMapState extends State<RouteMap> {
       persmissionGranted = await _locationController.hasPermission();
       if (persmissionGranted == PermissionStatus.denied) {
         persmissionGranted = await _locationController.requestPermission();
-        if (persmissionGranted != PermissionStatus.granted) {
-          return;
-        }
       }
 
       _locationController.onLocationChanged.listen(
@@ -111,11 +111,8 @@ class _RouteMapState extends State<RouteMap> {
           if (currentLocation.latitude != null &&
               currentLocation.longitude != null) {
             if (mounted) {
-              setState(() {
-                _currentLocation = LatLng(
-                    currentLocation.latitude!, currentLocation.longitude!);
-                cameraPosition(_currentLocation!);
-              });
+              UpdateCurrentLocation().cLocation(LatLng(
+                  currentLocation.latitude!, currentLocation.longitude!));
             }
           }
         },

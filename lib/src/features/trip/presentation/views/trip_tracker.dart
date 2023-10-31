@@ -1,3 +1,4 @@
+import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/map/presentation/views/map_view.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 
@@ -18,7 +19,7 @@ class _TripTrackingViewState extends State<TripTrackingView> {
             style: Theme.of(context).textTheme.headlineMedium!),
         backgroundColor: bg,
       ),
-      body: const RouteMap(),
+      body: locator<RouteMap>(),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:bookihub/src/features/trip/data/api_service.dart';
+import 'package:bookihub/src/features/trip/data/api/api_service.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
@@ -70,7 +70,7 @@ class _TodayTripsViewState extends State<TodayTripsView> {
                       endTime: time.format(trip.arrivalDate),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const TripDetails(),
+                          builder: (context) =>  TripDetails(trip:trip),
                         ));
                       },
                     ),
