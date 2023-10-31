@@ -26,9 +26,6 @@ class TripCard extends StatefulWidget {
 }
 
 class _TripCardState extends State<TripCard> {
-  String? startTime;
-  String? endTime;
-
   // static TimeOfDay selectedStartTime = TimeOfDay.now();
   TimeOfDay selectedEndTime = TimeOfDay.now();
 
@@ -100,7 +97,7 @@ class _TripCardState extends State<TripCard> {
                         child: Padding(
                           padding: const EdgeInsets.all(6),
                           child: Text(
-                            "12:30 PM",
+                            widget.startTime ?? '',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
@@ -144,7 +141,7 @@ class _TripCardState extends State<TripCard> {
                         child: Padding(
                           padding: const EdgeInsets.all(6),
                           child: Text(
-                            "12:45 PM",
+                            widget.endTime ?? '',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
@@ -173,5 +170,3 @@ List<Map<String, String>> cards = List.generate(
     "dDescription": "Neoplan Station"
   },
 );
-  
-  
