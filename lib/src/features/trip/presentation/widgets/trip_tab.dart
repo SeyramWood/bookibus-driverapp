@@ -2,7 +2,6 @@ import 'package:bookihub/src/shared/constant/dimensions.dart';
 
 import '../../../../shared/utils/exports.dart';
 
-
 class TripsTab extends StatelessWidget {
   const TripsTab(
       {super.key, this.index, this.isSelectedIndex, this.onTap, this.title});
@@ -24,9 +23,10 @@ class TripsTab extends StatelessWidget {
         child: Center(
             child: Text(
           title!,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isSelectedIndex == index ? white : black),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: isSelectedIndex == index ? white : black),
         )),
       ),
     );

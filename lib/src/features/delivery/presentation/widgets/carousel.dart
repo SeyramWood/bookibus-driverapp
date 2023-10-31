@@ -20,7 +20,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
   }
 
   final PageController _pageController = PageController();
-  final int _currentPageIndex = 0;
+  // final int _currentPageIndex = 0;
   @override
   void initState() {
     getImages();
