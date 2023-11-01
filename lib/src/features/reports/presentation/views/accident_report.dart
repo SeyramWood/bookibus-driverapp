@@ -1,5 +1,5 @@
 import 'package:bookihub/src/features/reports/presentation/views/emergency.dart';
-import 'package:bookihub/src/features/reports/presentation/views/fleetMgt.dart';
+import 'package:bookihub/src/features/reports/presentation/views/fleet_mgt.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 
 class ReportView extends StatelessWidget {
@@ -54,9 +54,9 @@ class ReportView extends StatelessWidget {
 }
 
 class ReportCard extends StatelessWidget {
-  ReportCard({super.key, this.title, this.onTap});
+ const ReportCard({super.key, this.title, this.onTap});
   final String? title;
-  void Function()? onTap;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

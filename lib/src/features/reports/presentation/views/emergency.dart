@@ -1,10 +1,14 @@
 import 'package:bookihub/src/shared/utils/exports.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class EmergencyView extends StatelessWidget {
   const EmergencyView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String police = "+233591641611";
+    String ambulance = "+233551589066";
+    String fire = "+233599827815";
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -18,24 +22,30 @@ class EmergencyView extends StatelessWidget {
           children: [
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .06,
-            ),
+            ),  
             EmergencyCard(
               service: "Police Service",
-              onTap: () {},
+              onTap: ()async{
+                await FlutterPhoneDirectCaller.callNumber(police);
+              },
             ),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .03,
             ),
             EmergencyCard(
               service: "Ambulance Service",
-              onTap: () {},
+              onTap: ()async{
+                await FlutterPhoneDirectCaller.callNumber(ambulance);
+              },
             ),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .03,
             ),
             EmergencyCard(
               service: "Fire Service",
-              onTap: () {},
+               onTap: ()async{
+                await FlutterPhoneDirectCaller.callNumber(fire);
+              },
             )
           ],
         ),
@@ -45,9 +55,9 @@ class EmergencyView extends StatelessWidget {
 }
 
 class EmergencyCard extends StatelessWidget {
-  EmergencyCard({super.key, this.service, this.onTap});
+ const EmergencyCard({super.key, this.service, this.onTap});
   final String? service;
-  void Function()? onTap;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

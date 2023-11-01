@@ -1,4 +1,3 @@
-import 'package:bookihub/src/config/theme/light_theme.dart';
 import 'package:bookihub/src/features/authentication/login_view.dart';
 import 'package:bookihub/src/features/trip/presentation/dependency/trip_dependency.dart';
 import 'package:bookihub/src/shared/utils/interceptor.dart';

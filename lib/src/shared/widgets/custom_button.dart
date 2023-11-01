@@ -1,15 +1,15 @@
 import 'package:bookihub/src/shared/utils/exports.dart';
 
 class CustomButton extends StatelessWidget {
-  CustomButton({
+ const CustomButton({
     super.key,
     this.title,
-    this.bgColor,
+    this.bgColor = blue,
     this.onPressed
   });
   final String? title;
-  Color? bgColor = blue;
-  void Function()? onPressed;
+  final Color? bgColor;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
