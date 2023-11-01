@@ -60,7 +60,7 @@ class _TodayTripsViewState extends State<TodayTripsView> {
                   var trip = todayTrips[index];
                   return Padding(
                     padding: EdgeInsets.only(
-                        bottom: cards[index] == cards.last ? vPadding : 0.0),
+                        bottom: trip == todayTrips.last ? vPadding : 0.0),
                     child: TripCard(
                       location: trip.route.from,
                       lDescription: trip.boardingPoint[0].location,
@@ -70,7 +70,7 @@ class _TodayTripsViewState extends State<TodayTripsView> {
                       endTime: time.format(trip.arrivalDate),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>  TripDetails(trip:trip),
+                          builder: (context) => TripDetails(trip: trip),
                         ));
                       },
                     ),

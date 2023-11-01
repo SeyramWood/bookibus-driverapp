@@ -4,6 +4,7 @@ import 'package:bookihub/main.dart';
 import 'package:bookihub/src/shared/constant/base_url.dart';
 import 'package:bookihub/src/shared/errors/custom_exception.dart';
 import 'package:bookihub/src/shared/utils/interceptor.dart';
+import 'package:bookihub/src/shared/constant/model.dart';
 
 import '../../domain/entities/trip_model.dart';
 

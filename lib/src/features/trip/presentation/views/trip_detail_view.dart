@@ -11,6 +11,7 @@ import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:bookihub/main.dart';
 import 'package:provider/provider.dart';
+import 'package:bookihub/src/shared/constant/model.dart';
 
 class TripDetails extends StatefulWidget {
   const TripDetails({super.key, required this.trip});
@@ -88,7 +89,8 @@ class _TripDetailsState extends State<TripDetails> {
                     fuelAndFluid: true,
                     interior: true,
                   ));
-             Navigator.of(context).pop();
+                  if(mounted){
+             Navigator.of(context).pop();}
             }
           },
         );

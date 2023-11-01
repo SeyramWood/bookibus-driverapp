@@ -6,19 +6,19 @@ import 'package:flutter_dash/flutter_dash.dart';
 class TripCard extends StatefulWidget {
   const TripCard(
       {super.key,
-      this.location,
-      this.lDescription,
-      this.destination,
-      this.dDescription,
-      this.startTime,
-      this.endTime,
+      required this.location,
+      required this.lDescription,
+      required this.destination,
+      required this.dDescription,
+      required this.startTime,
+      required this.endTime,
       this.onTap});
-  final String? location;
-  final String? lDescription;
-  final String? destination;
-  final String? dDescription;
-  final String? startTime;
-  final String? endTime;
+  final String location;
+  final String lDescription;
+  final String destination;
+  final String dDescription;
+  final String startTime;
+  final String endTime;
   final void Function()? onTap;
 
   @override
@@ -75,14 +75,15 @@ class _TripCardState extends State<TripCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.location!,
+                            widget.location,
+                            overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(fontWeight: FontWeight.w600),
                           ),
                           Text(
-                            widget.lDescription!,
+                            widget.lDescription,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
@@ -97,7 +98,7 @@ class _TripCardState extends State<TripCard> {
                         child: Padding(
                           padding: const EdgeInsets.all(6),
                           child: Text(
-                            widget.startTime ?? '',
+                            widget.startTime,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
@@ -116,14 +117,15 @@ class _TripCardState extends State<TripCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.destination!,
+                            widget.destination,
+                            overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(fontWeight: FontWeight.w600),
                           ),
                           Text(
-                            widget.dDescription!,
+                            widget.dDescription,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
@@ -141,7 +143,7 @@ class _TripCardState extends State<TripCard> {
                         child: Padding(
                           padding: const EdgeInsets.all(6),
                           child: Text(
-                            widget.endTime ?? '',
+                            widget.endTime,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
@@ -161,12 +163,3 @@ class _TripCardState extends State<TripCard> {
   }
 }
 
-List<Map<String, String>> cards = List.generate(
-  10,
-  (index) => {
-    "location": "Ho",
-    "lDescription": "Big Market Station",
-    "destination": "Kumasi",
-    "dDescription": "Neoplan Station"
-  },
-);

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:bookihub/src/shared/constant/model.dart';
 
 import '../../../../shared/errors/failure.dart';
 import '../entities/trip_model.dart';

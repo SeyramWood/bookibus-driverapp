@@ -5,6 +5,7 @@ import 'package:bookihub/src/shared/errors/failure.dart';
 import 'package:bookihub/src/shared/utils/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:bookihub/src/shared/constant/model.dart';
 
 import '../../domain/usecase/update_trip_status.dart';
 
