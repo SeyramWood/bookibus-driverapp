@@ -1,11 +1,30 @@
+import 'package:bookihub/main.dart';
+import 'package:bookihub/src/features/delivery/data/api/delivery_api.dart';
+import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
+import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
+import 'package:bookihub/src/features/delivery/presentation/views/confirm_to_deliver.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/success_delivery.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/carousel.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
+import 'package:bookihub/src/shared/constant/colors.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
+import 'package:bookihub/src/shared/utils/show.snacbar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class PackageDetailsView extends StatelessWidget {
-  const PackageDetailsView({super.key});
+class PackageDetailsView extends StatefulWidget {
+  const PackageDetailsView({super.key, required this.package});
+  final Delivery package;
+
+  @override
+  State<PackageDetailsView> createState() => _PackageDetailsViewState();
+}
+
+class _PackageDetailsViewState extends State<PackageDetailsView> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +43,20 @@ class PackageDetailsView extends StatelessWidget {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const ImageCarousel(
-                    images: [
-                      "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0=",
-                      "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0=",
-                      "https://media.istockphoto.com/id/1224913822/photo/paper-bag-with-food-gray-background.jpg?s=2048x2048&w=is&k=20&c=WPhcxuExZXJQoem0ad2nR1diy2edFeAFogKFEjGFfc0="
-                    ],
+                  ImageCarousel(
+                    images: widget.package.packageImages,
                   ),
                   vSpace,
                   vSpace,
                   vSpace,
-                  const InfoCard(),
+                  locator<InfoCard>(),
                   vSpace,
                   vSpace,
                   vSpace,
                   Material(
                     borderRadius: borderRadius,
-                    child: const TextField(
-                        decoration: InputDecoration(
+                    child: TextFormField(
+                        decoration: const InputDecoration(
                       contentPadding: EdgeInsets.only(left: 10),
                       border: InputBorder.none,
                       hintText: 'Enter package code',
@@ -51,7 +66,22 @@ class PackageDetailsView extends StatelessWidget {
                   vSpace,
                   vSpace,
                   ElevatedButton(
-                    onPressed: () => successDelivery(context),
+                    onPressed: () async {
+                      await context
+                          .read<DeliveryProvider>()
+                          .verifyPackageCode('${widget.package.id}',
+                              widget.package.packageCode)
+                          .then(
+                        (value) {
+                          value.fold(
+                              (failure) => showCustomSnackBar(
+                                  context, failure.message, orange),
+                              (success) => confirmToDeliver(context,onPressed: () {
+                                
+                              },));
+                        },
+                      );
+                    },
                     child: const Text('Check Code'),
                   )
                 ]),

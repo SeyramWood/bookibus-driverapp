@@ -1,10 +1,13 @@
 // To parse this JSON data, do
 //
 //     final tripModel = tripModelFromJson(jsonString);
+// To parse this JSON data, do
+//
+//     final tripModel = tripModelFromJson(jsonString);
 
 import 'dart:convert';
 
-import 'package:bookihub/src/shared/constant/model.dart';
+import '../../../../shared/constant/model.dart';
 
 TripModel tripModelFromJson(String str) => TripModel.fromJson(json.decode(str));
 
@@ -32,39 +35,40 @@ class TripModel {
 
 class Data {
   int count;
-  List<Trip> trip;
+  List<Trip> trips;
 
   Data({
     required this.count,
-    required this.trip,
+    required this.trips,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         count: json["count"] ?? 0,
-        trip: List<Trip>.from(json["data"]?.map((x) => Trip.fromJson(x)) ?? []),
+        trips:
+            List<Trip>.from(json["data"]?.map((x) => Trip.fromJson(x)) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
         "count": count,
-        "data": List<dynamic>.from(trip.map((x) => x.toJson())),
+        "data": List<dynamic>.from(trips.map((x) => x.toJson())),
       };
 }
 
 class Trip {
-  dynamic id;
+  int id;
   DateTime departureDate;
   DateTime arrivalDate;
-  DateTime? returnDate;
+  dynamic returnDate;
   String type;
   InspectionStatus inspectionStatus;
   String status;
   bool scheduled;
-  dynamic seatLeft;
-  List<BoardingPoint> boardingPoint;
+  int seatLeft;
   Vehicle vehicle;
   Route route;
   Driver driver;
   Company company;
+  List<Delivery> delivery;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -72,17 +76,17 @@ class Trip {
     required this.id,
     required this.departureDate,
     required this.arrivalDate,
-    this.returnDate,
+    required this.returnDate,
     required this.type,
     required this.inspectionStatus,
     required this.status,
     required this.scheduled,
     required this.seatLeft,
-    required this.boardingPoint,
     required this.vehicle,
     required this.route,
     required this.driver,
     required this.company,
+    required this.delivery,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -91,19 +95,18 @@ class Trip {
         id: json["id"],
         departureDate: DateTime.parse(json["departureDate"]),
         arrivalDate: DateTime.parse(json["arrivalDate"]),
-        returnDate:
-            DateTime.parse(json["returnDate"] ?? DateTime.now().toString()),
+        returnDate: json["returnDate"] ?? '',
         type: json["type"],
         inspectionStatus: InspectionStatus.fromJson(json["inspectionStatus"]),
         status: json["status"],
         scheduled: json["scheduled"],
         seatLeft: json["seatLeft"],
-        boardingPoint: List<BoardingPoint>.from(
-            json["boardingPoint"].map((x) => BoardingPoint.fromJson(x))),
         vehicle: Vehicle.fromJson(json["vehicle"]),
         route: Route.fromJson(json["route"]),
         driver: Driver.fromJson(json["driver"]),
         company: Company.fromJson(json["company"]),
+        delivery: List<Delivery>.from(
+            json["delivery"]?.map((x) => Delivery.fromJson(x)) ?? []),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
       );
@@ -112,18 +115,17 @@ class Trip {
         "id": id,
         "departureDate": departureDate.toIso8601String(),
         "arrivalDate": arrivalDate.toIso8601String(),
-        "returnDate": returnDate?.toIso8601String(),
+        "returnDate": returnDate,
         "type": type,
         "inspectionStatus": inspectionStatus.toJson(),
         "status": status,
         "scheduled": scheduled,
         "seatLeft": seatLeft,
-        "boardingPoint":
-            List<dynamic>.from(boardingPoint.map((x) => x.toJson())),
         "vehicle": vehicle.toJson(),
         "route": route.toJson(),
         "driver": driver.toJson(),
         "company": company.toJson(),
+        "delivery": List<dynamic>.from(delivery.map((x) => x.toJson())),
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };

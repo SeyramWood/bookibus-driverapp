@@ -24,6 +24,7 @@ dependencies:
   dartz: ^0.10.1
   provider: ^6.0.5
   intl: ^0.18.1
+  file_picker: ^6.0.0
 
 
 dev_dependencies:

@@ -82,9 +82,9 @@ class _CompletedTripViewState extends State<CompletedTripView> {
                       padding: EdgeInsets.only(top: !isDiff ? vPadding : 0.0),
                       child: TripCard(
                         location: trip.route.from,
-                        lDescription: trip.boardingPoint[0].location,
+                        lDescription: trip.route.fromTerminal,
                         destination: trip.route.to,
-                        dDescription: trip.boardingPoint[1].location,
+                        dDescription: trip.route.toTerminal,
                         startTime: time.format(trip.departureDate),
                         endTime: time.format(trip.arrivalDate),
                       ),
