@@ -7,14 +7,15 @@ import 'package:bookihub/src/features/delivery/domain/usecase/fetch_delivery.dar
 import '../provider/delivery_controller.dart';
 
 injectDeliveryDependencies() {
-  locator.registerLazySingleton<DeliveryApi>(() => DeliveryApi());
+  locator.registerLazySingleton<DeliveryApiService>(() => DeliveryApiService());
   locator.registerLazySingleton<DeliverRepoImpl>(
-      () => DeliverRepoImpl(locator<DeliveryApi>()));
+      () => DeliverRepoImpl(locator<DeliveryApiService>()));
   locator.registerLazySingleton<FetchDelivery>(
       () => FetchDelivery(locator<DeliverRepoImpl>()));
   locator.registerLazySingleton<VerifyPackageCode>(
       () => VerifyPackageCode(locator<DeliverRepoImpl>()));
 }
 
-final deliverProvider =
-    DeliveryProvider(fetchDelivery: locator<FetchDelivery>(),verifyPackageCode: locator<VerifyPackageCode>());
+final deliverProvider = DeliveryProvider(
+    fetchDelivery: locator<FetchDelivery>(),
+    verifyPackageCode: locator<VerifyPackageCode>());

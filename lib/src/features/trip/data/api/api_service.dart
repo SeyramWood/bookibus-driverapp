@@ -40,7 +40,7 @@ class TripApiService {
       }
       log(response.body.toString());
     } catch (e) {
-      print(e);
+      print('error:$e');
       rethrow;
     }
   }

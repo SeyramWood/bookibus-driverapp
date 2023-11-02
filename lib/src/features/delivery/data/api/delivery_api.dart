@@ -8,7 +8,9 @@ import 'package:bookihub/src/shared/errors/custom_exception.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
-class DeliveryApi {
+import '../../../../shared/utils/file_picker.dart';
+
+class DeliveryApiService {
   //fetch all delivery by a driver
   Future<List<Delivery>> fetchDelivery(String driverID, String status) async {
     final url = "$baseUrl/packages/driver/$driverID?status=$status";
@@ -24,18 +26,7 @@ class DeliveryApi {
     }
   }
 
-  Future<List<File>> selectFiles() async {
-    final fileResult = await FilePicker.platform.pickFiles(allowMultiple: true);
-    if (fileResult != null) {
-      var files = fileResult.files
-          .map((platformFile) => File(platformFile.path.toString()))
-          .toList();
-
-      // notifyListeners();
-      return files;
-    }
-    return [];
-  }
+ 
 
   Future verifyPackageCode(String packageId, String packageCode) async {
     var files = await selectFiles();

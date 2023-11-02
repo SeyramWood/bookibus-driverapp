@@ -11,6 +11,7 @@ import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
 
 import '../../../../shared/utils/alert_dialog.dart';
+import '../../../reports/presentation/views/fleet_mgt.dart';
 
 class TripStartedView extends StatefulWidget {
   const TripStartedView({
@@ -120,8 +121,26 @@ class _TripStartedViewState extends State<TripStartedView> {
                 });
               },
               title: "End Trip",
-            )
+            ),
           ],
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: ElevatedButton(
+          onPressed: () {
+            showModalBottomSheet(
+              showDragHandle: true,
+              isScrollControlled: true,
+              isDismissible: false,
+              useSafeArea: true,
+              context: context,
+              builder: (context) => SizedBox(
+                  height: MediaQuery.sizeOf(context).height * .8,
+                  child: const FleetMgtReport()),
+            );
+          },
+          child: const Text('Make report'),
         ),
       ),
     );

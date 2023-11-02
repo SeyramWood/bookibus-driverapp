@@ -1,3 +1,4 @@
+import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/trip/data/api/api_service.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
@@ -58,6 +59,10 @@ class _TodayTripsViewState extends State<TodayTripsView> {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   var trip = todayTrips[index];
+                  //injecting a data to a trip for use in reporting incidents.
+                  if (!locator.isRegistered<Trip>()) {
+                    locator.registerLazySingleton<Trip>(() => trip);
+                  }
                   return Padding(
                     padding: EdgeInsets.only(
                         bottom: trip == todayTrips.last ? vPadding : 0.0),

@@ -1,9 +1,29 @@
+import 'dart:io';
+
+import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
+import 'package:bookihub/src/features/reports/presentation/provider/report_controller.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
 
-class FleetMgtReport extends StatelessWidget {
+import '../../../../../main.dart';
+import '../../../../shared/utils/file_picker.dart';
+import '../../../../shared/utils/show.snacbar.dart';
+import '../../../trip/domain/entities/trip_model.dart';
+
+class FleetMgtReport extends StatefulWidget {
   const FleetMgtReport({super.key});
 
+  @override
+  State<FleetMgtReport> createState() => _FleetMgtReportState();
+}
+
+class _FleetMgtReportState extends State<FleetMgtReport> {
+  final timeController = TextEditingController();
+  final locationController = TextEditingController();
+  final descriptionController = TextEditingController();
+  var imagePath = <String>[];
+  var trip = locator<Trip>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +56,7 @@ class FleetMgtReport extends StatelessWidget {
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
                   TextFormField(
+                    controller:timeController,
                     cursorColor: grey,
                     decoration: InputDecoration(
                         hintText: "When it occurred",
@@ -69,7 +90,7 @@ class FleetMgtReport extends StatelessWidget {
                     builder: (context, constraints) {
                       return SizedBox(
                         height: MediaQuery.sizeOf(context).height * .25,
-                        child: TextFormField(
+                        child: TextFormField(controller: descriptionController,
                           cursorColor: grey,
                           decoration: InputDecoration(
                               hintText: "What happened?",
@@ -95,7 +116,12 @@ class FleetMgtReport extends StatelessWidget {
                     height: MediaQuery.sizeOf(context).height * .04,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                    var images=  await selectFiles();
+                    for(var image in images){
+                      imagePath.add(image.path);
+                    }
+                    },
                     child: Material(
                       shape: OutlineInputBorder(
                           borderSide: BorderSide.none,
@@ -130,9 +156,34 @@ class FleetMgtReport extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * .08,
                   ),
-                  CustomButton(
-                    onPressed: () {},
-                    title: 'Submit Report',
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: CustomButton(
+                      onPressed: () async {
+                        var report = ReportModel(
+                          time: timeController.text,
+                          tripId: trip.id,
+                          images: List.from(imagePath),
+                          driverId: trip.driver.id,
+                          location: locationController.text,
+                          description: descriptionController.text,
+                          voiceNote: null,
+                        );
+                        await context
+                            .read<ReportProvider>()
+                            .makeReport('${trip.company.id}', report)
+                            .then(
+                          (value) {
+                            value.fold(
+                                (failure) => showCustomSnackBar(
+                                    context, failure.message, orange),
+                                (success) => showCustomSnackBar(
+                                    context, success, green));
+                          },
+                        );
+                      },
+                      title: 'Submit Report',
+                    ),
                   )
                 ],
               ))

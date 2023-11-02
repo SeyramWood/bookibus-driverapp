@@ -10,7 +10,7 @@ import 'package:http/http.dart';
 import '../../../../shared/errors/custom_exception.dart';
 
 class DeliverRepoImpl implements DeliveryRepo {
-  final DeliveryApi api;
+  final DeliveryApiService api;
 
   DeliverRepoImpl(this.api);
   @override
@@ -33,8 +33,8 @@ class DeliverRepoImpl implements DeliveryRepo {
   Future<Either<Failure, String>> verifyPackageCode(
       String packageId, String packageCode) async {
     try {
-      final result = await api.verifyPackageCode(packageId, packageCode);
-      return Right('result');
+      await api.verifyPackageCode(packageId, packageCode);
+      return const Right('package code verification successsful');
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
     } on ClientException catch (networkError) {

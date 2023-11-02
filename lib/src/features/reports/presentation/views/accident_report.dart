@@ -37,11 +37,11 @@ class ReportView extends StatelessWidget {
                 ReportCard(
                   title: "Fleet Mgt",
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const FleetMgtReport();
-                      },
-                    ));
+                    // Navigator.push(context, MaterialPageRoute(
+                    //   builder: (context) {
+                    //     return const FleetMgtReport();
+                    //   },
+                    // ));
                   },
                 )
               ],
@@ -54,7 +54,7 @@ class ReportView extends StatelessWidget {
 }
 
 class ReportCard extends StatelessWidget {
- const ReportCard({super.key, this.title, this.onTap});
+  const ReportCard({super.key, this.title, this.onTap});
   final String? title;
   final void Function()? onTap;
 
