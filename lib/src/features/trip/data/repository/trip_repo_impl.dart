@@ -6,7 +6,6 @@ import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/domain/repository/trip_repo.dart';
 import 'package:bookihub/src/shared/errors/custom_exception.dart';
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 import 'package:bookihub/src/shared/constant/model.dart';
 
 import '../../../../shared/errors/failure.dart';

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
 import 'package:bookihub/src/features/reports/presentation/provider/report_controller.dart';
+import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
@@ -204,8 +205,8 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                           },
                         );
                       },
-                      title: 'Submit Report',
-                    ),
+                      child: const Text('Submit Report'),
+                    ).loading(context.watch<ReportProvider>().isLoading),
                   )
                 ],
               ))

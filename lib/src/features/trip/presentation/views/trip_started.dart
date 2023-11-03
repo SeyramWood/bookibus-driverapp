@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +57,7 @@ class _TripStartedViewState extends State<TripStartedView> {
                         },
                       ));
                     },
-                    title: "Expand Map")),
+                    child: const Text("Expand Map"))),
             SizedBox(height: MediaQuery.sizeOf(context).height * .04),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -120,8 +121,8 @@ class _TripStartedViewState extends State<TripStartedView> {
                   );
                 });
               },
-              title: "End Trip",
-            ),
+              child: const Text("End Trip"),
+            ).loading(context.watch<TripProvider>().isLoading),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(

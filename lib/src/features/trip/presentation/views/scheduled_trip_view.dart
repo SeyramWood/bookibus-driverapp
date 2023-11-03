@@ -1,5 +1,3 @@
-import 'package:bookihub/main.dart';
-import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
 import 'package:bookihub/src/features/trip/presentation/widgets/trip_card.dart';

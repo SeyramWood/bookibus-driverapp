@@ -1,14 +1,14 @@
 import 'package:bookihub/main.dart';
-import 'package:bookihub/src/features/delivery/data/api/delivery_api.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/confirm_to_deliver.dart';
-import 'package:bookihub/src/features/delivery/presentation/views/success_delivery.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/carousel.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
 import 'package:bookihub/src/shared/constant/colors.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
+import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
+import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,9 +67,8 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   vSpace,
                   vSpace,
                   vSpace,
-                  ElevatedButton(
+                  CustomButton(
                     onPressed: () async {
-                      print(widget.package.packageCode);
                       await context
                           .read<DeliveryProvider>()
                           .verifyPackageCode(
@@ -87,7 +86,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                       );
                     },
                     child: const Text('Check Code'),
-                  )
+                  ).loading(context.watch<DeliveryProvider>().isLoading)
                 ]),
           ),
         ));

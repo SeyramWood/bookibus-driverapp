@@ -2,10 +2,12 @@ import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.d
 import 'package:bookihub/src/features/trip/presentation/views/trip_started.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/alert_dialog.dart';
+import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/divider.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/features/map/presentation/views/map_view.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
+import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:bookihub/src/shared/widgets/percentage_indicator.dart';
 import 'package:bookihub/src/features/trip/presentation/widgets/trip_inspect_row.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
@@ -303,7 +305,7 @@ class _TripDetailsState extends State<TripDetails> {
             const Spacer(),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .07,
-              child: ElevatedButton(
+              child: CustomButton(
                 onPressed: trip.status == 'started'
                     ? () => Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
@@ -343,14 +345,12 @@ class _TripDetailsState extends State<TripDetails> {
                           });
                         }
                       },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        trip.inspectionStatus.brakeAndSteering != false
-                            ? blue
-                            : grey)),
+                bgColor: trip.inspectionStatus.brakeAndSteering != false
+                    ? blue
+                    : grey,
                 child: Text(
                     trip.status == 'started' ? 'Enter trip' : 'Start Trip'),
-              ),
+              ).loading(context.watch<TripProvider>().isLoading),
             )
           ]),
         );
@@ -359,7 +359,7 @@ class _TripDetailsState extends State<TripDetails> {
   }
 
   _buildProgressIndicator(double value, String description) {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(
           // value: value,
           ),

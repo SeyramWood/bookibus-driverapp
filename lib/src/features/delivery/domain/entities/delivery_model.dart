@@ -5,7 +5,6 @@
 import 'dart:convert';
 
 import '../../../../shared/constant/model.dart';
-import '../../../trip/domain/entities/trip_model.dart';
 
 DeliveryModel deliveryModelFromJson(String str) =>
     DeliveryModel.fromJson(json.decode(str));
