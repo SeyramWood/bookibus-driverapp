@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bookihub/src/features/reports/data/api/api_service.dart';
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
@@ -19,10 +20,10 @@ class ReportRepoImpl implements ReportRepo{
       return const Right('Report sent');
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
-    } on ClientException catch (networkError) {
-      return Left(Failure(networkError.message));
+    } on SocketException catch (_) {
+      return Left(Failure('You are offline. Connect and retry'));
     } catch (e) {
-      log('delivery: $e');
+      log('$e');
       return Left(Failure('something went wrong'));
     }
   }

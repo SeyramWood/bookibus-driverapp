@@ -122,25 +122,28 @@ class _TripStartedViewState extends State<TripStartedView> {
               },
               title: "End Trip",
             ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      showDragHandle: true,
+                      isScrollControlled: true,
+                      isDismissible: false,
+                      useSafeArea: true,
+                      context: context,
+                      builder: (context) => SizedBox(
+                          height: MediaQuery.sizeOf(context).height * .8,
+                          child: const FleetMgtReport()),
+                    );
+                  },
+                  child: const Text('Make report'),
+                ),
+              ),
+            ),
           ],
-        ),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: ElevatedButton(
-          onPressed: () {
-            showModalBottomSheet(
-              showDragHandle: true,
-              isScrollControlled: true,
-              isDismissible: false,
-              useSafeArea: true,
-              context: context,
-              builder: (context) => SizedBox(
-                  height: MediaQuery.sizeOf(context).height * .8,
-                  child: const FleetMgtReport()),
-            );
-          },
-          child: const Text('Make report'),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bookihub/src/features/delivery/data/api/delivery_api.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
@@ -21,7 +22,7 @@ class DeliverRepoImpl implements DeliveryRepo {
       return Right(result);
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
-    } on ClientException catch (networkError) {
+    } on SocketException catch (networkError) {
       return Left(Failure(networkError.message));
     } catch (e) {
       log('delivery: $e');
@@ -37,8 +38,8 @@ class DeliverRepoImpl implements DeliveryRepo {
       return const Right('package code verification successsful');
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
-    } on ClientException catch (networkError) {
-      return Left(Failure(networkError.message));
+    } on SocketException catch (_) {
+      return Left(Failure('You are offline. Connect and retry'));
     } catch (e) {
       log('delivery: $e');
       return Left(Failure('something went wrong'));

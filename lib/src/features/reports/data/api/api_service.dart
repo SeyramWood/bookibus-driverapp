@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
 import 'package:bookihub/src/features/trip/data/api/api_service.dart';
 import 'package:bookihub/src/shared/errors/custom_exception.dart';
@@ -15,18 +17,18 @@ class ReportApiService {
       request.fields['description'] = report.description;
       request.fields['tripId'] = '${report.tripId}';
       request.fields['driverId'] = '${report.driverId}';
-      if (report.voiceNote == null) {
-        request.files.add(
-          http.MultipartFile.fromString('image', report.voiceNote!),
-        );
-      }
+      request.files.add(
+        http.MultipartFile.fromString('voiceNote', report.voiceNote!),
+      );
+
       for (var file in report.images) {
+        log('pah: ${file.path}');
         request.files.add(
-           http.MultipartFile.fromString('image', file.image),
+          await http.MultipartFile.fromPath('image', file.path),
         );
       }
       final response = await client.sendMultipartRequest(request: request);
-      if (response.statusCode != 201) {
+      if (response.statusCode != 200) {
         print(response.statusCode);
         throw CustomException('${response.reasonPhrase}');
       }

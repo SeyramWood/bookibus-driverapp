@@ -53,7 +53,7 @@ class _DeliveredViewState extends State<DeliveredView> {
               itemCount: package.length,
               separatorBuilder: (context, index) => vSpace,
               itemBuilder: (context, index) {
-                return const DeliveredInfoCard();
+                return  DeliveredInfoCard(package: package[index],);
               },
             );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

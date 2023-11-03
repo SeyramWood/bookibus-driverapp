@@ -21,6 +21,7 @@ class PackageDetailsView extends StatefulWidget {
 }
 
 class _PackageDetailsViewState extends State<PackageDetailsView> {
+  final codeController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -56,29 +57,32 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   Material(
                     borderRadius: borderRadius,
                     child: TextFormField(
+                        controller: codeController,
                         decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 10),
-                      border: InputBorder.none,
-                      hintText: 'Enter package code',
-                    )),
+                          contentPadding: EdgeInsets.only(left: 10),
+                          border: InputBorder.none,
+                          hintText: 'Enter package code',
+                        )),
                   ),
                   vSpace,
                   vSpace,
                   vSpace,
                   ElevatedButton(
                     onPressed: () async {
+                      print(widget.package.packageCode);
                       await context
                           .read<DeliveryProvider>()
-                          .verifyPackageCode('${widget.package.id}',
-                              widget.package.packageCode)
+                          .verifyPackageCode(
+                              '${widget.package.id}', codeController.text)
                           .then(
                         (value) {
                           value.fold(
                               (failure) => showCustomSnackBar(
                                   context, failure.message, orange),
-                              (success) => confirmToDeliver(context,onPressed: () {
-                                
-                              },));
+                              (success) => confirmToDeliver(
+                                    context,
+                                    onPressed: () {},
+                                  ));
                         },
                       );
                     },

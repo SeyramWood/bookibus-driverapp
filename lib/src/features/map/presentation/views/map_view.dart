@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:developer';
 
+import 'package:bookihub/src/shared/constant/colors.dart';
+import 'package:bookihub/src/shared/utils/show.snacbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -144,17 +146,14 @@ class _RouteMapState extends State<RouteMap> {
       return coordinates;
     } on SocketException catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('You are offline. Check your connection.'),
-        ));
+        showCustomSnackBar(
+            context, 'You are offline. Check your connection.', orange);
       }
       return [];
     } catch (e) {
       log('Error: $e');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('$e'),
-        ));
+        showCustomSnackBar(context, 'Something wrong', orange);
       }
       return [];
     }

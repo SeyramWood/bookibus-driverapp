@@ -56,7 +56,7 @@ class HttpClientWithInterceptor {
         headers['Authorization'] = 'Bearer $_accessToken';
         return await _inner.get(Uri.parse(url), headers: headers);
       } on http.ClientException {
-        throw 'You are not offline. Check your network.';
+        throw 'You are offline. Check your network.';
       } catch (e) {
         rethrow; // Rethrow if token refresh fails
       }

@@ -22,8 +22,29 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
   final timeController = TextEditingController();
   final locationController = TextEditingController();
   final descriptionController = TextEditingController();
-  var imagePath = <String>[];
+  var images = <File>[];
   var trip = locator<Trip>();
+
+  Future<void> _selectTime() async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (pickedTime != null) {
+      final selectedTime = DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
+
+      timeController.text =
+          '${selectedTime.toIso8601String().split('.').first}Z';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +77,10 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
                   TextFormField(
-                    controller:timeController,
+                    controller: timeController,
                     cursorColor: grey,
+                    readOnly: true,
+                    onTap: _selectTime,
                     decoration: InputDecoration(
                         hintText: "When it occurred",
                         filled: true,
@@ -90,7 +113,8 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     builder: (context, constraints) {
                       return SizedBox(
                         height: MediaQuery.sizeOf(context).height * .25,
-                        child: TextFormField(controller: descriptionController,
+                        child: TextFormField(
+                          controller: descriptionController,
                           cursorColor: grey,
                           decoration: InputDecoration(
                               hintText: "What happened?",
@@ -117,10 +141,8 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                   ),
                   InkWell(
                     onTap: () async {
-                    var images=  await selectFiles();
-                    for(var image in images){
-                      imagePath.add(image.path);
-                    }
+                      images = await selectFiles();
+                      setState(() {});
                     },
                     child: Material(
                       shape: OutlineInputBorder(
@@ -163,11 +185,11 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                         var report = ReportModel(
                           time: timeController.text,
                           tripId: trip.id,
-                          images: List.from(imagePath),
+                          images: images,
                           driverId: trip.driver.id,
-                          location: locationController.text,
+                          location: 'Pedu',
                           description: descriptionController.text,
-                          voiceNote: null,
+                          voiceNote: '',
                         );
                         await context
                             .read<ReportProvider>()

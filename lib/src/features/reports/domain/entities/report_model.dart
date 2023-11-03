@@ -9,7 +9,7 @@ class ReportModel {
   final String description;
   final int tripId;
   final int driverId;
-  final List<VImage> images;
+  final List<File> images;
   final String? voiceNote;
 
   ReportModel({
@@ -30,7 +30,7 @@ class ReportModel {
       'description': description,
       'tripId': tripId,
       'driverId': driverId,
-      'images':  List<dynamic>.from(images.map((x) => x.toJson())),
+      'images':  images,
       'voiceNote': voiceNote,
     };
   }

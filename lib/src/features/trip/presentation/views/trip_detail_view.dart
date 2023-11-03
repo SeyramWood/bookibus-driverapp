@@ -54,7 +54,7 @@ class _TripDetailsState extends State<TripDetails> {
 
   isInspected() {
     if (widget.trip.inspectionStatus.brakeAndSteering == true) {
-      checkPercentage == 0.9999999999999999;
+      checkPercentage = 0.9999999999999999;
       value1 = true;
       value2 = true;
       value3 = true;
@@ -131,8 +131,7 @@ class _TripDetailsState extends State<TripDetails> {
                           children: [
                             Container(
                                 margin: const EdgeInsets.all(10),
-                                height: 50,
-                                width: 60,
+                                width: MediaQuery.sizeOf(context).width * .13,
                                 child: Image.asset('assets/images/fleet.png')),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

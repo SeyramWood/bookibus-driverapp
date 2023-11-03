@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/trip/data/api/api_service.dart';
 import 'package:bookihub/src/shared/constant/base_url.dart';
 import 'package:bookihub/src/shared/errors/custom_exception.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../shared/utils/file_picker.dart';
@@ -26,8 +25,6 @@ class DeliveryApiService {
     }
   }
 
- 
-
   Future verifyPackageCode(String packageId, String packageCode) async {
     var files = await selectFiles();
     final url = "$baseUrl/packages/$packageId/update-status";
@@ -36,14 +33,16 @@ class DeliveryApiService {
         final request = http.MultipartRequest('PUT', Uri.parse(url));
         request.fields['packageCode'] = packageCode;
         for (var file in files) {
+          log(file.path);
+          log(packageCode);
           request.files
               .add(await http.MultipartFile.fromPath('image', file.path));
         }
         final response = await client.sendMultipartRequest(request: request);
         if (response.statusCode != 200) {
-          throw CustomException('${response.reasonPhrase}');
+          final errorMessage = jsonDecode(response.body)['errors'];
+          throw CustomException(errorMessage);
         }
-        print(response.body);
       }
     } catch (e) {
       print(e);
