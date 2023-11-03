@@ -32,8 +32,7 @@ class TripProvider extends ChangeNotifier {
     bool scheduled,
     bool completed,
   ) async {
-    _isLoading = true;
-    notifyListeners();
+    
     final result = await _fetchTrips(MultiParams(
       today,
       scheduled,
@@ -41,13 +40,11 @@ class TripProvider extends ChangeNotifier {
     ));
     return result.fold(
       (failure) {
-        _isLoading = false;
-        notifyListeners();
+        
        return Left(Failure(failure.message));
       },
       (success) {
-        _isLoading = false;
-        notifyListeners();
+       
         return Right(success);
       },
     );

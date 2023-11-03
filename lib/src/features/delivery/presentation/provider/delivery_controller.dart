@@ -24,18 +24,12 @@ class DeliveryProvider extends ChangeNotifier {
 
   Future<Either<Failure, List<Delivery>>> fetchDelivery(
       String driverID, String status) async {
-    _isLoading = true;
-    notifyListeners();
     final result = await _fetchDelivery(MultiParams(driverID, status));
     return result.fold(
       (failure) {
-        _isLoading = false;
-        notifyListeners();
         return Left(Failure(failure.message));
       },
       (success) {
-        _isLoading = false;
-        notifyListeners();
         return Right(success);
       },
     );
@@ -50,7 +44,7 @@ class DeliveryProvider extends ChangeNotifier {
     return result.fold(
       (failure) {
         _isLoading = false;
-    notifyListeners();
+        notifyListeners();
         return Left(Failure(failure.message));
       },
       (success) {

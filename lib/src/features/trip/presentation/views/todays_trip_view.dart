@@ -25,9 +25,9 @@ class _TodayTripsViewState extends State<TodayTripsView> {
         .fold((failure) => showCustomSnackBar(context, failure.message, orange),
             (success) {
       if (mounted) {
-        // setState(() {
+        setState(() {
           trips = Future.value(success);
-        // });
+        });
       }
     });
   }
