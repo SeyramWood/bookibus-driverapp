@@ -68,7 +68,6 @@ class LoginView extends StatelessWidget {
                     height: MediaQuery.sizeOf(context).height * 0.06,
                   ),
                   CustomButton(
-                    title: "Login",
                     bgColor: orange,
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
@@ -77,6 +76,7 @@ class LoginView extends StatelessWidget {
                         },
                       ));
                     },
+                    child: const Text("Login"),
                   )
                 ],
               )),

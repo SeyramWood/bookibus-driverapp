@@ -10,11 +10,25 @@ class ReportProvider extends ChangeNotifier {
   final MakeReport _makeReport;
 
   ReportProvider({required MakeReport makeReport}) : _makeReport = makeReport;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  set isLoading(loading) {
+    _isLoading = loading;
+  }
 
   Future<Either<Failure, String>> makeReport(
       String companyId, ReportModel report) async {
+    _isLoading = true;
+    notifyListeners();
     final result = await _makeReport(MultiParams(companyId, report));
-    return result.fold((failure) => Left(Failure(failure.message)),
-        (success) => Right(success));
+    return result.fold((failure) {
+      _isLoading = false;
+    notifyListeners();
+      return Left(Failure(failure.message));
+    }, (success) {
+      _isLoading = false;
+      notifyListeners();
+      return Right(success);
+    });
   }
 }

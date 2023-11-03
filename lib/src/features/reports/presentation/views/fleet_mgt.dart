@@ -204,7 +204,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                           },
                         );
                       },
-                      title: 'Submit Report',
+                      child: const Text('Submit Report'),
                     ),
                   )
                 ],

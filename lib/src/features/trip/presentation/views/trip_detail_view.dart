@@ -359,7 +359,7 @@ class _TripDetailsState extends State<TripDetails> {
   }
 
   _buildProgressIndicator(double value, String description) {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(
           // value: value,
           ),

@@ -56,7 +56,7 @@ class _TripStartedViewState extends State<TripStartedView> {
                         },
                       ));
                     },
-                    title: "Expand Map")),
+                    child: const Text("Expand Map"))),
             SizedBox(height: MediaQuery.sizeOf(context).height * .04),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +120,7 @@ class _TripStartedViewState extends State<TripStartedView> {
                   );
                 });
               },
-              title: "End Trip",
+              child:const Text( "End Trip"),
             ),
             Align(
               alignment: Alignment.bottomRight,

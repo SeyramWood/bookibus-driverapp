@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 
-import '../../../../shared/constant/model.dart';
 
 class ReportModel {
   final String time;

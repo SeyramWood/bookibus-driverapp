@@ -1,5 +1,4 @@
 import 'package:bookihub/main.dart';
-import 'package:bookihub/src/features/trip/data/api/api_service.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
@@ -25,9 +24,11 @@ class _TodayTripsViewState extends State<TodayTripsView> {
     result
         .fold((failure) => showCustomSnackBar(context, failure.message, orange),
             (success) {
-      setState(() {
-        trips = Future.value(success);
-      });
+      if (mounted) {
+        // setState(() {
+          trips = Future.value(success);
+        // });
+      }
     });
   }
 

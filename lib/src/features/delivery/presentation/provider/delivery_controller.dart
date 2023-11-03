@@ -6,7 +6,6 @@ import 'package:bookihub/src/shared/utils/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../shared/errors/failure.dart';
-import '../../domain/usecase/deliver_package.dart';
 
 class DeliveryProvider extends ChangeNotifier {
   final FetchDelivery _fetchDelivery;
@@ -17,13 +16,26 @@ class DeliveryProvider extends ChangeNotifier {
       required VerifyPackageCode verifyPackageCode})
       : _fetchDelivery = fetchDelivery,
         _verifyPackageCode = verifyPackageCode;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  set isLoading(loading) {
+    _isLoading = loading;
+  }
 
   Future<Either<Failure, List<Delivery>>> fetchDelivery(
       String driverID, String status) async {
+    _isLoading = true;
+    notifyListeners();
     final result = await _fetchDelivery(MultiParams(driverID, status));
     return result.fold(
-      (failure) => Left(Failure(failure.message)),
+      (failure) {
+        _isLoading = false;
+        notifyListeners();
+        return Left(Failure(failure.message));
+      },
       (success) {
+        _isLoading = false;
+        notifyListeners();
         return Right(success);
       },
     );
@@ -31,11 +43,19 @@ class DeliveryProvider extends ChangeNotifier {
 
   Future<Either<Failure, String>> verifyPackageCode(
       String packageId, String packageCode) async {
+    _isLoading = true;
+    notifyListeners();
     final result =
         await _verifyPackageCode(MultiParams(packageId, packageCode));
     return result.fold(
-      (failure) => Left(Failure(failure.message)),
+      (failure) {
+        _isLoading = false;
+    notifyListeners();
+        return Left(Failure(failure.message));
+      },
       (success) {
+        _isLoading = false;
+        notifyListeners();
         return Right(success);
       },
     );

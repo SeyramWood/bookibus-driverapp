@@ -6,7 +6,6 @@ import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.da
 import 'package:bookihub/src/features/delivery/domain/repository/deliver_repo.dart';
 import 'package:bookihub/src/shared/errors/failure.dart';
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 
 import '../../../../shared/errors/custom_exception.dart';
 

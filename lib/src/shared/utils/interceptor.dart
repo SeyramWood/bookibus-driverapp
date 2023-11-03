@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/shared/constant/base_url.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../errors/custom_exception.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClientWithInterceptor {
