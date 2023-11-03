@@ -1,0 +1,52 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
+import 'package:bookihub/src/features/trip/data/api/api_service.dart';
+import 'package:bookihub/src/shared/constant/base_url.dart';
+import 'package:bookihub/src/shared/errors/custom_exception.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../../shared/utils/file_picker.dart';
+
+class DeliveryApiService {
+  //fetch all delivery by a driver
+  Future<List<Delivery>> fetchDelivery(String driverID, String status) async {
+    final url = "$baseUrl/packages/driver/$driverID?status=$status";
+    try {
+      final response = await client.get(url);
+      if (response.statusCode != 200) {
+        throw CustomException('${response.reasonPhrase}');
+      }
+      return DeliveryModel.fromJson(jsonDecode(response.body)).data?.delivery ??
+          [];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future verifyPackageCode(String packageId, String packageCode) async {
+    var files = await selectFiles();
+    final url = "$baseUrl/packages/$packageId/update-status";
+    try {
+      if (files.isNotEmpty) {
+        final request = http.MultipartRequest('PUT', Uri.parse(url));
+        request.fields['packageCode'] = packageCode;
+        for (var file in files) {
+          log(file.path);
+          log(packageCode);
+          request.files
+              .add(await http.MultipartFile.fromPath('image', file.path));
+        }
+        final response = await client.sendMultipartRequest(request: request);
+        if (response.statusCode != 200) {
+          final errorMessage = jsonDecode(response.body)['errors'];
+          throw CustomException(errorMessage);
+        }
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+}

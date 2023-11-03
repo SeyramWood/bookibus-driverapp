@@ -1,3 +1,5 @@
+import 'package:bookihub/main.dart';
+import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
 import 'package:bookihub/src/features/trip/presentation/widgets/trip_card.dart';
@@ -56,6 +58,8 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
             for (var trip in trips!) {
               dates.add({'date': date.format(trip.departureDate)});
             }
+    
+
             return ListView.builder(
               itemCount: dates.length,
               itemBuilder: (context, index) {
@@ -75,9 +79,9 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
                       padding: EdgeInsets.only(top: !isDiff ? vPadding : 0.0),
                       child: TripCard(
                         location: trip.route.from,
-                        lDescription: trip.boardingPoint[0].location,
+                        lDescription: trip.route.fromTerminal,
                         destination: trip.route.to,
-                        dDescription: trip.boardingPoint[1].location,
+                        dDescription: trip.route.toTerminal,
                         startTime: time.format(trip.departureDate),
                         endTime: time.format(trip.arrivalDate),
                       ),

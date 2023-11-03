@@ -1,7 +1,7 @@
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 
-confirmToDeliver(BuildContext context) {
+confirmToDeliver(BuildContext context,{required void Function()onPressed}) {
   showDialog(
     barrierDismissible: false,
     context: context,
@@ -61,7 +61,7 @@ confirmToDeliver(BuildContext context) {
         SizedBox(
           width: 100,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: onPressed,
             child: const Text('Yes'),
           ),
         )

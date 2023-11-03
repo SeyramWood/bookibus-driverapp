@@ -1,24 +1,3 @@
-
-class BoardingPoint {
-  String id;
-  String location;
-
-  BoardingPoint({
-    required this.id,
-    required this.location,
-  });
-
-  factory BoardingPoint.fromJson(Map<String, dynamic> json) => BoardingPoint(
-        id: json["id"],
-        location: json["location"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "location": location,
-      };
-}
-
 class Company {
   int id;
   String name;
@@ -44,6 +23,93 @@ class Company {
         "name": name,
         "phone": phone,
         "email": email,
+      };
+}
+
+class Delivery {
+  int id;
+  String packageCode;
+  String senderName;
+  String senderPhone;
+  String recipientName;
+  String recipientPhone;
+  String recipientLocation;
+  int amount;
+  String transType;
+  String status;
+  List<VImage> packageImages;
+  List<dynamic> recipientImages;
+  dynamic trip;
+
+  Delivery({
+    required this.id,
+    required this.packageCode,
+    required this.senderName,
+    required this.senderPhone,
+    required this.recipientName,
+    required this.recipientPhone,
+    required this.recipientLocation,
+    required this.amount,
+    required this.transType,
+    required this.status,
+    required this.packageImages,
+    required this.recipientImages,
+    required this.trip,
+  });
+
+  factory Delivery.fromJson(Map<String, dynamic> json) => Delivery(
+        id: json["id"],
+        packageCode: json["packageCode"],
+        senderName: json["senderName"],
+        senderPhone: json["senderPhone"],
+        recipientName: json["recipientName"],
+        recipientPhone: json["recipientPhone"],
+        recipientLocation: json["recipientLocation"],
+        amount: json["amount"],
+        transType: json["transType"],
+        status: json["status"],
+        packageImages: List<VImage>.from(
+            json["packageImages"].map((x) => VImage.fromJson(x))),
+        recipientImages:
+            List<dynamic>.from(json["recipientImages"].map((x) => x)),
+        trip: json["trip"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "packageCode": packageCode,
+        "senderName": senderName,
+        "senderPhone": senderPhone,
+        "recipientName": recipientName,
+        "recipientPhone": recipientPhone,
+        "recipientLocation": recipientLocation,
+        "amount": amount,
+        "transType": transType,
+        "status": status,
+        "packageImages":
+            List<dynamic>.from(packageImages.map((x) => x.toJson())),
+        "recipientImages": List<dynamic>.from(recipientImages.map((x) => x)),
+        "trip": trip,
+      };
+}
+
+class VImage {
+  int id;
+  String image;
+
+  VImage({
+    required this.id,
+    required this.image,
+  });
+
+  factory VImage.fromJson(Map<String, dynamic> json) => VImage(
+        id: json["id"],
+        image: json["image"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "image": image,
       };
 }
 
@@ -120,6 +186,8 @@ class Route {
   int id;
   String from;
   String to;
+  String fromTerminal;
+  String toTerminal;
   double fromLatitude;
   double fromLongitude;
   double toLatitude;
@@ -131,6 +199,8 @@ class Route {
     required this.id,
     required this.from,
     required this.to,
+    required this.fromTerminal,
+    required this.toTerminal,
     required this.fromLatitude,
     required this.fromLongitude,
     required this.toLatitude,
@@ -143,6 +213,8 @@ class Route {
         id: json["id"],
         from: json["from"],
         to: json["to"],
+        fromTerminal: json["fromTerminal"],
+        toTerminal: json["toTerminal"],
         fromLatitude: json["fromLatitude"]?.toDouble(),
         fromLongitude: json["fromLongitude"]?.toDouble(),
         toLatitude: json["toLatitude"]?.toDouble(),
@@ -155,6 +227,8 @@ class Route {
         "id": id,
         "from": from,
         "to": to,
+        "fromTerminal": fromTerminal,
+        "toTerminal": toTerminal,
         "fromLatitude": fromLatitude,
         "fromLongitude": fromLongitude,
         "toLatitude": toLatitude,
@@ -218,25 +292,5 @@ class Vehicle {
         "model": model,
         "seat": seat,
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
-      };
-}
-
-class VImage {
-  int id;
-  String image;
-
-  VImage({
-    required this.id,
-    required this.image,
-  });
-
-  factory VImage.fromJson(Map<String, dynamic> json) => VImage(
-        id: json["id"],
-        image: json["image"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "image": image,
       };
 }

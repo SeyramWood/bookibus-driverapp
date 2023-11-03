@@ -22,9 +22,9 @@ class TripApiService {
           "$baseUrl/trips/driver/12884901890?today=$today&scheduled=$scheduled&completed=$completed";
       final response = await client.get(url);
       if (response.statusCode != 200) {
-        throw CustomException('${response.statusCode}');
+        throw CustomException('${response.reasonPhrase}');
       }
-      return tripModelFromJson(response.body).data?.trip ?? [];
+      return tripModelFromJson(response.body).data?.trips ?? [];
     } catch (e) {
       rethrow;
     }
@@ -40,7 +40,7 @@ class TripApiService {
       }
       log(response.body.toString());
     } catch (e) {
-      print(e);
+      print('error:$e');
       rethrow;
     }
   }

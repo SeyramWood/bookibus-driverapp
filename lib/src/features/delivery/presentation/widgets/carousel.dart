@@ -14,9 +14,9 @@ class ImageCarousel extends StatefulWidget {
 class _ImageCarouselState extends State<ImageCarousel> {
   final imageList = <String>[];
   getImages() {
-    // for (var image in widget.images) {
-    //   imageList.add(image.image);
-    // }
+    for (var image in widget.images) {
+      imageList.add(image.image);
+    }
   }
 
   final PageController _pageController = PageController();
@@ -42,7 +42,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
         itemCount: widget.images.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return showImage(imageUrl: widget.images[index]);
+          return showImage(imageUrl: imageList[index]);
         },
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1, mainAxisExtent: 170, mainAxisSpacing: 10),
