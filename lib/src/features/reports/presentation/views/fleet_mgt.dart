@@ -183,7 +183,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: CustomButton(
                       onPressed: () async {
-                        var report = ReportModel(
+                        var report = ReportingModel(
                           time: timeController.text,
                           tripId: trip.id,
                           images: images,

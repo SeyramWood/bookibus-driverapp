@@ -8,7 +8,7 @@ import '../../../../shared/constant/base_url.dart';
 import 'package:http/http.dart' as http;
 
 class ReportApiService {
-  Future makeReport(String companyId, ReportModel report) async {
+  Future makeReport(String companyId, ReportingModel report) async {
     final url = "$baseUrl/incidents/company/$companyId";
     try {
       final request = http.MultipartRequest('POST', Uri.parse(url));
@@ -32,6 +32,21 @@ class ReportApiService {
         print(response.statusCode);
         throw CustomException('${response.reasonPhrase}');
       }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<List<Report>> fetchReports(String driverId) async {
+    final url = '$baseUrl/incidents/driver/$driverId';
+    try {
+      final response = await client.get(url);
+      if (response.statusCode != 200) {
+        throw CustomException('Failed to get previous reports');
+      }
+      print(response.body);
+      return reportModelFromJson(response.body).data.data;
     } catch (e) {
       print(e);
       rethrow;

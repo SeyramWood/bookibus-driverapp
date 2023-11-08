@@ -4,12 +4,12 @@ import 'package:bookihub/src/shared/errors/failure.dart';
 import 'package:bookihub/src/shared/utils/usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class MakeReport extends UseCase<String,MultiParams<String, ReportingModel,String>>{
+class FetchReport extends UseCase<List<Report>,Param<String>>{
   final ReportRepo repo;
 
-  MakeReport(this.repo);
+  FetchReport(this.repo);
   @override
-  Future<Either<Failure, String>> call(MultiParams<String, ReportingModel, String> params) async {
-   return await repo.makeReport(params.data1,params.data2);
+  Future<Either<Failure, List<Report>>> call(Param<String> params) async {
+   return await repo.fetchReport(params.data);
   }
 }
