@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:record/record.dart';
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
 import 'package:bookihub/src/features/reports/presentation/provider/report_controller.dart';
 import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:record_mp3/record_mp3.dart';
 
 import '../../../../../main.dart';
 import '../../../../shared/utils/file_picker.dart';
@@ -25,6 +29,10 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
   final descriptionController = TextEditingController();
   var images = <File>[];
   var trip = locator<Trip>();
+  late Record audioRecord;
+  String statusText = "Record pickup location";
+  bool isRecording = false;
+  String? recordFilePath = "";
 
   Future<void> _selectTime() async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -47,6 +55,67 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
   }
 
   String initialValue = 'Mechanical Issue';
+
+
+  @override
+  void initState() {
+    audioRecord = Record();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    audioRecord.dispose();
+    super.dispose();
+  }
+
+  void recordLocation() async {
+    bool hasPermission = await checkPermission();
+    if (hasPermission) {
+      statusText = "Recording...";
+      recordFilePath = await getFilePath();
+      isRecording = true;
+      RecordMp3.instance.start(recordFilePath!, (type) {
+        statusText = "Record error--->$type";
+        setState(() {});
+      });
+    } else {
+      statusText = "No microphone permission";
+    }
+    setState(() {});
+  }
+
+  ////CHECK PERMISSION
+  Future<bool> checkPermission() async {
+    if (!await Permission.microphone.isGranted) {
+      PermissionStatus status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+//GET Device storage location
+  int i = 0;
+  Future<String> getFilePath() async {
+    Directory storageDirectory = await getApplicationDocumentsDirectory();
+    String sdPath = "${storageDirectory.path}/record";
+    var d = Directory(sdPath);
+    if (!d.existsSync()) {
+      d.createSync(recursive: true);
+    }
+    return "$sdPath/test_${i++}.mp3";
+  }
+
+  void stopRecording() {
+    bool s = RecordMp3.instance.stop();
+    if (s) {
+      statusText = "Record complete";
+      isRecording = false;
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +171,13 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
                   Container(
-                    width: 325,
-                    height: 52,
+                    width: MediaQuery.sizeOf(context).width ,
+                    height: MediaQuery.sizeOf(context).height * .07,
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     decoration: BoxDecoration(
                       color: white,
                       border: Border.all(width: 0.50, color: grey),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: DropdownButton<String>(
                       underline: const SizedBox(), // Removes the underline
@@ -183,14 +252,25 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
-                  const Material(
+                   Material(
                     child: Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                       child: Row(children: [
-                        Text('Record voice'),
-                        Spacer(),
-                        Icon(Icons.mic_none_sharp)
+                        const Text('Record voice'),
+                        const Spacer(),
+                        InkWell(
+                          onTap: (){
+                            isRecording
+                                      ? stopRecording()
+                                      : recordLocation();
+                                  setState(() {});
+                          },
+                          child:  Icon(Icons.mic_none_sharp,
+                          color: isRecording
+                                      ? blue
+                                      : black,
+                          ))
                       ]),
                     ),
                   ),

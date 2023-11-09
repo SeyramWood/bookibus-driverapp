@@ -25,7 +25,10 @@ dependencies:
   http: ^1.1.0
   intl: ^0.18.1
   location: ^5.0.3
+  path: ^1.8.3
+  permission_handler: ^11.0.1
   provider: ^6.0.5
+  record: ^4.4.4
   record_mp3: ^3.0.0
 
 dev_dependencies:
