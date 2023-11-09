@@ -1,6 +1,5 @@
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
 import 'package:bookihub/src/features/reports/presentation/provider/report_controller.dart';
-import 'package:bookihub/src/features/reports/presentation/views/emergency.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
@@ -42,6 +41,7 @@ class _ReportViewState extends State<ReportView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text('Incident Report',
             style: Theme.of(context).textTheme.headlineMedium!),
