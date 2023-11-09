@@ -6,6 +6,9 @@ import '../entities/report_model.dart';
 abstract class ReportRepo {
   Future<Either<Failure, String>> makeReport(
     String companyId,
-    ReportModel report,
+    ReportingModel report,
+  );
+  Future<Either<Failure, List<Report>>> fetchReport(
+    String driverId,
   );
 }

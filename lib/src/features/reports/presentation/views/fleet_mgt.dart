@@ -46,6 +46,8 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
     }
   }
 
+  String initialValue = 'Mechanical Issue';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,10 +61,8 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * .06,
-              ),
               Form(
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,6 +83,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     readOnly: true,
                     onTap: _selectTime,
                     decoration: InputDecoration(
+                        isDense: true,
                         hintText: "When it occurred",
                         filled: true,
                         fillColor: white,
@@ -98,7 +99,49 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                             borderRadius: BorderRadius.circular(5))),
                   ),
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .04,
+                    height: MediaQuery.sizeOf(context).height * .02,
+                  ),
+                  Container(
+                    width: 325,
+                    height: 52,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    decoration: BoxDecoration(
+                      color: white,
+                      border: Border.all(width: 0.50, color: grey),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: DropdownButton<String>(
+                      underline: const SizedBox(), // Removes the underline
+                      isExpanded: true, // Ensures the dropdown fills the width
+                      value:
+                          initialValue, // Replace selectedValue with your current selection
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          initialValue = newValue ?? initialValue;
+                        });
+                      },
+                      items: <String>['Mechanical Issue', 'Other Issue']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 17),
+                            child: Text(
+                              value,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.84),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * .02,
                   ),
                   Text(
                     "Description of incident",
@@ -108,12 +151,12 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .02,
+                    height: MediaQuery.sizeOf(context).height * .01,
                   ),
                   LayoutBuilder(
                     builder: (context, constraints) {
                       return SizedBox(
-                        height: MediaQuery.sizeOf(context).height * .25,
+                        height: MediaQuery.sizeOf(context).height * .13,
                         child: TextFormField(
                           controller: descriptionController,
                           cursorColor: grey,
@@ -138,7 +181,21 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     },
                   ),
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .04,
+                    height: MediaQuery.sizeOf(context).height * .02,
+                  ),
+                  const Material(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                      child: Row(children: [
+                        Text('Record voice'),
+                        Spacer(),
+                        Icon(Icons.mic_none_sharp)
+                      ]),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * .02,
                   ),
                   InkWell(
                     onTap: () async {
@@ -177,13 +234,13 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .08,
+                    height: MediaQuery.sizeOf(context).height * .04,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: CustomButton(
                       onPressed: () async {
-                        var report = ReportModel(
+                        var report = ReportingModel(
                           time: timeController.text,
                           tripId: trip.id,
                           images: images,

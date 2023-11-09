@@ -53,7 +53,7 @@ class _RouteMapState extends State<RouteMap> {
                   _mapController.complete(controller);
                   cameraPosition(currentLocation);
                 },
-                zoomGesturesEnabled: true,
+                zoomGesturesEnabled: false,
                 scrollGesturesEnabled: true,
                 markers: {
                   Marker(
