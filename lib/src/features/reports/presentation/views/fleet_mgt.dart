@@ -198,7 +198,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
                   InkWell(
-                    onTap: () async {
+                    onTap: () async { 
                       images = await selectFiles();
                       setState(() {});
                     },

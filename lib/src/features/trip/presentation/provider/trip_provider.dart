@@ -22,8 +22,15 @@ class TripProvider extends ChangeNotifier {
         _updateInspectionStatus = inspectionStatus;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-  set isLoading(loading) {
-    _isLoading = loading;
+
+//for updating inspections
+  bool _updating = false;
+  bool get isUpdating => _updating;
+
+  DateTime? tripStartedTime;
+
+  set startedDate(DateTime time) {
+    tripStartedTime = time;
   }
 
   //fetch trips by driver
@@ -32,7 +39,6 @@ class TripProvider extends ChangeNotifier {
     bool scheduled,
     bool completed,
   ) async {
-    
     final result = await _fetchTrips(MultiParams(
       today,
       scheduled,
@@ -40,11 +46,9 @@ class TripProvider extends ChangeNotifier {
     ));
     return result.fold(
       (failure) {
-        
-       return Left(Failure(failure.message));
+        return Left(Failure(failure.message));
       },
       (success) {
-       
         return Right(success);
       },
     );
@@ -52,17 +56,18 @@ class TripProvider extends ChangeNotifier {
 
   Future<Either<Failure, String>> updateTripStatus(
       String tripId, String status) async {
-        _isLoading = true;
+    _isLoading = true;
     notifyListeners();
     final result = await _updateTripStatus(MultiParams(tripId, status));
     return result.fold(
-      (failure)  {
+      (failure) {
         _isLoading = false;
-    notifyListeners();
-        return Left(Failure(failure.message));},
+        notifyListeners();
+        return Left(Failure(failure.message));
+      },
       (success) {
         _isLoading = false;
-    notifyListeners();
+        notifyListeners();
         return Right(success);
       },
     );
@@ -72,18 +77,19 @@ class TripProvider extends ChangeNotifier {
     String tripId,
     InspectionStatus inspectionStatus,
   ) async {
-    _isLoading = true;
+    _updating = true;
     notifyListeners();
     final result =
         await _updateInspectionStatus(MultiParams(tripId, inspectionStatus));
     return result.fold(
       (failure) {
-        _isLoading = false;
-    notifyListeners();
-        return Left(Failure(failure.message));},
+        _updating = false;
+        notifyListeners();
+        return Left(Failure(failure.message));
+      },
       (success) {
-        _isLoading = false;
-    notifyListeners();
+        _updating = false;
+        notifyListeners();
         return Right(success);
       },
     );

@@ -49,12 +49,13 @@ class TripRepoImpl implements TripRepo {
       return Left(Failure('something went wrong'));
     }
   }
-  
+
   @override
-  Future<Either<Failure, String>> updateInspectionStatus(String tripId, InspectionStatus inspectionStatus) async {
+  Future<Either<Failure, String>> updateInspectionStatus(
+      String tripId, InspectionStatus inspectionStatus) async {
     try {
       await api.updateInspectionStatus(tripId, inspectionStatus);
-      return const Right('started');
+      return const Right('Inpections submitted successfully');
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
     } on SocketException catch (_) {

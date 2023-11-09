@@ -66,15 +66,6 @@ class _TripDetailsState extends State<TripDetails> {
     }
   }
 
-  submitInspections(isChecked) {
-    if (isChecked) {
-      showDialog(
-        context: context,
-        builder: (context) => _buildProgressIndicator(2, 'Saving inpections'),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     bool isChecked = checkPercentage == 0.9999999999999999;
@@ -88,32 +79,6 @@ class _TripDetailsState extends State<TripDetails> {
             style: Theme.of(context).textTheme.headlineMedium,
           )),
       body: Builder(builder: (context) {
-        /*submit inspection status if condition is met*/
-        WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) async {
-            if (isChecked && trip.inspectionStatus.brakeAndSteering == false) {
-              showDialog(
-                context: context,
-                builder: (context) =>
-                    _buildProgressIndicator(2, 'Saving inpections'),
-              );
-              await context.read<TripProvider>().updateInspectionStatus(
-                  '${trip.id}',
-                  InspectionStatus(
-                    brakeAndSteering: true,
-                    emergencyEquipment: true,
-                    engineCompartment: true,
-                    exterior: true,
-                    fuelAndFluid: true,
-                    interior: true,
-                  ));
-              if (mounted) {
-                Navigator.of(context).pop();
-              }
-            }
-          },
-        );
-
         return Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: hPadding, vertical: vPadding),
@@ -215,6 +180,7 @@ class _TripDetailsState extends State<TripDetails> {
             ),
             vSpace,
             vSpace,
+            //inspection card
             Material(
               borderRadius: borderRadius,
               child: Padding(
@@ -304,6 +270,46 @@ class _TripDetailsState extends State<TripDetails> {
             ),
             const Spacer(),
             SizedBox(
+              height: 35,
+              child: CustomButton(
+                bgColor: (!isChecked &&
+                        trip.inspectionStatus.brakeAndSteering == false
+                    ? grey
+                    : trip.inspectionStatus.brakeAndSteering == true
+                        ? grey
+                        : null),
+                onPressed: () async {
+                  if (isChecked &&
+                      trip.inspectionStatus.brakeAndSteering == false) {
+                    await context
+                        .read<TripProvider>()
+                        .updateInspectionStatus(
+                            '${trip.id}',
+                            InspectionStatus(
+                              brakeAndSteering: true,
+                              emergencyEquipment: true,
+                              engineCompartment: true,
+                              exterior: true,
+                              fuelAndFluid: true,
+                              interior: true,
+                            ))
+                        .then(
+                      (value) {
+                        value.fold(
+                          (l) => showCustomSnackBar(context, l.message, orange),
+                          (r) => showCustomSnackBar(context, r, green),
+                        );
+                      },
+                    );
+                  }
+                },
+                child: Text(trip.inspectionStatus.brakeAndSteering == true
+                    ? 'Inspections\'re already sent '
+                    : 'Submit Inspections'),
+              ).loading(context.watch<TripProvider>().isUpdating),
+            ),
+            const Spacer(),
+            SizedBox(
               height: MediaQuery.sizeOf(context).height * .07,
               child: CustomButton(
                 onPressed: trip.status == 'started'
@@ -319,27 +325,27 @@ class _TripDetailsState extends State<TripDetails> {
                           showCustomDialog(context,
                               const Text('Do you want to start this trip?'),
                               () async {
+                            Navigator.of(context).pop();
+
                             await context
                                 .read<TripProvider>()
                                 .updateTripStatus('${trip.id}', 'started')
                                 .then(
                               (result) {
-                                Navigator.of(context).pop();
-
-                                result.fold(
-                                  (l) {
-                                    showCustomSnackBar(
-                                        context, l.message, orange);
-                                  },
-                                  (r) =>
-                                      Navigator.push(context, MaterialPageRoute(
+                                result.fold((l) {
+                                  showCustomSnackBar(
+                                      context, l.message, orange);
+                                }, (r) {
+                                  context.read<TripProvider>().startedDate =
+                                      DateTime.now();
+                                  Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
                                       return TripStartedView(
                                         trip: trip,
                                       );
                                     },
-                                  )),
-                                );
+                                  ));
+                                });
                               },
                             );
                           });
