@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:record/record.dart';
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
 import 'package:bookihub/src/features/reports/presentation/provider/report_controller.dart';
@@ -13,6 +15,7 @@ import 'package:record_mp3/record_mp3.dart';
 
 import '../../../../../main.dart';
 import '../../../../shared/utils/file_picker.dart';
+import '../../../../shared/utils/permissions/permissions.dart';
 import '../../../../shared/utils/show.snacbar.dart';
 import '../../../trip/domain/entities/trip_model.dart';
 
@@ -56,7 +59,6 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
 
   String initialValue = 'Mechanical Issue';
 
-
   @override
   void initState() {
     audioRecord = Record();
@@ -69,7 +71,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
     super.dispose();
   }
 
-  void recordLocation() async {
+  void record() async {
     bool hasPermission = await checkPermission();
     if (hasPermission) {
       statusText = "Recording...";
@@ -83,17 +85,6 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
       statusText = "No microphone permission";
     }
     setState(() {});
-  }
-
-  ////CHECK PERMISSION
-  Future<bool> checkPermission() async {
-    if (!await Permission.microphone.isGranted) {
-      PermissionStatus status = await Permission.microphone.request();
-      if (status != PermissionStatus.granted) {
-        return false;
-      }
-    }
-    return true;
   }
 
 //GET Device storage location
@@ -171,7 +162,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
                   Container(
-                    width: MediaQuery.sizeOf(context).width ,
+                    width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).height * .07,
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     decoration: BoxDecoration(
@@ -252,33 +243,32 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
-                   Material(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                      child: Row(children: [
-                        const Text('Record voice'),
-                        const Spacer(),
-                        InkWell(
-                          onTap: (){
-                            isRecording
-                                      ? stopRecording()
-                                      : recordLocation();
-                                  setState(() {});
-                          },
-                          child:  Icon(Icons.mic_none_sharp,
-                          color: isRecording
-                                      ? blue
-                                      : black,
-                          ))
-                      ]),
+                  GestureDetector(
+                    onTap: () {
+                      isRecording ? stopRecording() : record();
+                      setState(() {});
+                    },
+                    child: Material(
+                      // borderRadius: borderRadius,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 8),
+                        child: Row(children: [
+                          Text(isRecording ? 'Recording...' : 'Record voice'),
+                          const Spacer(),
+                          Icon(
+                            Icons.mic_none_sharp,
+                            color: isRecording ? blue : black,
+                          )
+                        ]),
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
                   InkWell(
-                    onTap: () async { 
+                    onTap: () async {
                       images = await selectFiles();
                       setState(() {});
                     },
@@ -327,8 +317,9 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                           driverId: trip.driver.id,
                           location: 'Pedu',
                           description: descriptionController.text,
-                          voiceNote: '',
+                          voiceNote: recordFilePath,
                         );
+                        log(recordFilePath.toString());
                         await context
                             .read<ReportProvider>()
                             .makeReport('${trip.company.id}', report)
