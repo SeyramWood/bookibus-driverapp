@@ -8,6 +8,7 @@ class ReportView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text('Incident Report',
             style: Theme.of(context).textTheme.headlineMedium!),
