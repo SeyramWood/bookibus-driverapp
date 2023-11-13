@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bookihub/src/shared/utils/button_extension.dart';
-import 'package:bookihub/src/shared/utils/date_time.formatting.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:bookihub/main.dart';
@@ -30,7 +28,7 @@ class TripStartedView extends StatefulWidget {
 class _TripStartedViewState extends State<TripStartedView> {
   @override
   Widget build(BuildContext context) {
-    var _time = context.read<TripProvider>().tripStartedTime ?? DateTime.now();
+    var time = context.read<TripProvider>().tripStartedTime ?? DateTime.now();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -124,7 +122,7 @@ class _TripStartedViewState extends State<TripStartedView> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
                           child: Text(
-                            '${_time.hour} hour: ${_time.minute} mins: ${_time.second} secs',
+                            '${time.hour} hour: ${time.minute} mins: ${time.second} secs',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!

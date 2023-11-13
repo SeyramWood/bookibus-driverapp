@@ -3,7 +3,6 @@
 import 'package:file_picker/file_picker.dart';
 
 
-import 'dart:io';
 
 import 'package:camera/camera.dart';
 

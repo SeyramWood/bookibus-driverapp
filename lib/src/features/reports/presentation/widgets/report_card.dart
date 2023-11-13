@@ -22,7 +22,7 @@ class _ReportCardState extends State<ReportCard> {
       padding: const EdgeInsets.all(8.0),
       child: ExpansionTile(
         tilePadding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(),
+        shape: const RoundedRectangleBorder(),
         title: Row(
           children: [
             const Text('ID'),
