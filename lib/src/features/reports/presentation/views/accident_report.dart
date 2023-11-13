@@ -37,11 +37,11 @@ class ReportView extends StatelessWidget {
                 ReportCard(
                   title: "Fleet Mgt",
                   onTap: () {
-                    // Navigator.push(context, MaterialPageRoute(
-                    //   builder: (context) {
-                    //     return const FleetMgtReport();
-                    //   },
-                    // ));
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const AllReportView();
+                      },
+                    ));
                   },
                 )
               ],
