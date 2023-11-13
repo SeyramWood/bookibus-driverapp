@@ -7,14 +7,14 @@ import 'package:provider/provider.dart';
 
 import '../widgets/report_card.dart';
 
-class ReportView extends StatefulWidget {
-  const ReportView({super.key});
+class AllReportView extends StatefulWidget {
+  const AllReportView({super.key});
 
   @override
-  State<ReportView> createState() => _ReportViewState();
+  State<AllReportView> createState() => _ReportViewState();
 }
 
-class _ReportViewState extends State<ReportView> {
+class _ReportViewState extends State<AllReportView> {
   Future<List<Report>>? reports;
   fetchReports() async {
     final result =

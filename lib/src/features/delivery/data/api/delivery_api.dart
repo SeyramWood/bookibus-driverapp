@@ -26,7 +26,7 @@ class DeliveryApiService {
   }
 
   Future verifyPackageCode(String packageId, String packageCode) async {
-    var files = await selectFiles();
+    var files = await captureImages();
     final url = "$baseUrl/packages/$packageId/update-status";
     try {
       if (files.isNotEmpty) {
