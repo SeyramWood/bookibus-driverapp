@@ -12,7 +12,7 @@ class ReportingModel {
   final int tripId;
   final int driverId;
   final List<File> images;
-  final String? voiceNote;
+  final File? voiceNote;
 
   ReportingModel({
     required this.time,

@@ -35,7 +35,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
   late Record audioRecord;
   String statusText = "Record pickup location";
   bool isRecording = false;
-  String? recordFilePath = "";
+  File? recordFile;
 
   Future<void> _selectTime() async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -75,9 +75,9 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
     bool hasPermission = await checkPermission();
     if (hasPermission) {
       statusText = "Recording...";
-      recordFilePath = await getFilePath();
+      recordFile = await getFilePath();
       isRecording = true;
-      RecordMp3.instance.start(recordFilePath!, (type) {
+      RecordMp3.instance.start(recordFile!.path, (type) {
         statusText = "Record error--->$type";
         setState(() {});
       });
@@ -89,14 +89,14 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
 
 //GET Device storage location
   int i = 0;
-  Future<String> getFilePath() async {
+  Future<File> getFilePath() async {
     Directory storageDirectory = await getApplicationDocumentsDirectory();
     String sdPath = "${storageDirectory.path}/record";
     var d = Directory(sdPath);
     if (!d.existsSync()) {
       d.createSync(recursive: true);
     }
-    return "$sdPath/test_${i++}.mp3";
+    return File("$sdPath/report.mp3");
   }
 
   void stopRecording() {
@@ -317,9 +317,9 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                           driverId: trip.driver.id,
                           location: 'Pedu',
                           description: descriptionController.text,
-                          voiceNote: recordFilePath,
+                          voiceNote: recordFile,
                         );
-                        log(recordFilePath.toString());
+                        log(recordFile.toString());
                         await context
                             .read<ReportProvider>()
                             .makeReport('${trip.company.id}', report)
