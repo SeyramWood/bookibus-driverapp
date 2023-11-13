@@ -20,19 +20,20 @@ class _ReportCardState extends State<ReportCard> {
     return Material(
         child: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
+      child: ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(),
+        title: Row(
+          children: [
+            const Text('ID'),
+            const Spacer(),
+            Text('${report.id}'),
+          ],
+        ),
         children: [
           Row(
             children: [
-              const Text('Incident ID'),
-              const Spacer(),
-              Text('${report.id}'),
-            ],
-          ),
-          divider,
-          Row(
-            children: [
-              const Text('Incident Type'),
+              const Text('Type'),
               const Spacer(),
               SizedBox(
                 height: 30,
@@ -48,7 +49,7 @@ class _ReportCardState extends State<ReportCard> {
           divider,
           Row(
             children: [
-              const Text('Incident Status'),
+              const Text('Status'),
               const Spacer(),
               SizedBox(
                 height: 30,
