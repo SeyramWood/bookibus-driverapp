@@ -2,13 +2,14 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class CameraScreen extends StatefulWidget {
+CameraScreen({super.key, this.cameraController,});
+CameraController? cameraController;
+
   @override
   _CameraScreenState createState() => _CameraScreenState();
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-
-  CameraController? cameraController;
 
  Future<void> initializeCamera() async {
     final cameras = await availableCameras();
@@ -17,22 +18,23 @@ class _CameraScreenState extends State<CameraScreen> {
     final firstCamera = cameras.first;
 
     // Initialize the camera
-    cameraController = CameraController(
+    widget.cameraController = CameraController(
       firstCamera,
       ResolutionPreset.medium,
+      imageFormatGroup: ImageFormatGroup.yuv420,
     );
 
     // Initialize the camera controller
-    await cameraController!.initialize();
+    await widget.cameraController!.initialize();
   }
 
   Future<void> takePicture() async {
     try {
       // Ensure the camera is initialized
-      if (cameraController != null &&
-          cameraController!.value.isInitialized) {
+      if (widget.cameraController != null &&
+          widget.cameraController!.value.isInitialized) {
         // Capture the picture
-        final XFile picture = await cameraController!.takePicture();
+        final XFile picture = await widget.cameraController!.takePicture();
 
         // Handle the captured picture, e.g., save or display it
         // You can use the 'picture' variable to get the file path or perform other actions
@@ -47,11 +49,12 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     initializeCamera();
+    // takePicture();
   }
 
   @override
   void dispose() {
-   cameraController?.dispose();
+   widget.cameraController?.dispose();
     super.dispose();
   }
 
@@ -59,17 +62,30 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Camera Example"),
+        title: Text("Take photo"),
       ),
-      body: cameraController != null && cameraController!.value.isInitialized
-          ? CameraPreview(cameraController!)
-          : Container(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          takePicture();
-        },
-        child: Icon(Icons.camera),
+      body: 
+      // SizedBox(
+      //   height: MediaQuery.sizeOf(context).height,
+      //   width: MediaQuery.sizeOf(context).width,
+      //   child:
+        FutureBuilder(
+      future: initializeCamera(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return CameraPreview(widget.cameraController!);
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        takePicture();
+      },
+      child: Icon(Icons.camera),
       ),
+      // )
     );
   }
 }
