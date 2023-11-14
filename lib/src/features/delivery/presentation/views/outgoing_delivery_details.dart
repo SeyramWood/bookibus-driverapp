@@ -2,6 +2,7 @@ import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/confirm_to_deliver.dart';
+import 'package:bookihub/src/features/delivery/presentation/views/take_photo.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/carousel.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
 import 'package:bookihub/src/shared/constant/colors.dart';
@@ -15,9 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PackageDetailsView extends StatefulWidget {
-  PackageDetailsView({super.key, required this.package, this.cameraController});
+  const PackageDetailsView({super.key, required this.package,});
   final Delivery package;
-  CameraController? cameraController;
+  
 
   @override
   State<PackageDetailsView> createState() => _PackageDetailsViewState();
@@ -26,50 +27,6 @@ class PackageDetailsView extends StatefulWidget {
 class _PackageDetailsViewState extends State<PackageDetailsView> {
   final codeController = TextEditingController();
 
-  Future<void> initializeCamera() async {
-    final cameras = await availableCameras();
-
-    // Use the first camera from the list
-    final firstCamera = cameras.first;
-
-    // Initialize the camera
-    widget.cameraController = CameraController(
-      firstCamera,
-      ResolutionPreset.medium,
-    );
-
-    // Initialize the camera controller
-    await widget.cameraController!.initialize();
-  }
-
-  Future<void> takePicture() async {
-    try {
-      // Ensure the camera is initialized
-      if (widget.cameraController != null &&
-          widget.cameraController!.value.isInitialized) {
-        // Capture the picture
-        final XFile picture = await widget.cameraController!.takePicture();
-
-        // Handle the captured picture, e.g., save or display it
-        // You can use the 'picture' variable to get the file path or perform other actions
-        print("Picture taken: ${picture.path}");
-      }
-    } catch (e) {
-      print("Error taking picture: $e");
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initializeCamera();
-  }
-
-  @override
-  void dispose() {
-    widget.cameraController?.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +57,11 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   vSpace,
                   InkWell(
                     onTap: () async {
-                      takePicture();
+                      Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return  CameraScreen();
+                      },
+                    ));
                       setState(() {});
                     },
                     child: Material(
@@ -113,16 +74,17 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            widget.cameraController != null &&
-                                    widget.cameraController!.value.isInitialized
-                                ? Text(
-                                    "Recepient's ID",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.w600),
-                                  )
-                                : Text(
+                            // widget.cameraController != null &&
+                            //         widget.cameraController!.value.isInitialized
+                            //     ? Text(
+                            //         "Recepient's ID",
+                            //         style: Theme.of(context)
+                            //             .textTheme
+                            //             .bodyMedium!
+                            //             .copyWith(fontWeight: FontWeight.w600),
+                            //       )
+                            //     : 
+                            Text(
                                     "Take photo of ID",
                                     style: Theme.of(context)
                                         .textTheme
@@ -135,11 +97,13 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                             SizedBox(
                               height: 30,
                               width: 60,
-                              child: widget.cameraController != null &&
-                                      widget
-                                          .cameraController!.value.isInitialized
-                                  ? CameraPreview(widget.cameraController!)
-                                  : ImageIcon(
+                              child: 
+                              // widget.cameraController != null &&
+                              //         widget
+                              //             .cameraController!.value.isInitialized
+                              //     ? CameraPreview(widget.cameraController!)
+                              //     : 
+                                  ImageIcon(
                                       AssetImage(
                                         CustomeImages.camera,
                                       ),
