@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
@@ -15,9 +17,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PackageDetailsView extends StatefulWidget {
-  const PackageDetailsView({super.key, required this.package,});
+  const PackageDetailsView({
+    super.key,
+    required this.package,
+  });
   final Delivery package;
-  
 
   @override
   State<PackageDetailsView> createState() => _PackageDetailsViewState();
@@ -25,7 +29,7 @@ class PackageDetailsView extends StatefulWidget {
 
 class _PackageDetailsViewState extends State<PackageDetailsView> {
   final codeController = TextEditingController();
-
+  String? capturedImagePath; // Track the file path of the captured image
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +60,20 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   vSpace,
                   InkWell(
                     onTap: () async {
-                      Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return  CameraScreen();
-                      },
-                    ));
-                      setState(() {});
+                      // Navigate to CameraScreen and wait for the result
+                      final String? filePath = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CameraScreen(),
+                        ),
+                      );
+
+                      // Handle the result (filePath) from CameraScreen
+                      if (filePath != null) {
+                        setState(() {
+                          capturedImagePath = filePath;
+                        });
+                      }
                     },
                     child: Material(
                       shape: OutlineInputBorder(
@@ -73,18 +85,16 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // widget.cameraController != null &&
-                            //         widget.cameraController!.value.isInitialized
-                            //     ? Text(
-                            //         "Recepient's ID",
-                            //         style: Theme.of(context)
-                            //             .textTheme
-                            //             .bodyMedium!
-                            //             .copyWith(fontWeight: FontWeight.w600),
-                            //       )
-                            //     : 
-                            Text(
+                            capturedImagePath == null
+                                ? Text(
                                     "Take photo of ID",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                  )
+                                : Text(
+                                    "Recepient's ID",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -94,19 +104,26 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                               width: MediaQuery.sizeOf(context).width * .02,
                             ),
                             SizedBox(
-                              height: 30,
-                              width: 60,
-                              child: 
-                              // widget.cameraController != null &&
-                              //         widget
-                              //             .cameraController!.value.isInitialized
-                              //     ? CameraPreview(widget.cameraController!)
-                              //     : 
-                                  ImageIcon(
+                              height: capturedImagePath == null ? 30 : 100,
+                              width: capturedImagePath == null ? 60 : 100,
+                              child: capturedImagePath == null
+                                  // widget.cameraController != null &&
+                                  //         widget
+                                  //             .cameraController!.value.isInitialized
+                                  //     ? CameraPreview(widget.cameraController!)
+                                  //     :
+                                  ? ImageIcon(
                                       AssetImage(
                                         CustomeImages.camera,
                                       ),
                                       color: black,
+                                    )
+                                  : Image.file(
+                                      File(
+                                          capturedImagePath!), // Import 'dart:io'
+                                      height: 100.0,
+                                      width: 100.0,
+                                      fit: BoxFit.cover,
                                     ),
                             )
                           ],
