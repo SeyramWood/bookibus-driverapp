@@ -69,9 +69,9 @@ class _TodayTripsViewState extends State<TodayTripsView> {
                         bottom: trip == todayTrips.last ? vPadding : 0.0),
                     child: TripCard(
                       location: trip.route.from,
-                      lDescription: trip.route.fromTerminal,
+                      lDescription: 'trip.route.fromTerminal',
                       destination: trip.route.to,
-                      dDescription: trip.route.toTerminal,
+                      dDescription: 'trip.route.toTerminal',
                       startTime: time.format(trip.departureDate),
                       endTime: time.format(trip.arrivalDate),
                       onTap: () {

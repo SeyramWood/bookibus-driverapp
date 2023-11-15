@@ -24,9 +24,12 @@ class _CompletedTripViewState extends State<CompletedTripView> {
           true,
         );
 
-    result
-        .fold((failure) => showCustomSnackBar(context, failure.message, orange),
-            (success) {
+    result.fold(
+        (failure) => showCustomSnackBar(
+              context,
+              failure.message,
+              orange,
+            ), (success) {
       setState(() {
         trips = Future.value(success);
       });
@@ -82,9 +85,9 @@ class _CompletedTripViewState extends State<CompletedTripView> {
                       padding: EdgeInsets.only(top: !isDiff ? vPadding : 0.0),
                       child: TripCard(
                         location: trip.route.from,
-                        lDescription: trip.route.fromTerminal,
+                        lDescription: 'trip.route.fromTerminal',
                         destination: trip.route.to,
-                        dDescription: trip.route.toTerminal,
+                        dDescription: 'trip.route.toTerminal',
                         startTime: time.format(trip.departureDate),
                         endTime: time.format(trip.arrivalDate),
                       ),

@@ -41,6 +41,7 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
 
   @override
   Widget build(BuildContext context) {
+    print('dates: $dates');
     return FutureBuilder<List<Trip>>(
         future: trips,
         builder: (context, snapshot) {
@@ -56,7 +57,6 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
             for (var trip in trips!) {
               dates.add({'date': date.format(trip.departureDate)});
             }
-    
 
             return ListView.builder(
               itemCount: dates.length,
@@ -77,9 +77,9 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
                       padding: EdgeInsets.only(top: !isDiff ? vPadding : 0.0),
                       child: TripCard(
                         location: trip.route.from,
-                        lDescription: trip.route.fromTerminal,
+                        lDescription: 'trip.route.fromTerminal',
                         destination: trip.route.to,
-                        dDescription: trip.route.toTerminal,
+                        dDescription: 'trip.route.toTerminal',
                         startTime: time.format(trip.departureDate),
                         endTime: time.format(trip.arrivalDate),
                       ),
