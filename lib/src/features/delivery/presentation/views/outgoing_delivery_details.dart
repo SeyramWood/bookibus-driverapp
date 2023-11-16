@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
@@ -28,6 +30,7 @@ class PackageDetailsView extends StatefulWidget {
 
 class _PackageDetailsViewState extends State<PackageDetailsView> {
   final codeController = TextEditingController();
+  String? capturedImagePath; // Track the file path of the captured image
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +61,12 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   vSpace,
                   InkWell(
                     onTap: () async {
-                      await captureImages();
-                      // Navigator.push(context, MaterialPageRoute(
-                      // builder: (context) {
-                      //   return  CameraScreen();
-                      // },
-                      // ));
-                      // setState(() {});
+                      Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return  CameraScreen();
+                      },
+                    ));
+                      setState(() {});
                     },
                     child: Material(
                       shape: OutlineInputBorder(
@@ -76,25 +78,41 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            // widget.cameraController != null &&
+                            //         widget.cameraController!.value.isInitialized
+                            //     ? Text(
+                            //         "Recepient's ID",
+                            //         style: Theme.of(context)
+                            //             .textTheme
+                            //             .bodyMedium!
+                            //             .copyWith(fontWeight: FontWeight.w600),
+                            //       )
+                            //     : 
                             Text(
-                              "Take photo of ID",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(fontWeight: FontWeight.w600),
-                            ),
+                                    "Take photo of ID",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                  ),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * .02,
                             ),
                             SizedBox(
                               height: 30,
                               width: 60,
-                              child: ImageIcon(
-                                AssetImage(
-                                  CustomeImages.camera,
-                                ),
-                                color: black,
-                              ),
+                              child: 
+                              // widget.cameraController != null &&
+                              //         widget
+                              //             .cameraController!.value.isInitialized
+                              //     ? CameraPreview(widget.cameraController!)
+                              //     : 
+                                  ImageIcon(
+                                      AssetImage(
+                                        CustomeImages.camera,
+                                      ),
+                                      color: black,
+                                    ),
                             )
                           ],
                         ),
