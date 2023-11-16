@@ -62,10 +62,10 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   InkWell(
                     onTap: () async {
                       Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return  CameraScreen();
-                      },
-                    ));
+                        builder: (context) {
+                          return CameraScreen();
+                        },
+                      ));
                       setState(() {});
                     },
                     child: Material(
@@ -87,14 +87,14 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                             //             .bodyMedium!
                             //             .copyWith(fontWeight: FontWeight.w600),
                             //       )
-                            //     : 
+                            //     :
                             Text(
-                                    "Take photo of ID",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.w600),
-                                  ),
+                              "Take photo of ID",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(fontWeight: FontWeight.w600),
+                            ),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * .02,
                             ),
@@ -112,6 +112,13 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                         CustomeImages.camera,
                                       ),
                                       color: black,
+                                    )
+                                  : Image.file(
+                                      File(
+                                          capturedImagePath!), // Import 'dart:io'
+                                      height: 100.0,
+                                      width: 100.0,
+                                      fit: BoxFit.cover,
                                     ),
                             )
                           ],
