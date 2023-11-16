@@ -105,7 +105,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                             ),
                             SizedBox(
                               height: capturedImagePath == null ? 30 : 100,
-                              width: capturedImagePath == null ? 60 : 100,
+                              width: capturedImagePath == null ? 60 : 130,
                               child: capturedImagePath == null
                                   // widget.cameraController != null &&
                                   //         widget
