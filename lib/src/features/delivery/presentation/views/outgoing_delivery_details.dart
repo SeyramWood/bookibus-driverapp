@@ -99,15 +99,15 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                               width: MediaQuery.sizeOf(context).width * .02,
                             ),
                             SizedBox(
-                              height: 30,
-                              width: 60,
-                              child: 
-                              // widget.cameraController != null &&
-                              //         widget
-                              //             .cameraController!.value.isInitialized
-                              //     ? CameraPreview(widget.cameraController!)
-                              //     : 
-                                  ImageIcon(
+                              height: capturedImagePath == null ? 30 : 100,
+                              width: capturedImagePath == null ? 60 : 130,
+                              child: capturedImagePath == null
+                                  // widget.cameraController != null &&
+                                  //         widget
+                                  //             .cameraController!.value.isInitialized
+                                  //     ? CameraPreview(widget.cameraController!)
+                                  //     :
+                                  ? ImageIcon(
                                       AssetImage(
                                         CustomeImages.camera,
                                       ),
