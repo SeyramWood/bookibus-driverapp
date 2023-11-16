@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/constant/colors.dart';
+import '../../../../shared/utils/exports.dart';
 
 class ScheduledTripView extends StatefulWidget {
   const ScheduledTripView({super.key});
@@ -19,33 +20,57 @@ class ScheduledTripView extends StatefulWidget {
 }
 
 class _ScheduledTripViewState extends State<ScheduledTripView> {
-  Future<List<Trip>>? trips;
+  // Future<List<Trip>>? trips;
+  late List<Trip> trip;
+  final StreamController<List<Trip>> _streamController = StreamController();
+// ignore: unused_field
+  late Timer _timer;
   fetchTrips() async {
-    final result =
-        await context.read<TripProvider>().fetchTrips(false, true, false);
+    if (mounted) {
+      final result =
+          await context.read<TripProvider>().fetchTrips(false, true, false);
 
-    result
-        .fold((failure) => showCustomSnackBar(context, failure.message, orange),
-            (success) {
-      setState(() {
-        trips = Future.value(success);
+      result.fold(
+          (failure) => showCustomSnackBar(context, failure.message, orange),
+          (success) {
+        _streamController.sink.add(success);
+        setState(() {
+          trip = success;
+        });
       });
-    });
+    }
   }
 
   @override
   void initState() {
     fetchTrips();
+
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      fetchTrips();
+    });
     super.initState();
   }
 
   final List<Map<String, String>> dates = [];
 
+  // void fetchTrips() async {
+  //   if (mounted && !_streamController.isClosed) {
+  //     final data = await context
+  //         .read<TripProvider>()
+  //         .fetchTrips();
+
+  //     if (data is List<DTrip>) {
+  //       var streamData = data;
+  //       _streamController.sink.add(streamData);
+  //     }
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     print('dates: $dates');
-    return FutureBuilder<List<Trip>>(
-        future: trips,
+    return StreamBuilder<List<Trip>>(
+        stream: _streamController.stream,
         builder: (context, snapshot) {
           var trips = snapshot.data;
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -61,7 +86,7 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
             }
 
             return ListView.builder(
-              itemCount: dates.length,
+              itemCount: trips.length,
               itemBuilder: (context, index) {
                 //injecting a data to a trip for use in reporting incidents.
 
@@ -89,9 +114,9 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
                           ));
                         },
                         location: trip.route.from,
-                        lDescription: 'trip.route.fromTerminal',
+                        lDescription: trip.terminal?.from.name ?? '',
                         destination: trip.route.to,
-                        dDescription: 'trip.route.toTerminal',
+                        dDescription: trip.terminal?.to.name ?? '',
                         startTime: time.format(trip.departureDate),
                         endTime: time.format(trip.arrivalDate),
                       ),

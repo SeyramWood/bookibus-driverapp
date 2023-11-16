@@ -13,6 +13,7 @@ class ReportingModel {
   final int driverId;
   final List<File> images;
   final File? voiceNote;
+  final String type;
 
   ReportingModel({
     required this.time,
@@ -22,6 +23,7 @@ class ReportingModel {
     required this.driverId,
     required this.images,
     required this.voiceNote,
+    required this.type,
   });
 
   Map<String, dynamic> toJson() {
@@ -33,6 +35,7 @@ class ReportingModel {
       'driverId': driverId,
       'images': images,
       'voiceNote': voiceNote,
+      'type':type,
     };
   }
 }
