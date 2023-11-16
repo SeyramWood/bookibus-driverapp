@@ -186,7 +186,6 @@ class Route {
   int id;
   String from;
   String to;
-
   double fromLatitude;
   double fromLongitude;
   double toLatitude;
@@ -287,3 +286,4 @@ class Vehicle {
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }
+

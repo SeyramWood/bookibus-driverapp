@@ -66,6 +66,7 @@ class _TripDetailsState extends State<TripDetails> {
     }
   }
 
+  bool isEnabled = false;
   @override
   Widget build(BuildContext context) {
     bool isChecked = checkPercentage == 0.9999999999999999;
@@ -275,7 +276,8 @@ class _TripDetailsState extends State<TripDetails> {
                 bgColor: (!isChecked &&
                         trip.inspectionStatus.brakeAndSteering == false
                     ? grey
-                    : trip.inspectionStatus.brakeAndSteering == true
+                    : trip.inspectionStatus.brakeAndSteering == true ||
+                            isEnabled
                         ? grey
                         : null),
                 onPressed: () async {
@@ -297,15 +299,21 @@ class _TripDetailsState extends State<TripDetails> {
                       (value) {
                         value.fold(
                           (l) => showCustomSnackBar(context, l.message, orange),
-                          (r) => showCustomSnackBar(context, r, green),
+                          (r) {
+                            setState(() {
+                              isEnabled = true;
+                            });
+                            showCustomSnackBar(context, r, green);
+                          },
                         );
                       },
                     );
                   }
                 },
-                child: Text(trip.inspectionStatus.brakeAndSteering == true
-                    ? 'Inspections\'re already sent '
-                    : 'Submit Inspections'),
+                child: Text(
+                    trip.inspectionStatus.brakeAndSteering == true || isEnabled
+                        ? 'Inspections\'re already sent '
+                        : 'Submit Inspections'),
               ).loading(context.watch<TripProvider>().isUpdating),
             ),
             const Spacer(),
@@ -321,7 +329,8 @@ class _TripDetailsState extends State<TripDetails> {
                           },
                         ))
                     : () {
-                        {
+                        if (isEnabled ||
+                            trip.inspectionStatus.brakeAndSteering == true) {
                           showCustomDialog(context,
                               const Text('Do you want to start this trip?'),
                               () async {
@@ -351,9 +360,10 @@ class _TripDetailsState extends State<TripDetails> {
                           });
                         }
                       },
-                bgColor: trip.inspectionStatus.brakeAndSteering != false
-                    ? blue
-                    : grey,
+                bgColor:
+                    isEnabled || trip.inspectionStatus.brakeAndSteering != false
+                        ? blue
+                        : grey,
                 child: Text(
                     trip.status == 'started' ? 'Enter trip' : 'Start Trip'),
               ).loading(context.watch<TripProvider>().isLoading),

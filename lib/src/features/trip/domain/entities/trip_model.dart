@@ -64,11 +64,13 @@ class Trip {
   String status;
   bool scheduled;
   int seatLeft;
-  Terminal terminal;
+  Terminal? terminal;
   Vehicle vehicle;
   Route route;
   Driver driver;
   Company company;
+  dynamic bookings;
+  dynamic delivery;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -84,6 +86,8 @@ class Trip {
     required this.seatLeft,
     required this.terminal,
     required this.vehicle,
+    this.bookings,
+    this.delivery,
     required this.route,
     required this.driver,
     required this.company,
@@ -101,13 +105,15 @@ class Trip {
         status: json["status"] ?? '',
         scheduled: json["scheduled"],
         seatLeft: json["seatLeft"] ?? 0,
-        terminal: Terminal.fromJson(json["terminal"]),
+        terminal: Terminal.fromJson(json["terminal"] ?? {}),
         vehicle: Vehicle.fromJson(json["vehicle"]),
         route: Route.fromJson(json["route"]),
         driver: Driver.fromJson(json["driver"]),
         company: Company.fromJson(json["company"]),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        bookings: json['bookings'] ?? {},
+        delivery: json['delivery'] ?? {},
       );
 
   Map<String, dynamic> toJson() => {

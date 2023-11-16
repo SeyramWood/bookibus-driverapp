@@ -41,7 +41,7 @@ class _ReportCardState extends State<ReportCard> {
                 child: CustomButton(
                   onPressed: () {},
                   bgColor: orange,
-                  child: const Text('type'),
+                  child: Text(report.type.toString()),
                 ),
               )
             ],
@@ -57,7 +57,7 @@ class _ReportCardState extends State<ReportCard> {
                 child: CustomButton(
                   onPressed: () {},
                   bgColor: orange,
-                  child: const Text('status'),
+                  child: Text(report.status.toString()),
                 ),
               )
             ],
