@@ -4,6 +4,7 @@ import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/confirm_to_deliver.dart';
+import 'package:bookihub/src/features/delivery/presentation/views/success_delivery.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/take_photo.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/carousel.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
@@ -11,7 +12,6 @@ import 'package:bookihub/src/shared/constant/colors.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
-import 'package:bookihub/src/shared/utils/file_picker.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -61,12 +61,20 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   vSpace,
                   InkWell(
                     onTap: () async {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return CameraScreen();
-                        },
-                      ));
-                      setState(() {});
+                      // Navigate to CameraScreen and wait for the result
+                      final String? filePath = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CameraScreen(),
+                        ),
+                      );
+
+                      // Handle the result (filePath) from CameraScreen
+                      if (filePath != null) {
+                        setState(() {
+                          capturedImagePath = filePath;
+                        });
+                      }
                     },
                     child: Material(
                       shape: OutlineInputBorder(
@@ -78,40 +86,41 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // widget.cameraController != null &&
-                            //         widget.cameraController!.value.isInitialized
-                            //     ? Text(
-                            //         "Recepient's ID",
-                            //         style: Theme.of(context)
-                            //             .textTheme
-                            //             .bodyMedium!
-                            //             .copyWith(fontWeight: FontWeight.w600),
-                            //       )
-                            //     : 
-                            Text(
-                              "Take photo of ID",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(fontWeight: FontWeight.w600),
-                            ),
+                            capturedImagePath == null
+                                ? Text(
+                                    "Take photo of ID",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                  )
+                                : Text(
+                                    "Recepient's ID",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                  ),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * .02,
                             ),
                             SizedBox(
-                              height: 30,
-                              width: 60,
-                              child: 
-                              // widget.cameraController != null &&
-                              //         widget
-                              //             .cameraController!.value.isInitialized
-                              //     ? CameraPreview(widget.cameraController!)
-                              //     : 
-                                  ImageIcon(
+                              height: capturedImagePath == null ? 30 : 100,
+                              width: capturedImagePath == null ? 60 : 130,
+                              child: capturedImagePath == null
+                                 
+                                  ? ImageIcon(
                                       AssetImage(
                                         CustomeImages.camera,
                                       ),
                                       color: black,
+                                    )
+                                  : Image.file(
+                                      File(
+                                          capturedImagePath!), // 
+                                      height: 100.0,
+                                      width: 100.0,
+                                      fit: BoxFit.cover,
                                     ),
                             )
                           ],
@@ -119,6 +128,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                       ),
                     ),
                   ),
+                  vSpace,
                   vSpace,
                   vSpace,
                   Material(
@@ -145,9 +155,8 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                           value.fold(
                               (failure) => showCustomSnackBar(
                                   context, failure.message, orange),
-                              (success) => confirmToDeliver(
+                              (success) => successDelivery(
                                     context,
-                                    onPressed: () {},
                                   ));
                         },
                       );
