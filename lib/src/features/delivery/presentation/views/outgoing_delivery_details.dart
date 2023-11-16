@@ -62,10 +62,10 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   InkWell(
                     onTap: () async {
                       Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return  CameraScreen();
-                      },
-                    ));
+                        builder: (context) {
+                          return CameraScreen();
+                        },
+                      ));
                       setState(() {});
                     },
                     child: Material(
@@ -78,41 +78,25 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // widget.cameraController != null &&
-                            //         widget.cameraController!.value.isInitialized
-                            //     ? Text(
-                            //         "Recepient's ID",
-                            //         style: Theme.of(context)
-                            //             .textTheme
-                            //             .bodyMedium!
-                            //             .copyWith(fontWeight: FontWeight.w600),
-                            //       )
-                            //     : 
                             Text(
-                                    "Take photo of ID",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.w600),
-                                  ),
+                              "Take photo of ID",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(fontWeight: FontWeight.w600),
+                            ),
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * .02,
                             ),
                             SizedBox(
                               height: 30,
                               width: 60,
-                              child: 
-                              // widget.cameraController != null &&
-                              //         widget
-                              //             .cameraController!.value.isInitialized
-                              //     ? CameraPreview(widget.cameraController!)
-                              //     : 
-                                  ImageIcon(
-                                      AssetImage(
-                                        CustomeImages.camera,
-                                      ),
-                                      color: black,
-                                    ),
+                              child: ImageIcon(
+                                AssetImage(
+                                  CustomeImages.camera,
+                                ),
+                                color: black,
+                              ),
                             )
                           ],
                         ),

@@ -1,5 +1,7 @@
+import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
+import 'package:bookihub/src/features/trip/presentation/views/trip_detail_view.dart';
 import 'package:bookihub/src/features/trip/presentation/widgets/trip_card.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/date_time.formatting.dart';
@@ -61,11 +63,16 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
             return ListView.builder(
               itemCount: dates.length,
               itemBuilder: (context, index) {
+                //injecting a data to a trip for use in reporting incidents.
+
                 final cn = dates[index];
                 final prevState = index > 0 ? dates[index - 1] : null;
                 final isDiff =
                     prevState == null || cn['date'] != prevState['date'];
                 var trip = trips[index];
+                if (!locator.isRegistered<Trip>()) {
+                  locator.registerLazySingleton<Trip>(() => trip);
+                }
                 return Column(
                   children: [
                     if (isDiff)
@@ -76,6 +83,11 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
                     Padding(
                       padding: EdgeInsets.only(top: !isDiff ? vPadding : 0.0),
                       child: TripCard(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => TripDetails(trip: trip),
+                          ));
+                        },
                         location: trip.route.from,
                         lDescription: 'trip.route.fromTerminal',
                         destination: trip.route.to,

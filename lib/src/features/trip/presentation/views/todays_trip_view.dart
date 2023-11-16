@@ -60,10 +60,7 @@ class _TodayTripsViewState extends State<TodayTripsView> {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   var trip = todayTrips[index];
-                  //injecting a data to a trip for use in reporting incidents.
-                  if (!locator.isRegistered<Trip>()) {
-                    locator.registerLazySingleton<Trip>(() => trip);
-                  }
+                  
                   return Padding(
                     padding: EdgeInsets.only(
                         bottom: trip == todayTrips.last ? vPadding : 0.0),
@@ -74,11 +71,7 @@ class _TodayTripsViewState extends State<TodayTripsView> {
                       dDescription: 'trip.route.toTerminal',
                       startTime: time.format(trip.departureDate),
                       endTime: time.format(trip.arrivalDate),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => TripDetails(trip: trip),
-                        ));
-                      },
+                      
                     ),
                   );
                 });
