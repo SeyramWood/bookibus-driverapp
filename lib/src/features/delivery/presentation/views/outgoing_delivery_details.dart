@@ -108,7 +108,6 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                               height: capturedImagePath == null ? 30 : 100,
                               width: capturedImagePath == null ? 60 : 130,
                               child: capturedImagePath == null
-                                 
                                   ? ImageIcon(
                                       AssetImage(
                                         CustomeImages.camera,
@@ -116,8 +115,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                       color: black,
                                     )
                                   : Image.file(
-                                      File(
-                                          capturedImagePath!), // 
+                                      File(capturedImagePath!), //
                                       height: 100.0,
                                       width: 100.0,
                                       fit: BoxFit.cover,
@@ -146,20 +144,22 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   vSpace,
                   CustomButton(
                     onPressed: () async {
-                      await context
-                          .read<DeliveryProvider>()
-                          .verifyPackageCode(
-                              '${widget.package.id}', codeController.text)
-                          .then(
-                        (value) {
-                          value.fold(
-                              (failure) => showCustomSnackBar(
-                                  context, failure.message, orange),
-                              (success) => successDelivery(
-                                    context,
-                                  ));
-                        },
-                      );
+                      if (capturedImagePath == null) {
+                        await context
+                            .read<DeliveryProvider>()
+                            .verifyPackageCode('${widget.package.id}',
+                                codeController.text, File(capturedImagePath!))
+                            .then(
+                          (value) {
+                            value.fold(
+                                (failure) => showCustomSnackBar(
+                                    context, failure.message, orange),
+                                (success) => successDelivery(
+                                      context,
+                                    ));
+                          },
+                        );
+                      }
                     },
                     child: const Text('Confirm Code'),
                   ).loading(context.watch<DeliveryProvider>().isLoading)

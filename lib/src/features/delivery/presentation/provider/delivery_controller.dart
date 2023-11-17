@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/domain/usecase/deliver_package.dart';
 import 'package:bookihub/src/features/delivery/domain/usecase/fetch_delivery.dart';
@@ -36,7 +38,7 @@ class DeliveryProvider extends ChangeNotifier {
   }
 
   Future<Either<Failure, String>> verifyPackageCode(
-      String packageId, String packageCode) async {
+      String packageId, String packageCode,File idImage) async {
     _isLoading = true;
     notifyListeners();
     final result =

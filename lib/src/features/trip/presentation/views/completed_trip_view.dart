@@ -24,8 +24,11 @@ class _CompletedTripViewState extends State<CompletedTripView> {
   late Timer _timer;
   fetchTrips() async {
     if (mounted) {
-      final result =
-          await context.read<TripProvider>().fetchTrips(false, true, false);
+      final result = await context.read<TripProvider>().fetchTrips(
+            false,
+            false,
+            true,
+          );
 
       result.fold(
           (failure) => showCustomSnackBar(context, failure.message, orange),
@@ -69,7 +72,7 @@ class _CompletedTripViewState extends State<CompletedTripView> {
             }
 
             return ListView.builder(
-              itemCount: dates.length,
+              itemCount: trips.length,
               itemBuilder: (context, index) {
                 final cn = dates[index];
                 final prevState = index > 0 ? dates[index - 1] : null;

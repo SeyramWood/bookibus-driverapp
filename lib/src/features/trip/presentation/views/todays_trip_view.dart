@@ -22,7 +22,7 @@ class _TodayTripsViewState extends State<TodayTripsView> {
   fetchTrips() async {
     if (mounted) {
       final result =
-          await context.read<TripProvider>().fetchTrips(false, true, false);
+          await context.read<TripProvider>().fetchTrips(true, false, false);
 
       result.fold(
           (failure) => showCustomSnackBar(context, failure.message, orange),
