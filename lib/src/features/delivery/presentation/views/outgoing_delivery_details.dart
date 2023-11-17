@@ -54,9 +54,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   ),
                   vSpace,
                   vSpace,
-                  vSpace,
                   locator<InfoCard>(),
-                  vSpace,
                   vSpace,
                   vSpace,
                   Row(
@@ -202,7 +200,6 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   ),
                   vSpace,
                   vSpace,
-                  vSpace,
                   Material(
                     borderRadius: borderRadius,
                     child: TextFormField(
@@ -213,7 +210,6 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                           hintText: 'Enter package code',
                         )),
                   ),
-                  vSpace,
                   vSpace,
                   vSpace,
                   CustomButton(
