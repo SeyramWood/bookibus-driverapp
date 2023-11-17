@@ -122,11 +122,11 @@ class Report {
       );
 }
 
-enum ReportStatus { PENDING, RESOLVED }
+enum ReportStatus { Pending, Resolved }
 
 final reportStatusValues = EnumValues({
-  "resolved": ReportStatus.RESOLVED,
-  "pending": ReportStatus.PENDING,
+  "resolved": ReportStatus.Resolved,
+  "pending": ReportStatus.Pending,
 });
 
 class EnumValues<T> {
