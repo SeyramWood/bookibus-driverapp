@@ -31,7 +31,7 @@ class DeliverRepoImpl implements DeliveryRepo {
 
   @override
   Future<Either<Failure, String>> verifyPackageCode(
-      String packageId, String packageCode,File idImage) async {
+      String packageId, String packageCode,List<File> idImage) async {
     try {
       await api.verifyPackageCode(packageId, packageCode,idImage);
       return const Right('package code verification successsful');
