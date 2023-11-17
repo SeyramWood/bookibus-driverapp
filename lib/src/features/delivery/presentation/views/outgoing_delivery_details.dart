@@ -105,7 +105,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                             ),
                             SizedBox(
                               height: capturedImagePath == null ? 30 : 100,
-                              width: capturedImagePath == null ? 60 : 130,
+                              width: capturedImagePath == null ? 60 : 150,
                               child: capturedImagePath == null
                                   // widget.cameraController != null &&
                                   //         widget
@@ -118,12 +118,18 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                       ),
                                       color: black,
                                     )
-                                  : Image.file(
-                                      File(
-                                          capturedImagePath!), // Import 'dart:io'
+                                  : Container(
                                       height: 100.0,
-                                      width: 100.0,
-                                      fit: BoxFit.cover,
+                                      width: 150.0,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Image.file(
+                                        File(
+                                            capturedImagePath!), // Import 'dart:io'
+
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                             )
                           ],
