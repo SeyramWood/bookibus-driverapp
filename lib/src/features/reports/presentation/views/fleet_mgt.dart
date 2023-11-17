@@ -176,6 +176,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                       onChanged: (String? newValue) {
                         setState(() {
                           value = newValue!;
+                          print(value);
                         });
                       },
                       items: roadIncidents
@@ -318,7 +319,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                           voiceNote: recordFile,
                           type: value,
                         );
-                        log(recordFile.toString());
+                        log(report.type.toString());
                         await context
                             .read<ReportProvider>()
                             .makeReport('${trip.company.id}', report)

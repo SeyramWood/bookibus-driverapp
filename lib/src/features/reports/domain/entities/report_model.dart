@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bookihub/src/shared/constant/model.dart';
@@ -33,7 +34,7 @@ class ReportingModel {
       'description': description,
       'tripId': tripId,
       'driverId': driverId,
-      'images': images,
+      'image': images,
       'voiceNote': voiceNote,
       'type':type,
     };
