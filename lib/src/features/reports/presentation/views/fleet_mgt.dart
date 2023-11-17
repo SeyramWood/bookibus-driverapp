@@ -1,14 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:record/record.dart';
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
 import 'package:bookihub/src/features/reports/presentation/provider/report_controller.dart';
 import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:record_mp3/record_mp3.dart';
@@ -57,7 +55,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
     }
   }
 
-  String initialValue = 'Mechanical Issue';
+  String value = 'Collisions';
 
   @override
   void initState() {
@@ -174,13 +172,13 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                       underline: const SizedBox(), // Removes the underline
                       isExpanded: true, // Ensures the dropdown fills the width
                       value:
-                          initialValue, // Replace selectedValue with your current selection
+                         value, // Replace selectedValue with your current selection
                       onChanged: (String? newValue) {
                         setState(() {
-                          initialValue = newValue ?? initialValue;
+                          value = newValue!;
                         });
                       },
-                      items: <String>['Mechanical Issue', 'Other Issue']
+                      items: roadIncidents
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -318,6 +316,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                           location: 'Pedu',
                           description: descriptionController.text,
                           voiceNote: recordFile,
+                          type: value,
                         );
                         log(recordFile.toString());
                         await context
@@ -344,4 +343,33 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
       ),
     );
   }
+
+  List<String> roadIncidents = [
+    'Collisions',
+    'Rear-end Collision',
+    'Head-On Collision',
+    'Side-Impact Collision',
+    'Multi-Vehicle Collision',
+    'Rollovers',
+    'Run-off-road incidents',
+    'Pedestrian or Cyclist Accidents',
+    'Mechanical Failures',
+    'Brake Failure',
+    'Tire Blowout',
+    'Engine Problems',
+    'Distracted Driving',
+    'Phone Usage',
+    'Eating While Driving',
+    'Driving Under the Influence (DUI)',
+    'Alcohol-related Accidents',
+    'Drug-related Accidents',
+    'Weather-Related Incidents',
+    'Rain',
+    'Snow',
+    'Fog',
+    'Speeding or Reckless Driving',
+    'Fatigue-Related Accidents',
+    'Fall Asleep at the Wheel',
+    'Other Issue',
+  ];
 }

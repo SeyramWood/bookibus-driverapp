@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/trip/data/api/api_service.dart';
@@ -25,25 +26,22 @@ class DeliveryApiService {
     }
   }
 
-  Future verifyPackageCode(String packageId, String packageCode) async {
-    var files = await captureImages();
+  Future verifyPackageCode(String packageId, String packageCode,File idImage,) async {
     final url = "$baseUrl/packages/$packageId/update-status";
     try {
-      if (files.isNotEmpty) {
+      
         final request = http.MultipartRequest('PUT', Uri.parse(url));
         request.fields['packageCode'] = packageCode;
-        for (var file in files) {
-          log(file.path);
-          log(packageCode);
+        
           request.files
-              .add(await http.MultipartFile.fromPath('image', file.path));
-        }
+              .add(await http.MultipartFile.fromPath('image', idImage.path));
+        
         final response = await client.sendMultipartRequest(request: request);
         if (response.statusCode != 200) {
           final errorMessage = jsonDecode(response.body)['errors'];
           throw CustomException(errorMessage);
         }
-      }
+      
     } catch (e) {
       print(e);
       rethrow;

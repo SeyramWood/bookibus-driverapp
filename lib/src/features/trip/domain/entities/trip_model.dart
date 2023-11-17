@@ -35,7 +35,7 @@ class TripModel {
 
 class Data {
   int count;
-  List<Trip> trips;
+  List<Trip>? trips;
 
   Data({
     required this.count,
@@ -50,7 +50,7 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "count": count,
-        "data": List<dynamic>.from(trips.map((x) => x.toJson())),
+        "data": List<dynamic>.from(trips?.map((x) => x.toJson()) ?? []),
       };
 }
 
@@ -64,11 +64,13 @@ class Trip {
   String status;
   bool scheduled;
   int seatLeft;
+  Terminal? terminal;
   Vehicle vehicle;
   Route route;
   Driver driver;
   Company company;
-  List<Delivery> delivery;
+  dynamic bookings;
+  dynamic delivery;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -82,11 +84,13 @@ class Trip {
     required this.status,
     required this.scheduled,
     required this.seatLeft,
+    required this.terminal,
     required this.vehicle,
+    this.bookings,
+    this.delivery,
     required this.route,
     required this.driver,
     required this.company,
-    required this.delivery,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -98,17 +102,18 @@ class Trip {
         returnDate: json["returnDate"] ?? '',
         type: json["type"],
         inspectionStatus: InspectionStatus.fromJson(json["inspectionStatus"]),
-        status: json["status"],
+        status: json["status"] ?? '',
         scheduled: json["scheduled"],
-        seatLeft: json["seatLeft"],
+        seatLeft: json["seatLeft"] ?? 0,
+        terminal: Terminal.fromJson(json["terminal"] ?? {}),
         vehicle: Vehicle.fromJson(json["vehicle"]),
         route: Route.fromJson(json["route"]),
         driver: Driver.fromJson(json["driver"]),
         company: Company.fromJson(json["company"]),
-        delivery: List<Delivery>.from(
-            json["delivery"]?.map((x) => Delivery.fromJson(x)) ?? []),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        bookings: json['bookings'] ?? {},
+        delivery: json['delivery'] ?? {},
       );
 
   Map<String, dynamic> toJson() => {
@@ -125,8 +130,47 @@ class Trip {
         "route": route.toJson(),
         "driver": driver.toJson(),
         "company": company.toJson(),
-        "delivery": List<dynamic>.from(delivery.map((x) => x.toJson())),
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class Terminal {
+  From from;
+  From to;
+
+  Terminal({
+    required this.from,
+    required this.to,
+  });
+
+  factory Terminal.fromJson(Map<String, dynamic> json) => Terminal(
+        from: From.fromJson(json["from"]),
+        to: From.fromJson(json["to"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "from": from.toJson(),
+        "to": to.toJson(),
+      };
+}
+
+class From {
+  int id;
+  String name;
+
+  From({
+    required this.id,
+    required this.name,
+  });
+
+  factory From.fromJson(Map<String, dynamic> json) => From(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
       };
 }

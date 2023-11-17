@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
 import 'package:bookihub/src/features/trip/presentation/widgets/trip_card.dart';
@@ -16,26 +18,36 @@ class CompletedTripView extends StatefulWidget {
 }
 
 class _CompletedTripViewState extends State<CompletedTripView> {
-  Future<List<Trip>>? trips;
+  late List<Trip> trip;
+  final StreamController<List<Trip>> _streamController = StreamController();
+// ignore: unused_field
+  late Timer _timer;
   fetchTrips() async {
-    final result = await context.read<TripProvider>().fetchTrips(
-          false,
-          false,
-          true,
-        );
+    if (mounted) {
+      final result = await context.read<TripProvider>().fetchTrips(
+            false,
+            false,
+            true,
+          );
 
-    result
-        .fold((failure) => showCustomSnackBar(context, failure.message, orange),
-            (success) {
-      setState(() {
-        trips = Future.value(success);
+      result.fold(
+          (failure) => showCustomSnackBar(context, failure.message, orange),
+          (success) {
+        _streamController.sink.add(success);
+        setState(() {
+          trip = success;
+        });
       });
-    });
+    }
   }
 
   @override
   void initState() {
     fetchTrips();
+
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      fetchTrips();
+    });
     super.initState();
   }
 
@@ -43,8 +55,8 @@ class _CompletedTripViewState extends State<CompletedTripView> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Trip>>(
-        future: trips,
+    return StreamBuilder<List<Trip>>(
+        stream: _streamController.stream,
         builder: (context, snapshot) {
           var trips = snapshot.data;
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -60,7 +72,7 @@ class _CompletedTripViewState extends State<CompletedTripView> {
             }
 
             return ListView.builder(
-              itemCount: dates.length,
+              itemCount: trips.length,
               itemBuilder: (context, index) {
                 final cn = dates[index];
                 final prevState = index > 0 ? dates[index - 1] : null;
@@ -82,9 +94,9 @@ class _CompletedTripViewState extends State<CompletedTripView> {
                       padding: EdgeInsets.only(top: !isDiff ? vPadding : 0.0),
                       child: TripCard(
                         location: trip.route.from,
-                        lDescription: trip.route.fromTerminal,
+                        lDescription: trip.terminal?.from.name ?? '',
                         destination: trip.route.to,
-                        dDescription: trip.route.toTerminal,
+                        dDescription: trip.terminal?.to.name ?? '',
                         startTime: time.format(trip.departureDate),
                         endTime: time.format(trip.arrivalDate),
                       ),

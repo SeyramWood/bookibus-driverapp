@@ -186,8 +186,6 @@ class Route {
   int id;
   String from;
   String to;
-  String fromTerminal;
-  String toTerminal;
   double fromLatitude;
   double fromLongitude;
   double toLatitude;
@@ -199,8 +197,6 @@ class Route {
     required this.id,
     required this.from,
     required this.to,
-    required this.fromTerminal,
-    required this.toTerminal,
     required this.fromLatitude,
     required this.fromLongitude,
     required this.toLatitude,
@@ -211,10 +207,8 @@ class Route {
 
   factory Route.fromJson(Map<String, dynamic> json) => Route(
         id: json["id"],
-        from: json["from"],
-        to: json["to"],
-        fromTerminal: json["fromTerminal"],
-        toTerminal: json["toTerminal"],
+        from: json["from"] ?? '',
+        to: json["to"] ?? '',
         fromLatitude: json["fromLatitude"]?.toDouble(),
         fromLongitude: json["fromLongitude"]?.toDouble(),
         toLatitude: json["toLatitude"]?.toDouble(),
@@ -227,8 +221,6 @@ class Route {
         "id": id,
         "from": from,
         "to": to,
-        "fromTerminal": fromTerminal,
-        "toTerminal": toTerminal,
         "fromLatitude": fromLatitude,
         "fromLongitude": fromLongitude,
         "toLatitude": toLatitude,
@@ -282,8 +274,8 @@ class Vehicle {
         registrationNumber: json["registrationNumber"],
         model: json["model"],
         seat: json["seat"],
-        images:
-            List<VImage>.from(json["images"].map((x) => VImage.fromJson(x))),
+        images: List<VImage>.from(
+            json["images"]?.map((x) => VImage.fromJson(x)) ?? {}),
       );
 
   Map<String, dynamic> toJson() => {
@@ -294,3 +286,4 @@ class Vehicle {
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }
+

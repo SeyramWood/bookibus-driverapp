@@ -13,6 +13,7 @@ class ReportingModel {
   final int driverId;
   final List<File> images;
   final File? voiceNote;
+  final String type;
 
   ReportingModel({
     required this.time,
@@ -22,6 +23,7 @@ class ReportingModel {
     required this.driverId,
     required this.images,
     required this.voiceNote,
+    required this.type,
   });
 
   Map<String, dynamic> toJson() {
@@ -33,6 +35,7 @@ class ReportingModel {
       'driverId': driverId,
       'images': images,
       'voiceNote': voiceNote,
+      'type':type,
     };
   }
 }
@@ -79,16 +82,21 @@ class Report {
   int id;
   DateTime time;
   String location;
+  String? type;
   String description;
   String? audio;
   List<VImage> images;
+  ReportStatus? status;
   Trip? trip;
+
   DateTime createdAt;
   DateTime updatedAt;
 
   Report({
     required this.id,
     required this.time,
+    required this.type,
+    required this.status,
     required this.location,
     required this.description,
     required this.audio,
@@ -100,12 +108,30 @@ class Report {
   factory Report.fromJson(Map<String, dynamic> json) => Report(
         id: json["id"],
         time: DateTime.parse(json["time"]),
-        location: json["location"]??'',
-        description: json["description"]??'',
-        audio: json["audio"]??'',
+        location: json["location"] ?? '',
+        type: json["type"] ?? '',
+        description: json["description"] ?? '',
+        audio: json["audio"] ?? '',
+        status: reportStatusValues.map[json["status"]]!,
         images:
             List<VImage>.from(json["images"].map((x) => VImage.fromJson(x))),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
       );
+}
+
+enum ReportStatus { PENDING }
+
+final reportStatusValues = EnumValues({"pending": ReportStatus.PENDING});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }

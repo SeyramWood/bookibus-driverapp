@@ -1,6 +1,7 @@
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
 import 'package:bookihub/src/features/reports/presentation/provider/report_controller.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
+import 'package:bookihub/src/shared/utils/date_time.formatting.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,6 @@ class _ReportViewState extends State<AllReportView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text('Incident Report',
             style: Theme.of(context).textTheme.headlineMedium!),
@@ -52,6 +52,8 @@ class _ReportViewState extends State<AllReportView> {
         child: FutureBuilder<List<Report>>(
             future: reports,
             builder: (context, snapshot) {
+              List<Map<String, String>> dates = [];
+
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
@@ -60,16 +62,40 @@ class _ReportViewState extends State<AllReportView> {
                 );
               } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 var reports = snapshot.data!;
+                for (var report in reports) {
+                  dates.add({'date': date.format(report.updatedAt)});
+                }
                 return ListView.builder(
                     itemCount: reports.length,
                     itemBuilder: (context, index) {
+                      final reportDate = dates[index];
+                      final prevState = index > 0 ? dates[index - 1] : null;
+                      final isDiff = prevState == null ||
+                          reportDate['date'] != prevState['date'];
                       final report = reports[index];
                       return Padding(
                         padding: EdgeInsets.only(
                             top: 10,
                             bottom: report == reports.last ? vPadding : 0.0),
-                        child: ReportCard(
-                          report: reports[index],
+                        child: Column(
+                          children: [
+                            if (isDiff)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: vPadding),
+                                child: Text(
+                                  reportDate['date']!,
+                                  style: const TextStyle(color: orange),
+                                ),
+                              ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: !isDiff ? vPadding : 0.0),
+                              child: ReportCard(
+                                report: reports[index],
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     });

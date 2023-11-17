@@ -115,6 +115,7 @@ class _RouteMapState extends State<RouteMap> {
             if (mounted) {
               UpdateCurrentLocation().cLocation(LatLng(
                   currentLocation.latitude!, currentLocation.longitude!));
+              setState(() {});
             }
           }
         },

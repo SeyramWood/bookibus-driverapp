@@ -22,8 +22,7 @@ class TripRepoImpl implements TripRepo {
     bool completed,
   ) async {
     try {
-      final result = await api.fetchTrips(today, scheduled, completed);
-      return Right(result);
+      final result = await api.fetchTrips(today, scheduled, completed);      return Right(result);
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
     } on SocketException catch (_) {
