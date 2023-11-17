@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
+
 import 'package:bookihub/src/features/delivery/presentation/views/success_delivery.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/take_photo.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/carousel.dart';
@@ -238,7 +239,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                       }
                     },
                     child: const Text('Confirm Code'),
-                  ).loading(context.watch<DeliveryProvider>().isLoading)
+                  ).loading(context.watch<DeliveryProvider>().isLoading),vSpace
                 ]),
           ),
         ));

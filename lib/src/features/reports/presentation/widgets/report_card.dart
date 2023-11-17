@@ -36,12 +36,21 @@ class _ReportCardState extends State<ReportCard> {
               const Text('Type'),
               const Spacer(),
               SizedBox(
-                height: 30,
-                width: MediaQuery.sizeOf(context).width / 4,
-                child: CustomButton(
-                  onPressed: () {},
-                  bgColor: orange,
-                  child: Text(report.type.toString()),
+                width: MediaQuery.sizeOf(context).width / 3,
+                child: Material(
+                  borderRadius: BorderRadius.circular(5),
+                  color: orange,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                    child: Center(
+                      child: Text(
+                        report.type.toString(),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: white),
+                      ),
+                    ),
+                  ),
                 ),
               )
             ],
@@ -52,12 +61,19 @@ class _ReportCardState extends State<ReportCard> {
               const Text('Status'),
               const Spacer(),
               SizedBox(
-                height: 30,
-                width: MediaQuery.sizeOf(context).width / 4,
-                child: CustomButton(
-                  onPressed: () {},
-                  bgColor: orange,
-                  child: Text(report.status.toString()),
+                width: MediaQuery.sizeOf(context).width / 3,
+                child: Material(
+                  borderRadius: BorderRadius.circular(5),
+                  color: orange,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                    child: Center(
+                        child: Text(
+                      report.status.toString().split('.').last,
+                      style: const TextStyle(color: white),
+                    )),
+                  ),
                 ),
               )
             ],

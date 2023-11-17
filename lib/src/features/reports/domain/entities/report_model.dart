@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -35,7 +37,7 @@ class ReportingModel {
       'driverId': driverId,
       'images': images,
       'voiceNote': voiceNote,
-      'type':type,
+      'type': type,
     };
   }
 }
@@ -86,7 +88,7 @@ class Report {
   String description;
   String? audio;
   List<VImage> images;
-  ReportStatus? status;
+  ReportStatus status;
   Trip? trip;
 
   DateTime createdAt;
@@ -120,9 +122,12 @@ class Report {
       );
 }
 
-enum ReportStatus { PENDING }
+enum ReportStatus { Pending, Resolved }
 
-final reportStatusValues = EnumValues({"pending": ReportStatus.PENDING});
+final reportStatusValues = EnumValues({
+  "resolved": ReportStatus.Resolved,
+  "pending": ReportStatus.Pending,
+});
 
 class EnumValues<T> {
   Map<String, T> map;
