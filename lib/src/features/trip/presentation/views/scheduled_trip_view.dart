@@ -34,9 +34,11 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
         _streamController.sink.add(success);
-        setState(() {
-          trip = success;
-        });
+       if (mounted) {
+          setState(() {
+            trip = success;
+          });
+        }
       });
     }
   }
@@ -49,6 +51,12 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
       fetchTrips();
     });
     super.initState();
+  }
+  @override
+  void dispose() {
+    _timer.cancel();
+    _streamController.close(); // Close the stream controller
+    super.dispose();
   }
 
   final List<Map<String, String>> dates = [];

@@ -28,12 +28,15 @@ class _TodayTripsViewState extends State<TodayTripsView> {
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
         _streamController.sink.add(success);
-        setState(() {
-          trip = success;
-        });
+        if (mounted) {
+          setState(() {
+            trip = success;
+          });
+        }
       });
     }
   }
+
 
   @override
   void initState() {
@@ -44,7 +47,12 @@ class _TodayTripsViewState extends State<TodayTripsView> {
     });
     super.initState();
   }
-
+@override
+  void dispose() {
+    _timer.cancel();
+    _streamController.close(); // Close the stream controller
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Trip>>(
