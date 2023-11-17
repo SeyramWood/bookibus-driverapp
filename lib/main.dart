@@ -2,6 +2,7 @@ import 'package:bookihub/src/features/authentication/login_view.dart';
 import 'package:bookihub/src/features/reports/presentation/dependency/report_dependencies.dart';
 import 'package:bookihub/src/features/trip/presentation/dependency/trip_dependency.dart';
 import 'package:bookihub/src/shared/utils/interceptor.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -36,10 +37,15 @@ class MainApp extends StatelessWidget {
           create: (context) => reportProvider,
         )
       ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: LightTheme.themeData(),
-          home: const LoginView()),
+      child: DevicePreview(
+enabled: false,
+
+        builder: (BuildContext context) => MaterialApp(
+          useInheritedMediaQuery: true,
+            debugShowCheckedModeBanner: false,
+            theme: LightTheme.themeData(),
+            home: const LoginView()),
+      ),
     );
   }
 }

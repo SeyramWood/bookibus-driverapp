@@ -4,6 +4,7 @@ import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/confirm_to_deliver.dart';
+import 'package:bookihub/src/features/delivery/presentation/views/success_delivery.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/take_photo.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/carousel.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/info_card.dart';
@@ -107,18 +108,14 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                               height: capturedImagePath == null ? 30 : 100,
                               width: capturedImagePath == null ? 60 : 150,
                               child: capturedImagePath == null
-                                  // widget.cameraController != null &&
-                                  //         widget
-                                  //             .cameraController!.value.isInitialized
-                                  //     ? CameraPreview(widget.cameraController!)
-                                  //     :
                                   ? ImageIcon(
                                       AssetImage(
                                         CustomeImages.camera,
                                       ),
                                       color: black,
                                     )
-                                  : Container(
+                                  : Image.file(
+                                      File(capturedImagePath!), //
                                       height: 100.0,
                                       width: 150.0,
                                       decoration: BoxDecoration(
@@ -138,6 +135,8 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                     ),
                   ),
                   vSpace,
+                  vSpace,
+                  vSpace,
                   Material(
                     borderRadius: borderRadius,
                     child: TextFormField(
@@ -153,21 +152,22 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                   vSpace,
                   CustomButton(
                     onPressed: () async {
-                      await context
-                          .read<DeliveryProvider>()
-                          .verifyPackageCode(
-                              '${widget.package.id}', codeController.text)
-                          .then(
-                        (value) {
-                          value.fold(
-                              (failure) => showCustomSnackBar(
-                                  context, failure.message, orange),
-                              (success) => confirmToDeliver(
-                                    context,
-                                    onPressed: () {},
-                                  ));
-                        },
-                      );
+                      if (capturedImagePath == null) {
+                        await context
+                            .read<DeliveryProvider>()
+                            .verifyPackageCode('${widget.package.id}',
+                                codeController.text, File(capturedImagePath!))
+                            .then(
+                          (value) {
+                            value.fold(
+                                (failure) => showCustomSnackBar(
+                                    context, failure.message, orange),
+                                (success) => successDelivery(
+                                      context,
+                                    ));
+                          },
+                        );
+                      }
                     },
                     child: const Text('Confirm Code'),
                   ).loading(context.watch<DeliveryProvider>().isLoading)

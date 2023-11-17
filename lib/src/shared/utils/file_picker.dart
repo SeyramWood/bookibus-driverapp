@@ -1,16 +1,29 @@
- import 'dart:io';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 
-
-
 import 'package:camera/camera.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<List<File>> captureImages() async {
   List<File> images = [];
 
   // Fetch the available cameras
-  List<CameraDescription> cameras = await availableCameras();
+  List<CameraDescription> cameras;
+  try {
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    // Handle camera exception (e.g., no available cameras)
+    print('Error getting cameras: $e');
+    return images; // Return an empty list if there are no cameras
+  }
+
+  if (cameras.isEmpty) {
+    // Handle the case where there are no available cameras
+    print('No cameras available');
+    return images; // Return an empty list if there are no cameras
+  }
 
   // Use the first available camera
   CameraController cameraController = CameraController(
@@ -19,33 +32,46 @@ Future<List<File>> captureImages() async {
   );
 
   // Initialize the camera
-  await cameraController.initialize();
+  try {
+    await cameraController.initialize();
+  } on CameraException catch (e) {
+    // Handle camera initialization exception
+    print('Error initializing camera: $e');
+    return images; // Return an empty list if there is an error initializing the camera
+  }
 
-  // Open the camera for capturing images
-  await cameraController.takePicture();
+  // Get a temporary directory path for storing the image
+  final directory = await getTemporaryDirectory();
+   String filePath = join(directory.path, '${DateTime.now()}.png');
+
+  // Take a picture and save it to the given path
+  try {
+   final result = await cameraController.takePicture();
+   filePath = result.path;
+  } on CameraException catch (e) {
+    // Handle take picture exception
+    print('Error taking picture: $e');
+    await cameraController.dispose(); // Dispose of the camera controller
+    return images; // Return an empty list if there is an error taking the picture
+  }
+
+  // Add the captured image to the list
+  images.add(File(filePath));
 
   // Dispose of the camera controller after capturing the image
   await cameraController.dispose();
 
-  // Alternatively, you can use the image_picker package to pick an image from the gallery
-  // final imagePicker = ImagePicker();
-  // final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
-  // if (pickedFile != null) {
-  //   images.add(File(pickedFile.path));
-  // }
-
   return images;
 }
 
-
 Future<List<File>> selectFiles() async {
-  List<File> files =[];
-    final fileResult = await FilePicker.platform.pickFiles(allowMultiple: true);
-    if (fileResult != null) {
-       files = fileResult.files
-          .map((platformFile) => File(platformFile.path.toString()))
-          .toList();
-      return files;
-    }
-    return [];
+  List<File> files = [];
+  final fileResult = await FilePicker.platform.pickFiles(allowMultiple: true);
+  if (fileResult != null) {
+    files = fileResult.files
+        .map((platformFile) => File(platformFile.path.toString()))
+        .toList();
+    return files;
   }
+  return [];
+}

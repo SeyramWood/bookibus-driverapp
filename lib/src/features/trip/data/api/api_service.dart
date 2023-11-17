@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bookihub/main.dart';
@@ -24,6 +25,7 @@ class TripApiService {
       if (response.statusCode != 200) {
         throw CustomException('${response.reasonPhrase}');
       }
+      log(response.body.toString());
       return tripModelFromJson(response.body).data?.trips ?? [];
     } catch (e) {
       rethrow;

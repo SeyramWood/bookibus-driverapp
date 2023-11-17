@@ -17,6 +17,7 @@ class ReportApiService {
       request.fields['description'] = report.description;
       request.fields['tripId'] = '${report.tripId}';
       request.fields['driverId'] = '${report.driverId}';
+      request.fields['type'] = report.type;
       request.files.add(
       await  http.MultipartFile.fromPath('voiceNote', report.voiceNote?.path??''),
       );
