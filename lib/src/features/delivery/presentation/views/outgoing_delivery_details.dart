@@ -30,7 +30,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
   final codeController = TextEditingController();
   String? frontCapturedImagePath; // Track the file path of the captured image
   String? backCapturedImagePath;
-  final idImages = <File>[];
+  var idImages = <File>[];
 
   @override
   Widget build(BuildContext context) {
@@ -88,139 +88,145 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                   ),
                                 );
 
-                                // Handle the result (filePath) from CameraScreen
-                                if (filePath != null) {
-                                  setState(() {
-                                    frontCapturedImagePath = filePath;
-                                    idImages.add(File(filePath));
-                                  });
-                                }
-                              },
-                              child: Material(
-                                shape: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 13, horizontal: 5),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: frontCapturedImagePath == null
-                                            ? 30
-                                            : 100,
-                                        width: frontCapturedImagePath == null
-                                            ? 60
-                                            : 130,
-                                        child: frontCapturedImagePath == null
-                                            ? ImageIcon(
-                                                AssetImage(
-                                                  CustomeImages.camera,
-                                                ),
-                                                color: black,
-                                              )
-                                            : Image.file(
-                                                File(
-                                                    frontCapturedImagePath!), //
-                                                height: 100.0,
-                                                width: 100.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.sizeOf(context).height *
-                                                .02,
-                                      ),
-                                      Text(
-                                        "Recepient's ID (Front)",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                fontWeight: FontWeight.w600),
-                                      )
-                                    ],
+                            // Handle the result (filePath) from CameraScreen
+                            if (filePath != null) {
+                              setState(() {
+                                frontCapturedImagePath = filePath;
+                                idImages.add(File(filePath));
+                              });
+                            }
+                          },
+                          child: Material(
+                            shape: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 13, horizontal: 5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: frontCapturedImagePath == null
+                                        ? 30
+                                        : 100,
+                                    width: frontCapturedImagePath == null
+                                        ? 60
+                                        : 130,
+                                    child: frontCapturedImagePath == null
+                                        ? ImageIcon(
+                                            AssetImage(
+                                              CustomeImages.camera,
+                                            ),
+                                            color: black,
+                                          )
+                                        : Image.file(
+                                            File(frontCapturedImagePath!), //
+                                            height: 100.0,
+                                            width: 100.0,
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
-                                ),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.sizeOf(context).height * .02,
+                                  ),
+                                  Text(
+                                    "Recepient's ID (Front)",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: MediaQuery.sizeOf(context).width * .01,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () async {
-                                // Navigate to CameraScreen and wait for the result
-                                final String? filePath = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CameraScreen(),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width * .01,
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () async {
+                            // Navigate to CameraScreen and wait for the result
+                            final String? filePath = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CameraScreen(),
+                              ),
+                            );
+
+                            // Handle the result (filePath) from CameraScreen
+                            if (filePath != null) {
+                              setState(() {
+                                backCapturedImagePath = filePath;
+                                idImages.add(File(filePath));
+                              });
+                            }
+                          },
+                          child: Material(
+                            shape: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 13, horizontal: 5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: backCapturedImagePath == null
+                                        ? 30
+                                        : 100,
+                                    width: backCapturedImagePath == null
+                                        ? 60
+                                        : 130,
+                                    child: backCapturedImagePath == null
+                                        ? ImageIcon(
+                                            AssetImage(
+                                              CustomeImages.camera,
+                                            ),
+                                            color: black,
+                                          )
+                                        : Image.file(
+                                            File(backCapturedImagePath!), //
+                                            height: 100.0,
+                                            width: 100.0,
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
-                                );
-                                // Handle the result (filePath) from CameraScreen
-                                if (filePath != null) {
-                                  setState(() {
-                                    backCapturedImagePath = filePath;
-                                    idImages.add(File(filePath));
-                                  });
-                                }
-                              },
-                              child: Material(
-                                shape: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 13, horizontal: 5),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: backCapturedImagePath == null
-                                            ? 30
-                                            : 100,
-                                        width: backCapturedImagePath == null
-                                            ? 60
-                                            : 130,
-                                        child: backCapturedImagePath == null
-                                            ? ImageIcon(
-                                                AssetImage(
-                                                  CustomeImages.camera,
-                                                ),
-                                                color: black,
-                                              )
-                                            : Image.file(
-                                                File(backCapturedImagePath!), //
-                                                height: 100.0,
-                                                width: 100.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.sizeOf(context).height *
-                                                .02,
-                                      ),
-                                      Text(
-                                        "Recepient's ID (Back)",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                fontWeight: FontWeight.w600),
-                                      )
-                                    ],
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.sizeOf(context).height * .02,
                                   ),
-                                ),
+                                  Text(
+                                    "Recepient's ID (Back)",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ],
+                  ),
+                  vSpace,
+                  vSpace,
+                  Material(
+                    borderRadius: borderRadius,
+                    child: TextFormField(
+                        controller: codeController,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 10),
+                          border: InputBorder.none,
+                          hintText: 'Enter package code',
+                        )),
                   ),
                   vSpace,
                   vSpace,
@@ -236,9 +242,12 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                             value.fold(
                                 (failure) => showCustomSnackBar(
                                     context, failure.message, orange),
-                                (success) => successDelivery(
-                                      context,
-                                    ));
+                                (success) {
+                              Navigator.of(context).pop();
+                              successDelivery(
+                                context,
+                              );
+                            });
                           },
                         );
                       } else {
