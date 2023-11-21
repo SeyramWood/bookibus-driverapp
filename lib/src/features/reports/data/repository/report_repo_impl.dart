@@ -20,8 +20,11 @@ class ReportRepoImpl implements ReportRepo {
       return const Right('Report sent');
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
-    } on SocketException catch (_) {
-      return Left(Failure('You are offline. Connect and retry'));
+    } on SocketException catch (se) {
+      return Left(Failure(
+          se.message == "Failed host lookup: 'devapi.bookihub.com'"
+              ? "You are offline. Connect and retry"
+              : se.message));
     } catch (e) {
       log('$e');
       return Left(Failure('something went wrong'));
@@ -31,12 +34,15 @@ class ReportRepoImpl implements ReportRepo {
   @override
   Future<Either<Failure, List<Report>>> fetchReport(String driverId) async {
     try {
-     final result = await api.fetchReports(driverId);
-      return  Right(result);
+      final result = await api.fetchReports(driverId);
+      return Right(result);
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
-    } on SocketException catch (_) {
-      return Left(Failure('You are offline. Connect and retry'));
+    } on SocketException catch (se) {
+      return Left(Failure(
+          se.message == "Failed host lookup: 'devapi.bookihub.com'"
+              ? "You are offline. Connect and retry"
+              : se.message));
     } catch (e) {
       log('$e');
       return Left(Failure('something went wrong'));
