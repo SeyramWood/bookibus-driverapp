@@ -139,7 +139,6 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                 builder: (context) => CameraScreen(),
                               ),
                             );
-
                             // Handle the result (filePath) from CameraScreen
                             if (filePath != null) {
                               setState(() {
