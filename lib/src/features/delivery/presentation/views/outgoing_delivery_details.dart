@@ -30,7 +30,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
   final codeController = TextEditingController();
   String? frontCapturedImagePath; // Track the file path of the captured image
   String? backCapturedImagePath;
-  final idImages = <File>[];
+  var idImages = <File>[];
 
   @override
   Widget build(BuildContext context) {
@@ -91,10 +91,10 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                   SizedBox(
                                     height: frontCapturedImagePath == null
                                         ? 30
-                                        : 100,
+                                        : 80,
                                     width: frontCapturedImagePath == null
                                         ? 60
-                                        : 130,
+                                        : 150,
                                     child: frontCapturedImagePath == null
                                         ? ImageIcon(
                                             AssetImage(
@@ -102,11 +102,17 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                             ),
                                             color: black,
                                           )
-                                        : Image.file(
-                                            File(frontCapturedImagePath!), //
-                                            height: 100.0,
-                                            width: 100.0,
-                                            fit: BoxFit.cover,
+                                        : Material(
+                                          color: white,
+                                            shape: RoundedRectangleBorder(
+                                                
+                                                borderRadius:
+                                                    BorderRadius.circular(6)),
+                                            child: Image.file(
+                                              File(frontCapturedImagePath!), //
+                                              
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                   ),
                                   SizedBox(
@@ -117,8 +123,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                     "Recepient's ID (Front)",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.w600),
+                                        .bodyMedium,
                                   )
                                 ],
                               ),
@@ -161,10 +166,10 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                   SizedBox(
                                     height: backCapturedImagePath == null
                                         ? 30
-                                        : 100,
+                                        : 80,
                                     width: backCapturedImagePath == null
                                         ? 60
-                                        : 130,
+                                        : 150,
                                     child: backCapturedImagePath == null
                                         ? ImageIcon(
                                             AssetImage(
@@ -172,12 +177,18 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                             ),
                                             color: black,
                                           )
-                                        : Image.file(
-                                            File(backCapturedImagePath!), //
-                                            height: 100.0,
-                                            width: 100.0,
-                                            fit: BoxFit.cover,
-                                          ),
+                                        : Material(
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                                
+                                                borderRadius:
+                                                    BorderRadius.circular(6)),
+                                          child: Image.file(
+                                              File(backCapturedImagePath!), //
+                                              
+                                              fit: BoxFit.cover,
+                                            ),
+                                        ),
                                   ),
                                   SizedBox(
                                     height:
@@ -187,8 +198,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                     "Recepient's ID (Back)",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.w600),
+                                        .bodyMedium,
                                   )
                                 ],
                               ),
@@ -224,9 +234,12 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                             value.fold(
                                 (failure) => showCustomSnackBar(
                                     context, failure.message, orange),
-                                (success) => successDelivery(
-                                      context,
-                                    ));
+                                (success) {
+                              Navigator.of(context).pop();
+                              successDelivery(
+                                context,
+                              );
+                            });
                           },
                         );
                       } else {
@@ -235,7 +248,8 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                       }
                     },
                     child: const Text('Confirm Code'),
-                  ).loading(context.watch<DeliveryProvider>().isLoading),vSpace
+                  ).loading(context.watch<DeliveryProvider>().isLoading),
+                  vSpace
                 ]),
           ),
         ));

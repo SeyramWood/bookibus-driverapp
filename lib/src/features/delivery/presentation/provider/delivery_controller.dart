@@ -42,7 +42,7 @@ class DeliveryProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     final result =
-        await _verifyPackageCode(MultiParams(packageId, packageCode));
+        await _verifyPackageCode(MultiParams(packageId, packageCode,data3: idImage));
     return result.fold(
       (failure) {
         _isLoading = false;
