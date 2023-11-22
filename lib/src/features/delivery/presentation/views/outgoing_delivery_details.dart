@@ -85,7 +85,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                               final String? filePath = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CameraScreen(),
+                                  builder: (context) => const CameraScreen(),
                                 ),
                               );
 
@@ -160,7 +160,7 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                               final String? filePath = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CameraScreen(),
+                                  builder: (context) => const CameraScreen(),
                                 ),
                               );
 
