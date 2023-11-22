@@ -14,13 +14,13 @@ class ImageCarousel extends StatefulWidget {
 class _ImageCarouselState extends State<ImageCarousel> {
   final imageList = <String>[];
   getImages() {
-    // for (var image in widget.images) {
-    //   imageList.add(image.image);
-    // }
+    for (var image in widget.images) {
+      imageList.add(image.image);
+    }
   }
 
   final PageController _pageController = PageController();
-  final int _currentPageIndex = 0;
+  // final int _currentPageIndex = 0;
   @override
   void initState() {
     getImages();
@@ -36,13 +36,13 @@ class _ImageCarouselState extends State<ImageCarousel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.sizeOf(context).height / 5,
+      height: MediaQuery.sizeOf(context).height / 6,
       child: GridView.builder(
         // controller: _pageController,
         itemCount: widget.images.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return showImage(imageUrl: widget.images[index]);
+          return showImage(imageUrl: imageList[index]);
         },
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1, mainAxisExtent: 170, mainAxisSpacing: 10),

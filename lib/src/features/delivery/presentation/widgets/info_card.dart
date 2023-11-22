@@ -1,40 +1,43 @@
+import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 
 import '../../../../shared/constant/dimensions.dart';
 
 class InfoCard extends StatelessWidget {
   final void Function()? onTap;
-  const InfoCard({super.key,this.onTap});
+  final Delivery package;
+  const InfoCard({super.key, this.onTap, required this.package});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(onTap: onTap,
+    return InkWell(
+      onTap: onTap,
       child: Material(
         borderRadius: borderRadius,
-        child: const Column(children: [
+        child: Column(children: [
           ListTile(
             dense: true,
-            leading: Icon(
+            leading: const Icon(
               Icons.location_on,
               color: Colors.red,
             ),
-            title: Text('Location'),
+            title: Text(package.recipientLocation),
           ),
           ListTile(
             dense: true,
-            leading: Icon(
+            leading: const Icon(
               Icons.person,
               color: grey,
             ),
-            title: Text('Name'),
+            title: Text(package.recipientName),
           ),
           ListTile(
             dense: true,
-            leading: Icon(
+            leading: const Icon(
               Icons.phone,
               color: blue,
             ),
-            title: Text('contact'),
+            title: Text(package.recipientPhone),
           ),
         ]),
       ),

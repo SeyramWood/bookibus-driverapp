@@ -1,3 +1,6 @@
+import 'package:bookihub/src/features/trip/presentation/views/completed_trip_view.dart';
+import 'package:bookihub/src/features/trip/presentation/views/scheduled_trip_view.dart';
+import 'package:bookihub/src/features/trip/presentation/views/todays_trip_view.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 
 import '../../../../shared/utils/exports.dart';
@@ -46,36 +49,14 @@ class _TripsViewState extends State<TripsView> {
                     }),
               ),
               vSpace,
-              selectedTab == 0
-                  ? SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.7,
-                      child: ListView.separated(
-                          separatorBuilder: (context, index) => SizedBox(
-                                height: MediaQuery.sizeOf(context).height * .02,
-                              ),
-                          shrinkWrap: true,
-                          itemCount: cards.length,
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, index) {
-                            return TripCard(
-                              location: cards[index]['location'],
-                              lDescription: cards[index]['lDescription'],
-                              destination: cards[index]['destination'],
-                              dDescription: cards[index]['dDescription'],
-                              // index: index,
-                              // isSelectedIndex: isSelected,
-                              onTap: () {
-                                setState(() {
-                                  isSelected = index;
-                                });
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const TripDetails(),
-                                ));
-                              },
-                            );
-                          }),
-                    )
-                  : Container()
+              Expanded(
+                // height: MediaQuery.sizeOf(context).height * 0.7,
+                child: (selectedTab == 0)
+                    ? const TodayTripsView()
+                    : (selectedTab == 1)
+                        ? const ScheduledTripView()
+                        : const CompletedTripView(),
+              )
             ],
           ),
         ),

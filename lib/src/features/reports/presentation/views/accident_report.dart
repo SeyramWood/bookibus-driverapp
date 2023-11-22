@@ -1,5 +1,4 @@
 import 'package:bookihub/src/features/reports/presentation/views/emergency.dart';
-import 'package:bookihub/src/features/reports/presentation/views/fleetMgt.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 
 class ReportView extends StatelessWidget {
@@ -9,6 +8,7 @@ class ReportView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text('Incident Report',
             style: Theme.of(context).textTheme.headlineMedium!),
@@ -39,7 +39,7 @@ class ReportView extends StatelessWidget {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return const FleetMgtReport();
+                        return const AllReportView();
                       },
                     ));
                   },
@@ -54,9 +54,9 @@ class ReportView extends StatelessWidget {
 }
 
 class ReportCard extends StatelessWidget {
-  ReportCard({super.key, this.title, this.onTap});
+  const ReportCard({super.key, this.title, this.onTap});
   final String? title;
-  void Function()? onTap;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

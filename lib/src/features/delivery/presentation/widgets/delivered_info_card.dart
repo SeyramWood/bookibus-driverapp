@@ -1,37 +1,40 @@
+import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 
 class DeliveredInfoCard extends StatelessWidget {
-  const DeliveredInfoCard({super.key});
+  final Delivery package;
+
+  const DeliveredInfoCard({super.key, required this.package});
 
   @override
   Widget build(BuildContext context) {
     return Material(
       borderRadius: borderRadius,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const ListTile(
+        ListTile(
           dense: true,
-          leading: Icon(
+          leading: const Icon(
             Icons.location_on,
             color: Colors.red,
           ),
-          title: Text('Location'),
+          title: Text(package.recipientLocation),
         ),
-        const ListTile(
+        ListTile(
           dense: true,
-          leading: Icon(
+          leading: const Icon(
             Icons.person,
             color: grey,
           ),
-          title: Text('Name'),
+          title: Text(package.recipientName),
         ),
-        const ListTile(
+        ListTile(
           dense: true,
-          leading: Icon(
+          leading: const Icon(
             Icons.phone,
             color: blue,
           ),
-          title: Text('contact'),
+          title: Text(package.recipientPhone),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20.0),

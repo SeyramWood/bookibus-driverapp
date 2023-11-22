@@ -9,14 +9,31 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_dash: ^1.0.0
-  font_awesome_flutter: ^10.6.0
-  google_maps_flutter: ^2.5.0
-  location: ^5.0.3
-  flutter_polyline_points: ^2.0.0
-  flutter_native_splash: ^2.3.4
-  device_preview: ^1.1.0
+    
+  audioplayers: ^5.2.0
   cached_network_image: ^3.3.0
+  dartz: ^0.10.1
+  device_preview: ^1.1.0
+  file_picker: ^6.0.0
+  flutter_dash: ^1.0.0
+  flutter_native_splash: ^2.3.4
+  flutter_phone_direct_caller: ^2.1.1
+  flutter_polyline_points: ^2.0.0
+  flutter_secure_storage: ^9.0.0
+  font_awesome_flutter: ^10.6.0
+  get_it: ^7.6.4
+  google_maps_flutter: ^2.5.0
+  http: ^1.1.0
+  intl: ^0.18.1
+  location: ^5.0.3
+  path: ^1.8.3
+  permission_handler: ^11.0.1
+  provider: ^6.0.5
+  record: ^4.4.4
+  record_mp3: ^3.0.0
+  camera: ^0.10.5+5
+  image_picker: ^1.0.4
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -24,14 +41,13 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
- uses-material-design: true
+  uses-material-design: true
 
- assets:
-   - assets/images/
-   - assets/icons/
+  assets:
+    - assets/images/
+    - assets/icons/
 
-
- fonts:
+  fonts:
     - family: Inter
       fonts:
         - asset: font\Inter-VariableFont_slnt,wght.ttf
