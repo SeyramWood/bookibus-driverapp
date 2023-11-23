@@ -1,7 +1,6 @@
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/authentication/data/api/api_service.dart';
 import 'package:bookihub/src/features/authentication/data/repository/auth_repo_impl.dart';
-import 'package:bookihub/src/features/authentication/domain/repository/auth_repo.dart';
 import 'package:bookihub/src/features/authentication/domain/usecase/login.dart';
 import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 

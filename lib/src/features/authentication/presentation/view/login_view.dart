@@ -1,4 +1,3 @@
-import 'package:bookihub/src/features/authentication/data/api/api_service.dart';
 import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
@@ -41,7 +40,9 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       TextFormField(
                         controller: emailController,
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         decoration: InputDecoration(
                             fillColor: white,
                             filled: true,
@@ -63,7 +64,9 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       TextFormField(
                         controller: passwordController,
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         decoration: InputDecoration(
                             fillColor: white,
                             filled: true,
