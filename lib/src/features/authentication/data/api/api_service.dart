@@ -27,6 +27,7 @@ class ApiService {
       }
       final jsonData = jsonDecode(response.body)['data'];
       // await storage.write(key: 'accessToken', value: jsonData['accessToken']);
+      log(jsonData['refreshToken']);
       await storage.write(key: 'refreshToken', value: jsonData['refreshToken']);
       //fetch user session after successfull login
       //within the fetchSession is return user id

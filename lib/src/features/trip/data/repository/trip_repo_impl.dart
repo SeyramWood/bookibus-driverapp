@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bookihub/src/features/trip/data/api/api_service.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
+import 'package:bookihub/src/features/trip/domain/entities/trip_type.dart';
 import 'package:bookihub/src/features/trip/domain/repository/trip_repo.dart';
 import 'package:bookihub/src/shared/errors/custom_exception.dart';
 import 'package:dartz/dartz.dart';
@@ -17,12 +18,11 @@ class TripRepoImpl implements TripRepo {
 
   @override
   Future<Either<Failure, List<Trip>>> fetchTrips(
-    bool today,
-    bool scheduled,
-    bool completed,
+    String iD,
+    TripType tripType,
   ) async {
     try {
-      final result = await api.fetchTrips(today, scheduled, completed);
+      final result = await api.fetchTrips(iD, tripType);
       return Right(result);
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));

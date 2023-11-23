@@ -6,6 +6,8 @@ import 'package:bookihub/src/shared/utils/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 class AuthProvider extends ChangeNotifier {
+  String? _user;
+  get user =>_user;
   final Login _login;
   AuthProvider({required Login login}) : _login = login;
   Future<Either<Failure, String>> login(String email, String password) async {
@@ -13,7 +15,9 @@ class AuthProvider extends ChangeNotifier {
     return result.fold(
       (failure) => Left(Failure(failure.message)),
       (success) {
-        return Right(success);
+_user = success;
+notifyListeners();
+return Right(success);
       },
     );
   }

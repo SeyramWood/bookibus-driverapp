@@ -1,5 +1,7 @@
 import 'package:bookihub/main.dart';
+import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
+import 'package:bookihub/src/features/trip/domain/entities/trip_type.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/date_time.formatting.dart';
@@ -24,7 +26,12 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
   fetchTrips() async {
     if (mounted) {
       final result =
-          await context.read<TripProvider>().fetchTrips(false, true, false);
+          await context.read<TripProvider>().fetchTrips( context.read<AuthProvider>().user,
+            TripType(
+              today: false,
+              scheduled: true,
+              completed: false,
+            ),);
 
       result.fold(
           (failure) => showCustomSnackBar(context, failure.message, orange),

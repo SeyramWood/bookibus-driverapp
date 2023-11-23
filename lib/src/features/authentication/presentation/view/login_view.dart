@@ -1,5 +1,6 @@
 import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
+import 'package:bookihub/src/shared/utils/show.snacbar.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
@@ -97,12 +98,19 @@ class _LoginViewState extends State<LoginView> {
                                 passwordController.text.trim(),
                               )
                               .then((value) async {
+                            value.fold(
+                              (failure) => showCustomSnackBar(
+                                  context, failure.message, orange),
+                              (succes) => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return const MainPage();
+                                  },
+                                ),
+                              ),
+                            );
                           });
-                          // Navigator.push(context, MaterialPageRoute(
-                          //   builder: (context) {
-                          //     return const MainPage();
-                          //   },
-                          // ));
                         },
                         child: const Text("Login"),
                       )
