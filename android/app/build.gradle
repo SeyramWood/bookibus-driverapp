@@ -70,6 +70,12 @@ android {
             // storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
        }
     }
+    buildTypes {
+       release {
+            minifyEnabled true
+            signingConfig signingConfigs.release
+       }
+    }
 }
 
 flutter {
