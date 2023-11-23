@@ -19,12 +19,11 @@ class TripApiService {
   ) async {
     try {
       final url =
-          "$baseUrl/trips/driver/$iD?today=${tripType.today}&scheduled=${tripType.scheduled}&completed=${tripType.completed}";
+          "$baseUrl/trips/driver/12884901890?today=${tripType.today}&scheduled=${tripType.scheduled}&completed=${tripType.completed}";
       final response = await client.get(url);
       if (response.statusCode != 200) {
         throw CustomException('${response.reasonPhrase}');
       }
-      log(response.body.toString());
       return tripModelFromJson(response.body).data?.trips ?? [];
     } catch (e) {
       rethrow;

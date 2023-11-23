@@ -51,7 +51,7 @@ class ApiService {
         throw CustomException('failed to get session');
       }
       log(response.body);
-      final jsonID = jsonDecode(response.body)['data']['companyId'];
+      final jsonID = jsonDecode(response.body)['data']['id'];
       return jsonID.toString();
     } catch (e) {
       rethrow;

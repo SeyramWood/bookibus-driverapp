@@ -32,7 +32,6 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
               scheduled: true,
               completed: false,
             ),);
-
       result.fold(
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
