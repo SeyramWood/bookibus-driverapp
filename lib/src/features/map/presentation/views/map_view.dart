@@ -161,7 +161,6 @@
 //   }
 // }
 
-
 // import 'dart:async';
 // import 'dart:typed_data';
 
@@ -458,9 +457,8 @@ import 'package:location/location.dart';
 
 class RouteMap extends StatefulWidget {
   const RouteMap({super.key, required this.from, required this.to});
- final LatLng from;
- final LatLng to;
-
+  final LatLng from;
+  final LatLng to;
 
   @override
   State<RouteMap> createState() => _RouteMapState();
@@ -469,10 +467,6 @@ class RouteMap extends StatefulWidget {
 class _RouteMapState extends State<RouteMap> {
   String? _platformVersion;
   String? _instruction;
-
-  
-
-
 
   bool _isMultipleStop = false;
   MapBoxNavigationViewController? _controller;
@@ -486,13 +480,16 @@ class _RouteMapState extends State<RouteMap> {
     initialize();
     Future.delayed(const Duration(seconds: 2), () {
       var wayPoints = <WayPoint>[];
-      wayPoints.add( WayPoint(
-      name: "Home", latitude: widget.from.latitude, longitude: widget.from.longitude, isSilent: false));
       wayPoints.add(WayPoint(
-      name: "Your destination",
-      latitude: widget.to.latitude,
-      longitude: widget.to.longitude,
-      isSilent: false));
+          name: "Location",
+          latitude: widget.from.latitude,
+          longitude: widget.from.longitude,
+          isSilent: false));
+      wayPoints.add(WayPoint(
+          name: "Destination",
+          latitude: widget.to.latitude,
+          longitude: widget.to.longitude,
+          isSilent: false));
       _isMultipleStop = wayPoints.length > 2;
       _controller?.buildRoute(wayPoints: wayPoints, options: _navigationOption);
     });
@@ -568,7 +565,7 @@ class _RouteMapState extends State<RouteMap> {
                     children: [
                       Expanded(
                         child: OrderButton(
-                          title: "Start Trip",
+                          title: "Start Route",
                           textColor: black,
                           borderColor: black,
                           onTap: _routeBuilt && !_isNavigating
@@ -583,7 +580,7 @@ class _RouteMapState extends State<RouteMap> {
                       ),
                       Expanded(
                         child: OrderButton(
-                          title: "End Trip",
+                          title: "End Route",
                           textColor: black,
                           borderColor: black,
                           onTap: _isNavigating
@@ -596,7 +593,6 @@ class _RouteMapState extends State<RouteMap> {
                     ],
                   ),
                 ),
-              
               ],
             ),
           ),
@@ -751,4 +747,3 @@ class _RouteMapState extends State<RouteMap> {
     );
   }
 }
-
