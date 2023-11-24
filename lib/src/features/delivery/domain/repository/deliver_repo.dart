@@ -8,5 +8,5 @@ abstract class DeliveryRepo {
   Future<Either<Failure, List<Delivery>>> fetchDelivery(
       String driverID, String status);
   Future<Either<Failure, String>> verifyPackageCode(
-      String packageId, String packageCode,File idImage);
+      String packageId, String packageCode,List<File> idImage);
 }

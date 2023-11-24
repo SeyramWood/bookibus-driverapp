@@ -1,15 +1,11 @@
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
-import 'package:bookihub/src/features/trip/presentation/views/trip_detail_view.dart';
-import 'package:bookihub/src/features/trip/presentation/widgets/trip_card.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/date_time.formatting.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../shared/constant/colors.dart';
 import '../../../../shared/utils/exports.dart';
 
 class ScheduledTripView extends StatefulWidget {
@@ -34,9 +30,11 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
         _streamController.sink.add(success);
-        setState(() {
-          trip = success;
-        });
+       if (mounted) {
+          setState(() {
+            trip = success;
+          });
+        }
       });
     }
   }
@@ -49,6 +47,12 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
       fetchTrips();
     });
     super.initState();
+  }
+  @override
+  void dispose() {
+    _timer.cancel();
+    _streamController.close(); // Close the stream controller
+    super.dispose();
   }
 
   final List<Map<String, String>> dates = [];

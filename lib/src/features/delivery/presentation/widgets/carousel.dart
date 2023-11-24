@@ -36,7 +36,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.sizeOf(context).height / 5,
+      height: MediaQuery.sizeOf(context).height / 6,
       child: GridView.builder(
         // controller: _pageController,
         itemCount: widget.images.length,

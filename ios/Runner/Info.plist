@@ -9,7 +9,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>BookiHub</string>
+		<string>BookiRides</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleName</key>
-		<string>bookihub</string>
+		<string>bookirides</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>
@@ -49,10 +49,10 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-		<string>NSLocationWhenInUseUsageDescription</string>
-		<key>I want to display location on map and track it.</key>
-		<string>NSLocationAlwaysAndWhenInUseUsageDescription</string>
-		<key>I want to display location on map and track it.</key>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>I want to display location on map and track it.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>I want to display location on map and track it.</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
 	</dict>

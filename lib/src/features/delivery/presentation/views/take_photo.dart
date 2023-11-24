@@ -1,18 +1,17 @@
 
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class CameraScreen extends StatefulWidget {
-  CameraScreen({Key? key}) : super(key: key);
-  CameraController? cameraController;
+  const CameraScreen({Key? key}) : super(key: key);
 
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  State<CameraScreen> createState() => _CameraScreenState();
 }
 
 class _CameraScreenState extends State<CameraScreen> {
   late Future<void> _initializeControllerFuture;
+  CameraController? cameraController;
 
   @override
   void initState() {
@@ -31,13 +30,13 @@ class _CameraScreenState extends State<CameraScreen> {
 
       final firstCamera = cameras.first;
 
-      widget.cameraController = CameraController(
+      cameraController = CameraController(
         firstCamera,
         ResolutionPreset.high,
         imageFormatGroup: ImageFormatGroup.yuv420,
       );
 
-      await widget.cameraController!.initialize();
+      await cameraController!.initialize();
     } catch (e) {
       print("Error initializing camera: $e");
     }
@@ -46,11 +45,11 @@ class _CameraScreenState extends State<CameraScreen> {
   Future<void> takePicture() async {
     try {
       // Ensure the camera is initialized
-      if (widget.cameraController != null &&
-          widget.cameraController!.value.isInitialized) {
+      if (cameraController != null &&
+          cameraController!.value.isInitialized) {
         // Capture the picture
         final XFile picture =
-            await widget.cameraController!.takePicture();
+            await cameraController!.takePicture();
 
         // Handle the captured picture, e.g., save or display it
         // You can use the 'picture' variable to get the file path or perform other actions
@@ -66,7 +65,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   void dispose() {
-    widget.cameraController?.dispose();
+    cameraController?.dispose();
     super.dispose();
   }
 
@@ -81,7 +80,7 @@ class _CameraScreenState extends State<CameraScreen> {
           future: _initializeControllerFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return CameraPreview(widget.cameraController!);
+              return CameraPreview(cameraController!);
             } else {
               return const Center(child: CircularProgressIndicator());
             }

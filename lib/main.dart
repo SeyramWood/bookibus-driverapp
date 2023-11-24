@@ -38,7 +38,7 @@ class MainApp extends StatelessWidget {
         )
       ],
       child: DevicePreview(
-enabled: true,
+enabled: false,
 
         builder: (BuildContext context) => MaterialApp(
           useInheritedMediaQuery: true,

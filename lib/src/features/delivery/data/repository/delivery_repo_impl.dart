@@ -21,8 +21,11 @@ class DeliverRepoImpl implements DeliveryRepo {
       return Right(result);
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
-    } on SocketException catch (networkError) {
-      return Left(Failure(networkError.message));
+    } on SocketException catch (se) {
+      return Left(Failure(
+          se.message == "Failed host lookup: 'devapi.bookihub.com'"
+              ? "You are offline. Connect and retry"
+              : se.message));
     } catch (e) {
       log('delivery: $e');
       return Left(Failure('something went wrong'));
@@ -31,14 +34,21 @@ class DeliverRepoImpl implements DeliveryRepo {
 
   @override
   Future<Either<Failure, String>> verifyPackageCode(
-      String packageId, String packageCode,File idImage) async {
+      String packageId, String packageCode, List<File> idImage) async {
+    log('$packageId, $packageCode,$idImage');
+
     try {
-      await api.verifyPackageCode(packageId, packageCode,idImage);
+      log('$packageId, $packageCode,$idImage');
+
+      await api.verifyPackageCode(packageId, packageCode, idImage);
       return const Right('package code verification successsful');
     } on CustomException catch (failure) {
       return Left(Failure(failure.message));
-    } on SocketException catch (_) {
-      return Left(Failure('You are offline. Connect and retry'));
+    } on SocketException catch (se) {
+      return Left(Failure(
+          se.message == "Failed host lookup: 'devapi.bookihub.com'"
+              ? "You are offline. Connect and retry"
+              : se.message));
     } catch (e) {
       log('delivery: $e');
       return Left(Failure('something went wrong'));

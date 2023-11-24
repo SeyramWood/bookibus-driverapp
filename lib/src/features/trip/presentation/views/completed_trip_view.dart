@@ -34,9 +34,11 @@ class _CompletedTripViewState extends State<CompletedTripView> {
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
         _streamController.sink.add(success);
-        setState(() {
-          trip = success;
-        });
+        if (mounted) {
+          setState(() {
+            trip = success;
+          });
+        }
       });
     }
   }
@@ -49,6 +51,13 @@ class _CompletedTripViewState extends State<CompletedTripView> {
       fetchTrips();
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _streamController.close(); // Close the stream controller
+    super.dispose();
   }
 
   List<Map<String, String>> dates = [];
