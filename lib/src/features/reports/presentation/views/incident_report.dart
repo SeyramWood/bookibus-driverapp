@@ -1,3 +1,4 @@
+import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/features/reports/domain/entities/report_model.dart';
 import 'package:bookihub/src/features/reports/presentation/provider/report_controller.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
@@ -18,8 +19,8 @@ class AllReportView extends StatefulWidget {
 class _ReportViewState extends State<AllReportView> {
   Future<List<Report>>? reports;
   fetchReports() async {
-    final result =
-        await context.read<ReportProvider>().fetchReport('12884901890');
+    final id = context.read<AuthProvider>().user;
+    final result = await context.read<ReportProvider>().fetchReport(id);
 
     result
         .fold((failure) => showCustomSnackBar(context, failure.message, orange),

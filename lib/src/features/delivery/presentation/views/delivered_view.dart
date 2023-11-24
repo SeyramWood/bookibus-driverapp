@@ -1,3 +1,4 @@
+import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
 import 'package:bookihub/src/features/delivery/presentation/widgets/delivered_info_card.dart';
@@ -17,9 +18,9 @@ class DeliveredView extends StatefulWidget {
 class _DeliveredViewState extends State<DeliveredView> {
   Future<List<Delivery>>? delivery;
   fetchDeliveries() async {
-    final result = await context
-        .read<DeliveryProvider>()
-        .fetchDelivery('12884901890', 'delivered');
+    final user = context.read<AuthProvider>().user;
+    final result =
+        await context.read<DeliveryProvider>().fetchDelivery(user, 'delivered');
     result
         .fold((failure) => showCustomSnackBar(context, failure.message, orange),
             (success) {
@@ -53,7 +54,9 @@ class _DeliveredViewState extends State<DeliveredView> {
               itemCount: package.length,
               separatorBuilder: (context, index) => vSpace,
               itemBuilder: (context, index) {
-                return  DeliveredInfoCard(package: package[index],);
+                return DeliveredInfoCard(
+                  package: package[index],
+                );
               },
             );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

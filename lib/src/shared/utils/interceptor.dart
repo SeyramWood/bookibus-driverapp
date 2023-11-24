@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/shared/constant/base_url.dart';
+import 'package:bookihub/src/shared/errors/custom_exception.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+
+final storage = locator<FlutterSecureStorage>();
 
 class HttpClientWithInterceptor {
   final http.Client _inner;
@@ -54,7 +59,7 @@ class HttpClientWithInterceptor {
         headers['Authorization'] = 'Bearer $_accessToken';
         return await _inner.get(Uri.parse(url), headers: headers);
       } on http.ClientException {
-        throw 'You are offline. Check your network.';
+        throw 'You are not offline. Check your network.';
       } catch (e) {
         rethrow; // Rethrow if token refresh fails
       }
@@ -115,7 +120,7 @@ class HttpClientWithInterceptor {
       {Map<String, String>? headers,
       Map<String, String>? fields,
       List<http.MultipartFile>? files,
-      required http.MultipartRequest request,
+      required MultipartRequest request,
       re}) async {
     try {
       // Set the authorization header with the current access token (if available)
@@ -152,25 +157,24 @@ class HttpClientWithInterceptor {
 Future<String> refreshAccessToken() async {
   final url = Uri.parse('$baseUrl/auth/refresh');
   try {
-    // final token = await storage.read(
-    //     key:
-    //         'refreshToken'); //read or get the refresh token stored in the local db
-    // print('refreshToken: $token');
-    // final response = await http.post(
-    //   url,
-    //   headers: {'X-Refresh-Token': token ?? ''},
-    // );
-    // if (response.statusCode != 200) {
-    //   throw CustomException('Couldn\'t refresh token');
-    // }
-    // if (response.statusCode == 200) {
-    //   final jsonData = jsonDecode(response.body);
-    //   // await storage.write(key: 'accessToken', value: jsonData['accessToken']);
-    //   // await storage.write(key: 'refreshToken', value: jsonData['refreshToken']);
-    // }
-    // return jsonDecode(response.body)['accessToken'];
-    return '';
+    final token = await storage.read(
+        key:
+            'refreshToken'); //read or get the refresh token stored in the local db
+    final response = await http.post(
+      url,
+      headers: {'X-Refresh-Token': token ?? ''},
+    );
+    log('refresh: ${response.statusCode}');
+    if (response.statusCode != 200) {
+      throw CustomException('Couldn\'t refresh token');
+    }
+    final jsonData = jsonDecode(response.body)['data'];
+    await storage.write(key: 'accessToken', value: jsonData['accessToken']);
+    await storage.write(key: 'refreshToken', value: jsonData['refreshToken']);
+    log(jsonData['accessToken']);
+    return jsonData['accessToken'];
   } catch (e) {
+    log('$e');
     rethrow;
   }
 }
@@ -179,6 +183,6 @@ Future<String> refreshAccessToken() async {
 interceptorLocator() {
   locator.registerLazySingleton<FlutterSecureStorage>(
       () => const FlutterSecureStorage());
-      locator.registerLazySingleton<HttpClientWithInterceptor>(()=>HttpClientWithInterceptor(http.Client()));
-
+  locator.registerLazySingleton<HttpClientWithInterceptor>(
+      () => HttpClientWithInterceptor(http.Client()));
 }

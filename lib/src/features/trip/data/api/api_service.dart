@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bookihub/main.dart';
+import 'package:bookihub/src/features/trip/domain/entities/trip_type.dart';
 import 'package:bookihub/src/shared/constant/base_url.dart';
 import 'package:bookihub/src/shared/errors/custom_exception.dart';
 import 'package:bookihub/src/shared/utils/interceptor.dart';
@@ -13,18 +14,16 @@ HttpClientWithInterceptor client = locator<HttpClientWithInterceptor>();
 class TripApiService {
 //fetch available trips by a driver
   Future<List<Trip>> fetchTrips(
-    bool today,
-    bool scheduled,
-    bool completed,
+    String iD,
+    TripType tripType,
   ) async {
     try {
       final url =
-          "$baseUrl/trips/driver/12884901890?today=$today&scheduled=$scheduled&completed=$completed";
+          "$baseUrl/trips/driver/$iD?today=${tripType.today}&scheduled=${tripType.scheduled}&completed=${tripType.completed}";
       final response = await client.get(url);
       if (response.statusCode != 200) {
         throw CustomException('${response.reasonPhrase}');
       }
-      log(response.body.toString());
       return tripModelFromJson(response.body).data?.trips ?? [];
     } catch (e) {
       rethrow;
@@ -41,7 +40,6 @@ class TripApiService {
       }
       log(response.body.toString());
     } catch (e) {
-      print('error:$e');
       rethrow;
     }
   }
@@ -59,7 +57,6 @@ class TripApiService {
         throw CustomException('couldn\t perform action.\nTry again.');
       }
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

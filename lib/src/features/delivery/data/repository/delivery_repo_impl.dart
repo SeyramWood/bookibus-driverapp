@@ -27,7 +27,7 @@ class DeliverRepoImpl implements DeliveryRepo {
               ? "You are offline. Connect and retry"
               : se.message));
     } catch (e) {
-      log('delivery: $e');
+      log('$e');
       return Left(Failure('something went wrong'));
     }
   }
