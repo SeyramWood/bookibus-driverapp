@@ -38,8 +38,8 @@ class _CompletedTripViewState extends State<CompletedTripView> {
       result.fold(
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
-        _streamController.sink.add(success);
         if (mounted) {
+          _streamController.sink.add(success);
           setState(() {
             trip = success;
           });
