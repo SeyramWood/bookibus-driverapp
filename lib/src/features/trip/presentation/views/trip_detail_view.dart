@@ -42,7 +42,8 @@ class _TripDetailsState extends State<TripDetails> {
             to: LatLng(
               widget.trip.route.toLatitude,
               widget.trip.route.toLongitude,
-            )),
+            )
+            ),
       );
     }
   }

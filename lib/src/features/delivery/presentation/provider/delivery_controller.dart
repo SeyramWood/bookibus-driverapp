@@ -38,11 +38,11 @@ class DeliveryProvider extends ChangeNotifier {
   }
 
   Future<Either<Failure, String>> verifyPackageCode(
-      String packageId, String packageCode,File idImage) async {
+      String packageId, String packageCode,List<File> idImage) async {
     _isLoading = true;
     notifyListeners();
     final result =
-        await _verifyPackageCode(MultiParams(packageId, packageCode));
+        await _verifyPackageCode(MultiParams(packageId, packageCode,data3: idImage));
     return result.fold(
       (failure) {
         _isLoading = false;

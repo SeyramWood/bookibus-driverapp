@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
+import 'package:bookihub/src/features/trip/domain/entities/trip_type.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
 import 'package:bookihub/src/features/trip/presentation/widgets/trip_card.dart';
 import 'package:bookihub/src/shared/constant/colors.dart';
@@ -25,16 +27,19 @@ class _CompletedTripViewState extends State<CompletedTripView> {
   fetchTrips() async {
     if (mounted) {
       final result = await context.read<TripProvider>().fetchTrips(
-            false,
-            false,
-            true,
+            context.read<AuthProvider>().user,
+            TripType(
+              today: false,
+              scheduled: false,
+              completed: true,
+            ),
           );
 
       result.fold(
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
-        _streamController.sink.add(success);
         if (mounted) {
+          _streamController.sink.add(success);
           setState(() {
             trip = success;
           });

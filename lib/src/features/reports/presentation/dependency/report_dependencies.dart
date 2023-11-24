@@ -15,4 +15,4 @@ injectReportDependencies() {
       () => FetchReport(locator<ReportRepoImpl>()));
 }
 
-final reportProvider = ReportProvider(makeReport: locator<MakeReport>(),fetchReport: locator<FetchReport>());
+final reportProvider = ReportProvider(makeReport: locator<MakeReport>(),fetchReport: locator<FetchReport>());  

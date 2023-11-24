@@ -29,7 +29,8 @@ class ReportApiService {
         );
       }
       final response = await client.sendMultipartRequest(request: request);
-      if (response.statusCode != 200) {
+      if (response.statusCode != 200) {log('response body: ${response.body}');
+
         print(response.statusCode);
         throw CustomException('${response.reasonPhrase}');
       }

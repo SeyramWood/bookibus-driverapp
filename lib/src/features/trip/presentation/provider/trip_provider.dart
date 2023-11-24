@@ -1,4 +1,5 @@
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
+import 'package:bookihub/src/features/trip/domain/entities/trip_type.dart';
 import 'package:bookihub/src/features/trip/domain/usecase/fetch_trip.dart';
 import 'package:bookihub/src/features/trip/domain/usecase/update_inspection_status.dart';
 import 'package:bookihub/src/shared/errors/failure.dart';
@@ -35,14 +36,12 @@ class TripProvider extends ChangeNotifier {
 
   //fetch trips by driver
   Future<Either<Failure, List<Trip>>> fetchTrips(
-    bool today,
-    bool scheduled,
-    bool completed,
+    String iD,
+    TripType tripType,
   ) async {
     final result = await _fetchTrips(MultiParams(
-      today,
-      scheduled,
-      data3: completed,
+      iD,
+      tripType,
     ));
     return result.fold(
       (failure) {

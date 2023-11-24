@@ -1,4 +1,6 @@
+import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
+import 'package:bookihub/src/features/trip/domain/entities/trip_type.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
 import 'package:bookihub/src/shared/constant/dimensions.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
@@ -21,14 +23,21 @@ class _TodayTripsViewState extends State<TodayTripsView> {
   late Timer _timer;
   fetchTrips() async {
     if (mounted) {
-      final result =
-          await context.read<TripProvider>().fetchTrips(true, false, false);
+      final result = await context.read<TripProvider>().fetchTrips(
+            context.read<AuthProvider>().user,
+            TripType(
+              today: true,
+              scheduled: false,
+              completed: false,
+            ),
+          );
 
       result.fold(
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
-        _streamController.sink.add(success);
+        
         if (mounted) {
+          _streamController.sink.add(success);
           setState(() {
             trip = success;
           });
@@ -36,7 +45,6 @@ class _TodayTripsViewState extends State<TodayTripsView> {
       });
     }
   }
-
 
   @override
   void initState() {
@@ -47,12 +55,14 @@ class _TodayTripsViewState extends State<TodayTripsView> {
     });
     super.initState();
   }
-@override
+
+  @override
   void dispose() {
     _timer.cancel();
     _streamController.close(); // Close the stream controller
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Trip>>(

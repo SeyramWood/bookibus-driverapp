@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/features/delivery/domain/entities/delivery_model.dart';
 import 'package:bookihub/src/features/delivery/presentation/provider/delivery_controller.dart';
 import 'package:bookihub/src/features/delivery/presentation/views/outgoing_delivery_details.dart';
@@ -18,30 +21,55 @@ class OutGoingView extends StatefulWidget {
 }
 
 class _OutGoingViewState extends State<OutGoingView> {
-  Future<List<Delivery>>? delivery;
+ late List<Delivery>? delivery;
+  final StreamController<List<Delivery>> _streamController = StreamController();
+// ignore: unused_field
+  late Timer _timer;
   fetchDeliveries() async {
-    final result = await context
-        .read<DeliveryProvider>()
-        .fetchDelivery('12884901890', 'outgoing');
-    result
-        .fold((failure) => showCustomSnackBar(context, failure.message, orange),
-            (success) {
-      setState(() {
-        delivery = Future.value(success);
+    if (mounted) {
+      final id = context.read<AuthProvider>().user;
+           
+      final result =
+          await context.read<DeliveryProvider>().fetchDelivery(id, 'outgoing');
+
+      result.fold(
+          (failure) => showCustomSnackBar(context, failure.message, orange),
+          (success) {
+        _streamController.sink.add(success);
+        if (mounted) {
+          setState(() {
+            delivery = success;
+          });
+        }
       });
-    });
+    }
   }
+  // fetchDeliveries() async {
+  //   final result = await context
+  //       .read<DeliveryProvider>()
+  //       .fetchDelivery('12884901890', 'outgoing');
+  //   result
+  //       .fold((failure) => showCustomSnackBar(context, failure.message, orange),
+  //           (success) {
+  //     setState(() {
+  //       delivery = Future.value(success);
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
     fetchDeliveries();
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      fetchDeliveries();
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Delivery>>(
-        future: delivery,
+    return StreamBuilder<List<Delivery>>(
+        stream: _streamController.stream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
