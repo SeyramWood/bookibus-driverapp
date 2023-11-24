@@ -536,74 +536,71 @@ class _RouteMapState extends State<RouteMap> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-       
-        body: Center(
-          child: Column(children: <Widget>[
-            Expanded(
-              child: SizedBox(
-                height: 300,
-                child: Container(
-                  color: Colors.grey,
-                  child: MapBoxNavigationView(
-                      options: _navigationOption,
-                      onRouteEvent: _onEmbeddedRouteEvent,
-                      onCreated:
-                          (MapBoxNavigationViewController controller) async {
-                        _controller = controller;
-                        controller.initialize();
-                      }),
-                ),
+    return Scaffold(
+      body: Center(
+        child: Column(children: <Widget>[
+          Expanded(
+            child: SizedBox(
+              height: 300,
+              child: Container(
+                color: Colors.grey,
+                child: MapBoxNavigationView(
+                    options: _navigationOption,
+                    onRouteEvent: _onEmbeddedRouteEvent,
+                    onCreated:
+                        (MapBoxNavigationViewController controller) async {
+                      _controller = controller;
+                      controller.initialize();
+                    }),
               ),
             ),
-            ///////////////
-            Container(
-              color: Theme.of(context).cardColor,
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  // CommonButton(onPressed: (){},title: "Start Trip",),
-                  SafeArea(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: OrderButton(
-                            title: "Start Trip",
-                            textColor: black,
-                            borderColor: black,
-                            onTap: _routeBuilt && !_isNavigating
-                                ? () {
-                                    _controller?.startNavigation();
-                                  }
-                                : null,
-                          ),
+          ),
+          ///////////////
+          Container(
+            color: Theme.of(context).cardColor,
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                // CommonButton(onPressed: (){},title: "Start Trip",),
+                SafeArea(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: OrderButton(
+                          title: "Start Trip",
+                          textColor: black,
+                          borderColor: black,
+                          onTap: _routeBuilt && !_isNavigating
+                              ? () {
+                                  _controller?.startNavigation();
+                                }
+                              : null,
                         ),
-                        const SizedBox(
-                          width: 15,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                        child: OrderButton(
+                          title: "End Trip",
+                          textColor: black,
+                          borderColor: black,
+                          onTap: _isNavigating
+                              ? () {
+                                  _controller?.finishNavigation();
+                                }
+                              : null,
                         ),
-                        Expanded(
-                          child: OrderButton(
-                            title: "End Trip",
-                            textColor: black,
-                            borderColor: black,
-                            onTap: _isNavigating
-                                ? () {
-                                    _controller?.finishNavigation();
-                                  }
-                                : null,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                
-                ],
-              ),
+                ),
+              
+              ],
             ),
-          ]),
-        ),
+          ),
+        ]),
       ),
     );
   }
