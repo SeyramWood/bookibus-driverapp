@@ -43,7 +43,7 @@ class DeliveryApiService {
 
       if (response.statusCode != 200) {
         log('$packageId, $packageCode,$idImage');
-      final errorMessage = json.decode(response.body)['error'];
+        final errorMessage = json.decode(response.body)['error'];
 
         log(errorMessage);
         throw CustomException(errorMessage);

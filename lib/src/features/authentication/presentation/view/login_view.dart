@@ -1,4 +1,5 @@
 import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
+import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
@@ -113,7 +114,7 @@ class _LoginViewState extends State<LoginView> {
                           });
                         },
                         child: const Text("Login"),
-                      )
+                      ).loading(context.read<AuthProvider>().isloading)
                     ],
                   )),
             )

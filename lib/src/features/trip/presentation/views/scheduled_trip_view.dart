@@ -25,18 +25,19 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
   late Timer _timer;
   fetchTrips() async {
     if (mounted) {
-      final result =
-          await context.read<TripProvider>().fetchTrips( context.read<AuthProvider>().user,
+      final result = await context.read<TripProvider>().fetchTrips(
+            context.read<AuthProvider>().user,
             TripType(
               today: false,
               scheduled: true,
               completed: false,
-            ),);
+            ),
+          );
       result.fold(
           (failure) => showCustomSnackBar(context, failure.message, orange),
           (success) {
         _streamController.sink.add(success);
-       if (mounted) {
+        if (mounted) {
           setState(() {
             trip = success;
           });
@@ -54,6 +55,7 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
     });
     super.initState();
   }
+
   @override
   void dispose() {
     _timer.cancel();

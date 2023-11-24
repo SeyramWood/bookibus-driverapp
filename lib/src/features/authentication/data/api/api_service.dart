@@ -20,14 +20,16 @@ class ApiService {
         "password": password,
         "userType": "company"
       });
-
       if (response.statusCode != 200) {
         // print(response.reasonPhrase);
-        throw CustomException('Failed to login.');
+        final errorMessage = json.decode(response.body)['error'];
+
+        throw CustomException(errorMessage == 'bad request'
+            ? 'User name or password is wrong'
+            : 'Failed to login.');
       }
       final jsonData = jsonDecode(response.body)['data'];
       // await storage.write(key: 'accessToken', value: jsonData['accessToken']);
-      log(jsonData['refreshToken']);
       await storage.write(key: 'refreshToken', value: jsonData['refreshToken']);
       //fetch user session after successfull login
       //within the fetchSession is return user id

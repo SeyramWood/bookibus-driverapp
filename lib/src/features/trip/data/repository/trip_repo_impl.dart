@@ -32,7 +32,7 @@ class TripRepoImpl implements TripRepo {
               ? "You are offline. Connect and retry"
               : se.message));
     } catch (e) {
-      log('$e');
+      log(' trip: $e');
       return Left(Failure('something went wrong'));
     }
   }

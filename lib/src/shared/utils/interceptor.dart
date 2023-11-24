@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/shared/constant/base_url.dart';
@@ -159,22 +160,21 @@ Future<String> refreshAccessToken() async {
     final token = await storage.read(
         key:
             'refreshToken'); //read or get the refresh token stored in the local db
-    print('refreshToken: $token');
     final response = await http.post(
       url,
       headers: {'X-Refresh-Token': token ?? ''},
     );
+    log('refresh: ${response.statusCode}');
     if (response.statusCode != 200) {
-      print(response.headers);
       throw CustomException('Couldn\'t refresh token');
     }
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body)['data'];
-      await storage.write(key: 'accessToken', value: jsonData['accessToken']);
-      await storage.write(key: 'refreshToken', value: jsonData['refreshToken']);
-    }
-    return jsonDecode(response.body)['accessToken'];
+    final jsonData = jsonDecode(response.body)['data'];
+    await storage.write(key: 'accessToken', value: jsonData['accessToken']);
+    await storage.write(key: 'refreshToken', value: jsonData['refreshToken']);
+    log(jsonData['accessToken']);
+    return jsonData['accessToken'];
   } catch (e) {
+    log('$e');
     rethrow;
   }
 }
