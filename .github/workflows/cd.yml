@@ -30,9 +30,6 @@ jobs:
       # Decoding base64 key into a file
       - name: Decoding base64 KEY
         run: echo "${{ secrets.STORE_FILE }}" | base64 --decode > ./android/app/upload-keystore.jks
-      - run: |
-          cat ${{ env.PROPERTIES_PATH }}
-          cat ./android/app/upload-keystore.jks
       - run: flutter pub get
       # - run: flutter test
       - run: flutter build apk --debug --split-per-abi
