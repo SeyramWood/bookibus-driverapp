@@ -101,18 +101,17 @@ class _LoginViewState extends State<LoginView> {
                               .then(
                             (value) async {
                               value.fold(
-                                  (failure) => showCustomSnackBar(
-                                      context, failure.message, orange),
-                                  (succes) {}
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) {
-                                  //       return const MainPage();
-                                  //     },
-                                  //   ),
-                                  // ),
-                                  );
+                                (failure) => showCustomSnackBar(
+                                    context, failure.message, orange),
+                                (succes) => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const MainPage();
+                                    },
+                                  ),
+                                ),
+                              );
                             },
                           );
                         },
