@@ -161,7 +161,6 @@
 //   }
 // }
 
-
 // import 'dart:async';
 // import 'dart:typed_data';
 
@@ -446,6 +445,8 @@
 // //           ),
 // ///
 
+import 'dart:developer';
+
 import 'package:bookihub/src/features/map/presentation/widget/order_button.dart';
 import 'package:bookihub/src/shared/constant/colors.dart';
 import 'package:flutter/foundation.dart';
@@ -458,9 +459,8 @@ import 'package:location/location.dart';
 
 class RouteMap extends StatefulWidget {
   const RouteMap({super.key, required this.from, required this.to});
- final LatLng from;
- final LatLng to;
-
+  final LatLng from;
+  final LatLng to;
 
   @override
   State<RouteMap> createState() => _RouteMapState();
@@ -469,10 +469,6 @@ class RouteMap extends StatefulWidget {
 class _RouteMapState extends State<RouteMap> {
   String? _platformVersion;
   String? _instruction;
-
-  
-
-
 
   bool _isMultipleStop = false;
   MapBoxNavigationViewController? _controller;
@@ -486,13 +482,17 @@ class _RouteMapState extends State<RouteMap> {
     initialize();
     Future.delayed(const Duration(seconds: 2), () {
       var wayPoints = <WayPoint>[];
-      wayPoints.add( WayPoint(
-      name: "Home", latitude: widget.from.latitude, longitude: widget.from.longitude, isSilent: false));
+      //stops will added here
       wayPoints.add(WayPoint(
-      name: "Your destination",
-      latitude: widget.to.latitude,
-      longitude: widget.to.longitude,
-      isSilent: false));
+          name: "Home",
+          latitude: widget.from.latitude,
+          longitude: widget.from.longitude,
+          isSilent: false));
+      wayPoints.add(WayPoint(
+          name: "Your destination",
+          latitude: widget.to.latitude,
+          longitude: widget.to.longitude,
+          isSilent: false));
       _isMultipleStop = wayPoints.length > 2;
       _controller?.buildRoute(wayPoints: wayPoints, options: _navigationOption);
     });
@@ -538,7 +538,6 @@ class _RouteMapState extends State<RouteMap> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-       
         body: Center(
           child: Column(children: <Widget>[
             Expanded(
@@ -558,50 +557,50 @@ class _RouteMapState extends State<RouteMap> {
               ),
             ),
             ///////////////
-            Container(
-              color: Theme.of(context).cardColor,
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  // CommonButton(onPressed: (){},title: "Start Trip",),
-                  SafeArea(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: OrderButton(
-                            title: "Start Trip",
-                            textColor: black,
-                            borderColor: black,
-                            onTap: _routeBuilt && !_isNavigating
-                                ? () {
-                                    _controller?.startNavigation();
-                                  }
-                                : null,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: OrderButton(
-                            title: "End Trip",
-                            textColor: black,
-                            borderColor: black,
-                            onTap: _isNavigating
-                                ? () {
-                                    _controller?.finishNavigation();
-                                  }
-                                : null,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                
-                ],
-              ),
-            ),
+            // Container(
+            //   color: Theme.of(context).cardColor,
+            //   padding: const EdgeInsets.all(10),
+            //   child: Column(
+            //     children: [
+            //       // CommonButton(onPressed: (){},title: "Start Trip",),
+            //       SafeArea(
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Expanded(
+            //               child: OrderButton(
+            //                 title: "Start Trip",
+            //                 textColor: black,
+            //                 borderColor: black,
+            //                 onTap: _routeBuilt && !_isNavigating
+            //                     ? () {
+            //                         _controller?.startNavigation();
+            //                       }
+            //                     : null,
+            //               ),
+            //             ),
+            //             const SizedBox(
+            //               width: 15,
+            //             ),
+            //             Expanded(
+            //               child: OrderButton(
+            //                 title: "End Trip",
+            //                 textColor: black,
+            //                 borderColor: black,
+            //                 onTap: _isNavigating
+            //                     ? () {
+            //                         _controller?.finishNavigation();
+            //                       }
+            //                     : null,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+
+            //     ],
+            //   ),
+            // ),
           ]),
         ),
       ),
@@ -639,12 +638,18 @@ class _RouteMapState extends State<RouteMap> {
         break;
       case MapBoxEvent.on_arrival:
         if (!_isMultipleStop) {
+          log('waiting');
           await Future.delayed(const Duration(seconds: 3));
-          await _controller?.finishNavigation();
+          try {
+            await _controller?.finishNavigation();
+          } catch (e) {
+            print('Error finishing navigation: $e');
+          }
         } else {}
         break;
       case MapBoxEvent.navigation_finished:
       case MapBoxEvent.navigation_cancelled:
+        log('canceled');
         setState(() {
           _routeBuilt = false;
           _isNavigating = false;
@@ -754,4 +759,3 @@ class _RouteMapState extends State<RouteMap> {
     );
   }
 }
-
