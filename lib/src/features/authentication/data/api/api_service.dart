@@ -19,11 +19,10 @@ class ApiService {
         "username": email,
         "password": password,
         "userType": "company"
-      });
+      }).timeout(const Duration(seconds: 35));
       if (response.statusCode != 200) {
         // print(response.reasonPhrase);
         final errorMessage = json.decode(response.body)['error'];
-
         throw CustomException(errorMessage == 'bad request'
             ? 'User name or password is wrong'
             : 'Failed to login.');
