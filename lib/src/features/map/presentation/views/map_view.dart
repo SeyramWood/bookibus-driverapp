@@ -18,7 +18,6 @@ class RouteMap extends StatefulWidget {
 }
 
 class _RouteMapState extends State<RouteMap> {
-
   bool _isMultipleStop = false;
   MapBoxNavigationViewController? _controller;
   bool _routeBuilt = false;
@@ -69,9 +68,7 @@ class _RouteMapState extends State<RouteMap> {
     //_navigationOption.initialLongitude = -115.1839524;
     MapBoxNavigation.instance.registerRouteEventListener(_onEmbeddedRouteEvent);
 
-    
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override
@@ -97,49 +94,49 @@ class _RouteMapState extends State<RouteMap> {
               ),
             ),
             ///////////////
-            Container(
-              color: Theme.of(context).cardColor,
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  // CommonButton(onPressed: (){},title: "Start Trip",),
-                  SafeArea(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: OrderButton(
-                            title: "Start Trip",
-                            textColor: black,
-                            borderColor: black,
-                            onTap: _routeBuilt && !_isNavigating
-                                ? () {
-                                    _controller?.startNavigation();
-                                  }
-                                : null,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: OrderButton(
-                            title: "End Trip",
-                            textColor: black,
-                            borderColor: black,
-                            onTap: _isNavigating
-                                ? () {
-                                    _controller?.finishNavigation();
-                                  }
-                                : null,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   color: Theme.of(context).cardColor,
+            //   padding: const EdgeInsets.all(10),
+            //   child: Column(
+            //     children: [
+            //       // CommonButton(onPressed: (){},title: "Start Trip",),
+            //       SafeArea(
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Expanded(
+            //               child: OrderButton(
+            //                 title: "Start Trip",
+            //                 textColor: black,
+            //                 borderColor: black,
+            //                 onTap: _routeBuilt && !_isNavigating
+            //                     ? () {
+            //                         _controller?.startNavigation();
+            //                       }
+            //                     : null,
+            //               ),
+            //             ),
+            //             const SizedBox(
+            //               width: 15,
+            //             ),
+            //             Expanded(
+            //               child: OrderButton(
+            //                 title: "End Trip",
+            //                 textColor: black,
+            //                 borderColor: black,
+            //                 onTap: _isNavigating
+            //                     ? () {
+            //                         _controller?.finishNavigation();
+            //                       }
+            //                     : null,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ]),
         ),
       ),
@@ -155,8 +152,7 @@ class _RouteMapState extends State<RouteMap> {
     switch (e.eventType) {
       case MapBoxEvent.progress_change:
         var progressEvent = e.data as RouteProgressEvent;
-        if (progressEvent.currentStepInstruction != null) {
-        }
+        if (progressEvent.currentStepInstruction != null) {}
         break;
       case MapBoxEvent.route_building:
       case MapBoxEvent.route_built:
@@ -202,8 +198,6 @@ class _RouteMapState extends State<RouteMap> {
     }
     setState(() {});
   }
-
-
 
   ///LOcation
   LocationData? currentLocation;
