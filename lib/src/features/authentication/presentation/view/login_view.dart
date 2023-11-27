@@ -90,8 +90,6 @@ class _LoginViewState extends State<LoginView> {
                       CustomButton(
                         bgColor: orange,
                         onPressed: () async {
-                          print(emailController.text.trim());
-                          print(passwordController.text.trim());
                           await context
                               .read<AuthProvider>()
                               .login(
