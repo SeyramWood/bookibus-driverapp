@@ -3,7 +3,6 @@ import 'package:bookihub/src/shared/utils/button_extension.dart';
 import 'package:bookihub/src/shared/utils/show.snacbar.dart';
 import 'package:provider/provider.dart';
 
-import 'package:bookihub/main.dart';
 import 'package:bookihub/src/features/map/presentation/views/map_view.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/presentation/provider/trip_provider.dart';
@@ -26,6 +25,16 @@ class TripStartedView extends StatefulWidget {
 }
 
 class _TripStartedViewState extends State<TripStartedView> {
+  injectedMap() {
+    return RouteMap(dimension: .68, trip: widget.trip);
+  }
+
+  @override
+  void initState() {
+    injectedMap();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var time = context.read<TripProvider>().tripStartedTime ?? DateTime.now();
@@ -77,22 +86,26 @@ class _TripStartedViewState extends State<TripStartedView> {
               width: MediaQuery.sizeOf(context).width * .9,
               child: Stack(
                 children: [
-                  Center(child: locator<RouteMap>()),
-                  Align(
-                      alignment: Alignment.bottomRight,
+                  Center(child: injectedMap()),
+                  Positioned(
+                      top: MediaQuery.sizeOf(context).height * .5,
+                      left: MediaQuery.sizeOf(context).width * .7,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
-                                return const TripTrackingView();
+                                return TripTrackingView(
+                                  trip: widget.trip,
+                                );
                               },
                             ));
                           },
                           child: const CircleAvatar(
-                              backgroundColor: white,
-                              child: Icon(Icons.expand)),
+                            backgroundColor: white,
+                            child: Icon(Icons.expand),
+                          ),
                         ),
                       )),
                 ],
