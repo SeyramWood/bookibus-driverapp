@@ -2,8 +2,6 @@
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
-import 'package:get/route_manager.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import '../../../trip/domain/entities/trip_model.dart';
