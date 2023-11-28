@@ -1,25 +1,32 @@
-import 'package:bookihub/src/features/map/presentation/widget/order_button.dart';
-import 'package:bookihub/src/shared/constant/colors.dart';
-import 'package:flutter/foundation.dart';
+import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+import '../../../trip/domain/entities/trip_model.dart';
+
 class RouteMap extends StatefulWidget {
-  const RouteMap({super.key, required this.from, required this.to});
-  final LatLng from;
-  final LatLng to;
+  const RouteMap({
+    super.key,
+    required this.trip,
+    this.dimension = .78,
+    this.dimension2 = .601,
+  });
+  final Trip trip;
+  final num dimension;
+  final num dimension2;
 
   @override
   State<RouteMap> createState() => _RouteMapState();
 }
 
 class _RouteMapState extends State<RouteMap> {
+  String? platformVersion;
+  String? instruction;
+
   bool _isMultipleStop = false;
   MapBoxNavigationViewController? _controller;
-  bool _routeBuilt = false;
+  bool routeBuilt = false;
   bool _isNavigating = false;
   late MapBoxOptions _navigationOption;
 
@@ -27,21 +34,39 @@ class _RouteMapState extends State<RouteMap> {
   void initState() {
     super.initState();
     initialize();
-    Future.delayed(const Duration(seconds: 2), () {
-      var wayPoints = <WayPoint>[];
-      wayPoints.add(WayPoint(
-          name: "Location",
-          latitude: widget.from.latitude,
-          longitude: widget.from.longitude,
-          isSilent: false));
-      wayPoints.add(WayPoint(
-          name: "Destination",
-          latitude: widget.to.latitude,
-          longitude: widget.to.longitude,
-          isSilent: false));
-      _isMultipleStop = wayPoints.length > 2;
-      _controller?.buildRoute(wayPoints: wayPoints, options: _navigationOption);
-    });
+    Future.delayed(
+      const Duration(seconds: 2),
+      () {
+        var wayPoints = <WayPoint>[];
+
+        wayPoints.add(WayPoint(
+            name: "Source",
+            latitude: widget.trip.route.fromLatitude,
+            longitude: widget.trip.route.fromLongitude,
+            isSilent: false));
+        wayPoints.add(WayPoint(
+            name: "Your destination",
+            latitude: widget.trip.route.toLatitude,
+            longitude: widget.trip.route.toLongitude,
+            isSilent: false));
+        //stops will be added here
+        if (widget.trip.route.stops.isNotEmpty) {
+          for (var stop in widget.trip.route.stops) {
+            int id = 0;
+            wayPoints.add(
+              WayPoint(
+                name: 'stop ${id++}',
+                latitude: stop.latitude,
+                longitude: stop.longitude,
+              ),
+            );
+          }
+        }
+        _isMultipleStop = wayPoints.length > 2;
+        _controller?.buildRoute(
+            wayPoints: wayPoints, options: _navigationOption);
+      },
+    );
   }
 
   @override
@@ -61,122 +86,89 @@ class _RouteMapState extends State<RouteMap> {
     _navigationOption.simulateRoute = false;
     _navigationOption.language = "en";
     _navigationOption.enableRefresh = true;
-    // _navigationOption.mapStyleUrlDay = "https://url_to_night_style";
-    // _navigationOption.tilt
-    //_navigationOption.initialLatitude = 36.1175275;
-    //_navigationOption.initialLongitude = -115.1839524;
-    MapBoxNavigation.instance.registerRouteEventListener(_onEmbeddedRouteEvent);
+
+    MapBoxNavigation.instance.registerRouteEventListener(_onRouteEvent);
 
     String? platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await MapBoxNavigation.instance.getPlatformVersion();
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    setState(() {});
+   
+    setState(() {
+      platformVersion = platformVersion;
+    });
   }
+
+  bool? arrived = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(children: <Widget>[
+        child: Stack(children: <Widget>[
           Expanded(
-            child: SizedBox(
-              height: 300,
-              child: Container(
-                color: Colors.grey,
-                child: MapBoxNavigationView(
-                    options: _navigationOption,
-                    onRouteEvent: _onEmbeddedRouteEvent,
-                    onCreated:
-                        (MapBoxNavigationViewController controller) async {
-                      _controller = controller;
-                      controller.initialize();
-                    }),
-              ),
+            child: Container(
+              color: Colors.grey,
+              child: MapBoxNavigationView(
+                  options: _navigationOption,
+                  onRouteEvent: _onRouteEvent,
+                  onCreated: (MapBoxNavigationViewController controller) async {
+                    _controller = controller;
+                    controller.initialize();
+                  }),
             ),
           ),
-          ///////////////
-          // Container(
-          //   color: Theme.of(context).cardColor,
-          //   padding: const EdgeInsets.all(10),
-          //   child: Column(
-          //     children: [
-          //       // CommonButton(onPressed: (){},title: "Start Trip",),
-          //       SafeArea(
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: [
-          //             Expanded(
-          //               child: OrderButton(
-          //                 title: "Start Route",
-          //                 textColor: black,
-          //                 borderColor: black,
-          //                 onTap: _routeBuilt && !_isNavigating
-          //                     ? () {
-          //                         _controller?.startNavigation();
-          //                       }
-          //                     : null,
-          //               ),
-          //             ),
-          //             const SizedBox(
-          //               width: 15,
-          //             ),
-          //             Expanded(
-          //               child: OrderButton(
-          //                 title: "End Route",
-          //                 textColor: black,
-          //                 borderColor: black,
-          //                 onTap: _isNavigating
-          //                     ? () {
-          //                         _controller?.finishNavigation();
-          //                       }
-          //                     : null,
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-     
+          Positioned(
+            top: MediaQuery.sizeOf(context).height * widget.dimension2,
+            left: MediaQuery.sizeOf(context).width * widget.dimension,
+            child: SizedBox(
+              width: 75,
+              height: 55,
+              child: CustomButton(
+                onPressed: !_isNavigating
+                    ? () {
+                        if (_isNavigating) {
+                          setState(() {
+                            _controller?.finishNavigation();
+                          });
+                        } else {
+                          setState(() {
+                            _controller?.startNavigation();
+                          });
+                        }
+                      }
+                    : null,
+                child: const Icon(Icons.navigation),
+              ),
+            ),
+          )
         ]),
       ),
     );
   }
 
-  Future<void> _onEmbeddedRouteEvent(e) async {
-    // _distanceRemaining = await MapBoxNavigation.instance.getDistanceRemaining();
-    // _durationRemaining = await MapBoxNavigation.instance.getDurationRemaining();
-
-    // print(_durationRemaining);
+  Future<void> _onRouteEvent(e) async {
+    // _distanceRemaining = await _directions.distanceRemaining;
+    // _durationRemaining = await _directions.durationRemaining;
 
     switch (e.eventType) {
       case MapBoxEvent.progress_change:
         var progressEvent = e.data as RouteProgressEvent;
-        if (progressEvent.currentStepInstruction != null) {}
+        arrived = progressEvent.arrived;
+        if (progressEvent.currentStepInstruction != null) {
+          instruction = progressEvent.currentStepInstruction;
+        }
         break;
       case MapBoxEvent.route_building:
       case MapBoxEvent.route_built:
-        setState(() {
-          _routeBuilt = true;
-        });
+        routeBuilt = true;
         break;
       case MapBoxEvent.route_build_failed:
-        setState(() {
-          _routeBuilt = false;
-        });
+        routeBuilt = false;
         break;
       case MapBoxEvent.navigation_running:
-        setState(() {
-          _isNavigating = true;
-        });
+        _isNavigating = true;
         break;
       case MapBoxEvent.on_arrival:
+        arrived = true;
         if (!_isMultipleStop) {
           await Future.delayed(const Duration(seconds: 3));
           await _controller?.finishNavigation();
@@ -184,84 +176,14 @@ class _RouteMapState extends State<RouteMap> {
         break;
       case MapBoxEvent.navigation_finished:
       case MapBoxEvent.navigation_cancelled:
-        setState(() {
-          _routeBuilt = false;
-          _isNavigating = false;
-          _scaleDialog();
-          if (kDebugMode) {
-            print("asbHJFBDSHJBFJDSBFJBDSFJBDSJFBS");
-          }
-        });
+        routeBuilt = false;
+        _isNavigating = false;
         break;
       default:
         break;
     }
+    //refresh UI
     setState(() {});
-  }
-
-  void _scaleDialog({
-    Function()? onCancel,
-    Function()? onConfirm,
-  }) {
-    showGeneralDialog(
-      context: context,
-      pageBuilder: (ctx, a1, a2) {
-        return Container();
-      },
-      transitionBuilder: (ctx, a1, a2, child) {
-        var curve = Curves.easeInOut.transform(a1.value);
-        return Transform.scale(
-          scale: curve,
-          child: _dialog(ctx, onCancel: onCancel, onConfirm: onConfirm),
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 300),
-    );
-  }
-
-  Widget _dialog(
-    BuildContext context, {
-    Function()? onCancel,
-    Function()? onConfirm,
-  }) {
-    return AlertDialog(
-      title: const Center(child: Text("Alert")),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "You are about to cancel this order?",
-            // style: smallTextStyle,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: OrderButton(
-                  borderColor: black,
-                  title: "Confirm",
-                  textColor: black,
-                  onTap: onConfirm,
-                ),
-              ),
-              const SizedBox(
-                width: 30,
-              ),
-              Expanded(
-                child: OrderButton(
-                  borderColor: black,
-                  textColor: black,
-                  title: "Cancel",
-                  onTap: onCancel,
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6),
-      ),
-    );
   }
 
   ///LOcation
@@ -273,7 +195,7 @@ class _RouteMapState extends State<RouteMap> {
         currentLocation = location;
       },
     );
-    // GoogleMapController googleMapController = await _controller.future;
+    // GoogleMapController googleMapController = await _controller.;
     location.onLocationChanged.listen(
       (newLoc) {
         currentLocation = newLoc;

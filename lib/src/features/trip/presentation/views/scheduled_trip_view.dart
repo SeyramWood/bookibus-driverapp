@@ -65,18 +65,7 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
 
   final List<Map<String, String>> dates = [];
 
-  // void fetchTrips() async {
-  //   if (mounted && !_streamController.isClosed) {
-  //     final data = await context
-  //         .read<TripProvider>()
-  //         .fetchTrips();
-
-  //     if (data is List<DTrip>) {
-  //       var streamData = data;
-  //       _streamController.sink.add(streamData);
-  //     }
-  //   }
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
