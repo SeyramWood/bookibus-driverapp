@@ -65,11 +65,8 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
 
   final List<Map<String, String>> dates = [];
 
-  
-
   @override
   Widget build(BuildContext context) {
-    print('dates: $dates');
     return StreamBuilder<List<Trip>>(
         stream: _streamController.stream,
         builder: (context, snapshot) {
