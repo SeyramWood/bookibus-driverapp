@@ -90,31 +90,31 @@ class _LoginViewState extends State<LoginView> {
                       CustomButton(
                         bgColor: orange,
                         onPressed: () async {
-                          print(emailController.text.trim());
-                          print(passwordController.text.trim());
                           await context
                               .read<AuthProvider>()
                               .login(
                                 emailController.text.trim(),
                                 passwordController.text.trim(),
                               )
-                              .then((value) async {
-                            value.fold(
-                              (failure) => showCustomSnackBar(
-                                  context, failure.message, orange),
-                              (succes) => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return const MainPage();
-                                  },
+                              .then(
+                            (value) async {
+                              value.fold(
+                                (failure) => showCustomSnackBar(
+                                    context, failure.message, orange),
+                                (succes) => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const MainPage();
+                                    },
+                                  ),
                                 ),
-                              ),
-                            );
-                          });
+                              );
+                            },
+                          );
                         },
                         child: const Text("Login"),
-                      ).loading(context.read<AuthProvider>().isloading)
+                      ).loading(context.watch<AuthProvider>().isloading)
                     ],
                   )),
             )

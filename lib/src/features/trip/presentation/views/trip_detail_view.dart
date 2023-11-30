@@ -11,8 +11,6 @@ import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:bookihub/src/shared/widgets/percentage_indicator.dart';
 import 'package:bookihub/src/features/trip/presentation/widgets/trip_inspect_row.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:bookihub/main.dart';
 import 'package:provider/provider.dart';
 import 'package:bookihub/src/shared/constant/model.dart';
 
@@ -33,24 +31,13 @@ class _TripDetailsState extends State<TripDetails> {
   bool value6 = false;
 
   double checkPercentage = 0.0;
-  injectMap() {
-    if (!locator.isRegistered<RouteMap>()) {
-      locator.registerLazySingleton<RouteMap>(
-        () => RouteMap(
-            from: LatLng(
-                widget.trip.route.fromLatitude, widget.trip.route.fromLatitude),
-            to: LatLng(
-              widget.trip.route.toLatitude,
-              widget.trip.route.toLongitude,
-            )
-            ),
-      );
-    }
+  injectedMap() {
+    return RouteMap(trip: widget.trip);
   }
 
   @override
   void initState() {
-    injectMap();
+    injectedMap();
     isInspected();
     super.initState();
   }
@@ -134,7 +121,7 @@ class _TripDetailsState extends State<TripDetails> {
                       context: context,
                       builder: (context) => SizedBox(
                           height: MediaQuery.sizeOf(context).height * .7,
-                          child: mounted ? locator<RouteMap>() : null),
+                          child: mounted ? injectedMap() : null),
                     ),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * .15,
@@ -372,14 +359,6 @@ class _TripDetailsState extends State<TripDetails> {
           ]),
         );
       }),
-    );
-  }
-
-  _buildProgressIndicator(double value, String description) {
-    return const Center(
-      child: CircularProgressIndicator(
-          // value: value,
-          ),
     );
   }
 }
