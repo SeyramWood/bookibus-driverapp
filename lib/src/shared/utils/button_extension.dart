@@ -3,7 +3,7 @@ import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 extension ButtonExtension on CustomButton {
-  loading(bool isLoading) {
+  loading(bool isLoading, {Color color = blue}) {
     return isLoading
         ? SizedBox(
             height: 30,
@@ -12,7 +12,7 @@ extension ButtonExtension on CustomButton {
               itemBuilder: (BuildContext context, int index) {
                 return DecoratedBox(
                   decoration: BoxDecoration(
-                    color: index.isEven ? orange : white,
+                    color: index.isEven ? orange : color,
                   ),
                 );
               },
