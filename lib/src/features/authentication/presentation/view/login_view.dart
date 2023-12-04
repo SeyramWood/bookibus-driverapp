@@ -16,6 +16,26 @@ class _LoginViewState extends State<LoginView> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  String? validateEmail(String value) {
+    // Email validation regex
+    const emailRegex = r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$';
+    final regExp = RegExp(emailRegex);
+
+    if (!regExp.hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+
+    return null;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,72 +44,79 @@ class _LoginViewState extends State<LoginView> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.1,
             ),
             SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.2,
-              width: MediaQuery.sizeOf(context).width * 0.5,
+              height: MediaQuery.of(context).size.height * 0.2,
+              width: MediaQuery.of(context).size.width * 0.5,
               child: Image.asset(CustomeImages.logo),
             ),
             SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.05,
+              height: MediaQuery.of(context).size.height * 0.05,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: emailController,
-                        validator: (value) {
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                            fillColor: white,
-                            filled: true,
-                            hintText: "example@email.com",
-                            labelText: "Username",
-                            labelStyle: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    backgroundColor: white),
-                            isDense: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                borderSide: BorderSide.none)),
+                key: formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: emailController,
+                      validator: (value) => validateEmail(value!),
+                      decoration: InputDecoration(
+                        fillColor: white,
+                        filled: true,
+                        hintText: "example@email.com",
+                        labelText: "Username",
+                        errorStyle: const TextStyle(fontSize: 15),
+                        labelStyle:
+                            Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  backgroundColor: white,
+                                ),
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.02,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a valid password';
+                        }
+                        return null;
+                      },
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        fillColor: white,
+                        filled: true,
+                        errorStyle: const TextStyle(fontSize: 15),
+                        labelText: "Password",
+                        labelStyle:
+                            Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  backgroundColor: white,
+                                ),
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
-                      TextFormField(
-                        controller: passwordController,
-                        validator: (value) {
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                            fillColor: white,
-                            filled: true,
-                            labelText: "Password",
-                            labelStyle: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    backgroundColor: white),
-                            isDense: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                borderSide: BorderSide.none)),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.06,
-                      ),
-                      CustomButton(
-                        bgColor: orange,
-                        onPressed: () async {
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                    ),
+                    CustomButton(
+                      bgColor: orange,
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
                           await context
                               .read<AuthProvider>()
                               .login(
@@ -101,7 +128,7 @@ class _LoginViewState extends State<LoginView> {
                               value.fold(
                                 (failure) => showCustomSnackBar(
                                     context, failure.message, orange),
-                                (succes) => Navigator.push(
+                                (success) => Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) {
@@ -112,12 +139,14 @@ class _LoginViewState extends State<LoginView> {
                               );
                             },
                           );
-                        },
-                        child: const Text("Login"),
-                      ).loading(context.watch<AuthProvider>().isloading)
-                    ],
-                  )),
-            )
+                        }
+                      },
+                      child: const Text("Login"),
+                    ).loading(context.watch<AuthProvider>().isloading),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
