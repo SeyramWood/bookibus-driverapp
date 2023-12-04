@@ -16,10 +16,10 @@ class _AuthStateState extends State<AuthState> {
   @override
   void initState() {
     super.initState();
-    isThereAuser();
+    isThereAUser();
   }
 
-  isThereAuser() async {
+  isThereAUser() async {
     await context.read<AuthProvider>().initUser().then((user) {
       _user = user;
       setState(() {});
@@ -29,10 +29,8 @@ class _AuthStateState extends State<AuthState> {
   @override
   Widget build(BuildContext context) {
     if (_user == null || _user!.isEmpty) {
-      // User is null, navigate to the login page.
       return const LoginView();
     } else {
-      // User is not null and not empty, navigate to the home page.
       return const MainPage();
     }
   }

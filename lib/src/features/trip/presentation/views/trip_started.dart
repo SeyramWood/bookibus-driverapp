@@ -161,8 +161,6 @@ class _TripStartedViewState extends State<TripStartedView> {
                                   showCustomSnackBar(
                                       context, l.message, orange);
                                 }, (r) {
-                                  context.read<TripProvider>().startedDate =
-                                      DateTime.now();
                                   showCustomSnackBar(
                                     context,
                                     'Trip successfully ended',

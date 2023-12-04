@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_type.dart';
 import 'package:bookihub/src/features/trip/domain/usecase/fetch_trip.dart';
@@ -7,6 +9,7 @@ import 'package:bookihub/src/shared/utils/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:bookihub/src/shared/constant/model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/usecase/update_trip_status.dart';
 
@@ -30,8 +33,11 @@ class TripProvider extends ChangeNotifier {
 
   DateTime? tripStartedTime;
 
-  set startedDate(DateTime time) {
-    tripStartedTime = time;
+  setStartedDate(DateTime time) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('time', time.toIso8601String());
+  
+    notifyListeners();
   }
 
   //fetch trips by driver
