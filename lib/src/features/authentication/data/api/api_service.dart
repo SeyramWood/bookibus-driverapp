@@ -21,7 +21,6 @@ class ApiService {
         "userType": "company"
       }).timeout(const Duration(seconds: 35));
       if (response.statusCode != 200) {
-        // print(response.reasonPhrase);
         final errorMessage = json.decode(response.body)['error'];
         throw CustomException(errorMessage == 'bad request'
             ? 'User name or password is wrong'
@@ -48,10 +47,8 @@ class ApiService {
         headers: {'Authorization': 'Bearer $token'},
       );
       if (response.statusCode != 200) {
-        log(response.reasonPhrase.toString());
-        throw CustomException('failed to get session');
+        throw CustomException('Something went wrong. Please, try another login.');
       }
-      log(response.body);
       final jsonID = jsonDecode(response.body)['data']['id'];
       return jsonID.toString();
     } catch (e) {

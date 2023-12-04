@@ -142,7 +142,7 @@ class _LoginViewState extends State<LoginView> {
                         }
                       },
                       child: const Text("Login"),
-                    ).loading(context.watch<AuthProvider>().isloading,
+                    ).loading(context.watch<AuthProvider>().isLoading,
                         color: white),
                   ],
                 ),
