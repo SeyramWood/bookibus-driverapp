@@ -1,7 +1,6 @@
 import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
 import 'package:bookihub/src/features/authentication/presentation/view/login_view.dart';
 import 'package:bookihub/src/shared/utils/exports.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AuthState extends StatefulWidget {

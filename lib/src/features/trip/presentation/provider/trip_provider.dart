@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bookihub/src/features/trip/domain/entities/trip_model.dart';
 import 'package:bookihub/src/features/trip/domain/entities/trip_type.dart';
