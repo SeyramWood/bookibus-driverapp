@@ -29,11 +29,7 @@ class _TripStartedViewState extends State<TripStartedView> {
     return RouteMap(dimension: .68, trip: widget.trip);
   }
 
-  @override
-  void initState() {
-    injectedMap();
-    super.initState();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
