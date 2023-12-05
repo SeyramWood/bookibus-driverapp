@@ -1,6 +1,6 @@
+import 'package:bookihub/src/features/authentication/presentation/auth_state.dart';
 import 'package:bookihub/src/features/authentication/presentation/dependency/auth_dependencies.dart';
 import 'package:bookihub/src/features/authentication/presentation/provider/auth_provider.dart';
-import 'package:bookihub/src/features/authentication/presentation/view/login_view.dart';
 import 'package:bookihub/src/features/reports/presentation/dependency/report_dependencies.dart';
 import 'package:bookihub/src/features/trip/presentation/dependency/trip_dependency.dart';
 import 'package:bookihub/src/shared/utils/interceptor.dart';
@@ -50,7 +50,7 @@ class MainApp extends StatelessWidget {
             useInheritedMediaQuery: true,
             debugShowCheckedModeBanner: false,
             theme: LightTheme.themeData(),
-            home: const LoginView()),
+            home: const AuthState()),
       ),
     );
   }

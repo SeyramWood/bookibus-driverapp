@@ -30,12 +30,6 @@ class _TripStartedViewState extends State<TripStartedView> {
   }
 
   @override
-  void initState() {
-    injectedMap();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var time = context.read<TripProvider>().tripStartedTime ?? DateTime.now();
     return Scaffold(
@@ -54,7 +48,7 @@ class _TripStartedViewState extends State<TripStartedView> {
                 useSafeArea: true,
                 context: context,
                 builder: (context) => SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .8,
+                    height: MediaQuery.sizeOf(context).height * .9,
                     child: const FleetMgtReport()),
               );
             },

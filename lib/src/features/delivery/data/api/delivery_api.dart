@@ -45,7 +45,7 @@ class DeliveryApiService {
         log('$packageId, $packageCode,$idImage');
         final errorMessage = json.decode(response.body)['error'];
 
-        log(errorMessage);
+        log('del: $errorMessage');
         throw CustomException(errorMessage);
       }
     } catch (e) {

@@ -18,7 +18,7 @@ class TripTrackingView extends StatefulWidget {
 
 class _TripTrackingViewState extends State<TripTrackingView> {
   injectedMap() {
-    return RouteMap(dimension2: .78, trip: widget.trip);
+    return RouteMap(dimension2: .8, trip: widget.trip);
   }
 
   @override

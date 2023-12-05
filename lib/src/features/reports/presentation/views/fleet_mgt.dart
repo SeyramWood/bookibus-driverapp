@@ -10,7 +10,6 @@ import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:record_mp3/record_mp3.dart';
-
 import '../../../../../main.dart';
 import '../../../../shared/utils/file_picker.dart';
 import '../../../../shared/utils/permissions/permissions.dart';
@@ -94,7 +93,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
     if (!d.existsSync()) {
       d.createSync(recursive: true);
     }
-    return File("$sdPath/report.mp3");
+    return File("$sdPath/report.mp3 👌");
   }
 
   void stopRecording() {
@@ -132,9 +131,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                         .bodyMedium!
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .02,
-                  ),
+                  SizedBox(height: MediaQuery.sizeOf(context).height * .01),
                   TextFormField(
                     controller: timeController,
                     cursorColor: grey,
@@ -143,36 +140,40 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     decoration: InputDecoration(
                         isDense: true,
                         hintText: "When it occurred",
+                        hintStyle: Theme.of(context).textTheme.bodyMedium,
                         filled: true,
                         fillColor: white,
                         enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: grey,
-                            ),
+                            borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(5)),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: grey,
-                            ),
+                            borderSide: const BorderSide(color: grey),
                             borderRadius: BorderRadius.circular(5))),
                   ),
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * .02,
                   ),
+                  Text(
+                    "Incident Type",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(height: MediaQuery.sizeOf(context).height * .01),
                   Container(
                     width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).height * .07,
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     decoration: BoxDecoration(
                       color: white,
-                      border: Border.all(width: 0.50, color: grey),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: DropdownButton<String>(
                       underline: const SizedBox(), // Removes the underline
-                      isExpanded: true, // Ensures the dropdown fills the width
+                      isExpanded: true,  
                       value:
-                         value, // Replace selectedValue with your current selection
+                          value,  
                       onChanged: (String? newValue) {
                         setState(() {
                           value = newValue!;
@@ -199,9 +200,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                       }).toList(),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .02,
-                  ),
+                  SizedBox(height: MediaQuery.sizeOf(context).height * .02),
                   Text(
                     "Description of incident",
                     style: Theme.of(context)
@@ -221,17 +220,14 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                           cursorColor: grey,
                           decoration: InputDecoration(
                               hintText: "What happened?",
+                              hintStyle: Theme.of(context).textTheme.bodyMedium,
                               filled: true,
                               fillColor: white,
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: grey,
-                                  ),
+                                  borderSide: BorderSide.none,
                                   borderRadius: BorderRadius.circular(5)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: grey,
-                                  ),
+                                  borderSide: const BorderSide(color: grey),
                                   borderRadius: BorderRadius.circular(5))),
                           expands: true,
                           maxLines: null,
@@ -253,7 +249,11 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 8),
                         child: Row(children: [
-                          Text(isRecording ? 'Recording...' : 'Record voice'),
+                          Text(isRecording
+                              ? 'Recording... (Tap to stop)'
+                              : recordFile != null
+                                  ? '${recordFile!.path.split('/').last} (record to replace)'
+                                  : 'Record voice'),
                           const Spacer(),
                           Icon(
                             Icons.mic_none_sharp,
@@ -264,7 +264,7 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .02,
+                    height: MediaQuery.sizeOf(context).height * .03,
                   ),
                   InkWell(
                     onTap: () async {
@@ -278,27 +278,29 @@ class _FleetMgtReportState extends State<FleetMgtReport> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 20, horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Add images",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * .02,
-                            ),
-                            ImageIcon(
-                              AssetImage(
-                                CustomeImages.camera,
+                        child: images.isNotEmpty
+                            ? Center(
+                                child: Text(
+                                  "${images.length} images are ready to be sent",
+                                ),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "Add images",
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * .02,
+                                  ),
+                                  ImageIcon(
+                                    AssetImage(
+                                      CustomeImages.camera,
+                                    ),
+                                  )
+                                ],
                               ),
-                              color: black,
-                            )
-                          ],
-                        ),
                       ),
                     ),
                   ),

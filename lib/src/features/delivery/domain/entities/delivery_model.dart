@@ -60,11 +60,13 @@ class Delivery {
   String recipientName;
   String recipientPhone;
   String recipientLocation;
-  int amount;
   String transType;
   String status;
   List<VImage> packageImages;
   List<dynamic> recipientImages;
+  dynamic transaction;
+  String weight;
+  dynamic trip;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -76,25 +78,27 @@ class Delivery {
     required this.recipientName,
     required this.recipientPhone,
     required this.recipientLocation,
-    required this.amount,
     required this.transType,
     required this.status,
     required this.packageImages,
     required this.recipientImages,
     required this.createdAt,
     required this.updatedAt,
+    required this.weight,
+    this.transaction,
+    this.trip,
   });
 
   factory Delivery.fromJson(Map<String, dynamic> json) => Delivery(
-        id: json["id"],
+        id: json["id"] ?? 0,
         packageCode: json["packageCode"],
         senderName: json["senderName"],
         senderPhone: json["senderPhone"],
         recipientName: json["recipientName"],
         recipientPhone: json["recipientPhone"],
         recipientLocation: json["recipientLocation"],
-        amount: json["amount"],
-        transType: json["transType"],
+        transType: json["type"],
+        weight: json["type"],
         status: json["status"],
         packageImages: List<VImage>.from(
             json["packageImages"]?.map((x) => VImage.fromJson(x)) ?? []),
@@ -102,6 +106,8 @@ class Delivery {
             List<dynamic>.from(json["recipientImages"]?.map((x) => x) ?? []),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        transaction: json['transaction'],
+        trip: json['trip'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -112,7 +118,7 @@ class Delivery {
         "recipientName": recipientName,
         "recipientPhone": recipientPhone,
         "recipientLocation": recipientLocation,
-        "amount": amount,
+        // "amount": amount,
         "transType": transType,
         "status": status,
         "packageImages":

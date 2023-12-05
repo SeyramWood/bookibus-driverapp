@@ -19,7 +19,8 @@ class ReportApiService {
       request.fields['driverId'] = '${report.driverId}';
       request.fields['type'] = report.type;
       request.files.add(
-      await  http.MultipartFile.fromPath('voiceNote', report.voiceNote?.path??''),
+        await http.MultipartFile.fromPath(
+            'voiceNote', report.voiceNote?.path ?? ''),
       );
 
       for (var file in report.images) {
@@ -29,13 +30,10 @@ class ReportApiService {
         );
       }
       final response = await client.sendMultipartRequest(request: request);
-      if (response.statusCode != 200) {log('response body: ${response.body}');
-
-        print(response.statusCode);
+      if (response.statusCode != 200) {
         throw CustomException('${response.reasonPhrase}');
       }
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -47,10 +45,8 @@ class ReportApiService {
       if (response.statusCode != 200) {
         throw CustomException('Failed to get previous reports');
       }
-      print(response.body);
       return reportModelFromJson(response.body).data.data;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
