@@ -83,20 +83,11 @@ class _RouteMapState extends State<RouteMap> {
 
     MapBoxNavigation.instance.registerRouteEventListener(_onRouteEvent);
 
-<<<<<<< HEAD
-    String? platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-   
-    setState(() {
-      platformVersion = platformVersion;
-    });
-=======
     try {
       await MapBoxNavigation.instance.getPlatformVersion();
     } on PlatformException {
       // Handle the exception if needed
     }
->>>>>>> cb66004da7434d2d674fd8872486755982d529cf
   }
 
   @override
@@ -191,39 +182,5 @@ class _RouteMapState extends State<RouteMap> {
       default:
         break;
     }
-<<<<<<< HEAD
-    //refresh UI
-    setState(() {});
-  }
-
-  ///LOcation
-  LocationData? currentLocation;
-  void getCurrentLocation() async {
-    Location location = Location();
-    location.getLocation().then(
-      (location) {
-        currentLocation = location;
-      },
-    );
-    // GoogleMapController googleMapController = await _controller.;
-    location.onLocationChanged.listen(
-      (newLoc) {
-        currentLocation = newLoc;
-        // googleMapController.animateCamera(
-        //   CameraUpdate.newCameraPosition(
-        //     CameraPosition(
-        //       zoom: 13.5,
-        //       target: LatLng(
-        //         newLoc.latitude!,
-        //         newLoc.longitude!,
-        //       ),
-        //     ),
-        // ),
-        // );
-        setState(() {});
-      },
-    );
-=======
->>>>>>> cb66004da7434d2d674fd8872486755982d529cf
   }
 }
