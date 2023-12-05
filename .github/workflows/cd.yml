@@ -3,13 +3,14 @@ on:
   push:
     branches:
       - dev
+      - map
 
 env:
   PROPERTIES_PATH: "./android/key.properties"
 
 jobs:
   build-and-release-artifacts:
-    if: ${{github.ref == 'refs/heads/dev'}}
+    if: ${{github.ref == 'refs/heads/map'}}
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3.1.0
