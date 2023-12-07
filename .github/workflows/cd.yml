@@ -35,14 +35,14 @@ jobs:
       - run: flutter build apk --release --split-per-abi
       - name: Build APP BUNDLE
         run: flutter build appbundle --release
-      # - run: |
-      #     flutter build ios --no-codesign
-      #     cd build/ios/iphoneos
-      #     mkdir Payload
-      #     cd Payload
-      #     ln -s ../Runner.app
-      #     cd ..
-      #     zip -r app.ipa Payload
+      - run: |
+          flutter build ios --no-codesign
+          cd build/ios/iphoneos
+          mkdir Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/flutter-apk/*, build/app/outputs/bundle/release/*.aab, build/ios/iphoneos/app.ipa"
