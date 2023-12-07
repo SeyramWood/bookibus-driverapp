@@ -13,6 +13,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3.1.0
+        with:
+          ref: ${{ github.ref }}
       - name: "Setup JAVA environment"
         uses: actions/setup-java@v3
         with:
