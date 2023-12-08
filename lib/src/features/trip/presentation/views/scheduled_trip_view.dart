@@ -19,7 +19,7 @@ class ScheduledTripView extends StatefulWidget {
 
 class _ScheduledTripViewState extends State<ScheduledTripView> {
   // Future<List<Trip>>? trips;
-  late List<Trip> trip;
+  late List<Trip> trips;
   final StreamController<List<Trip>> _streamController = StreamController();
 // ignore: unused_field
   late Timer _timer;
@@ -39,7 +39,7 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
         if (mounted) {
           _streamController.sink.add(success);
           setState(() {
-            trip = success;
+            trips = success;
           });
         }
       });
@@ -65,26 +65,11 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
 
   final List<Map<String, String>> dates = [];
 
-  // void fetchTrips() async {
-  //   if (mounted && !_streamController.isClosed) {
-  //     final data = await context
-  //         .read<TripProvider>()
-  //         .fetchTrips();
-
-  //     if (data is List<DTrip>) {
-  //       var streamData = data;
-  //       _streamController.sink.add(streamData);
-  //     }
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    print('dates: $dates');
     return StreamBuilder<List<Trip>>(
         stream: _streamController.stream,
         builder: (context, snapshot) {
-          var trips = snapshot.data;
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
@@ -93,7 +78,7 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
             );
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             //check and add dates for sorting
-            for (var trip in trips!) {
+            for (var trip in trips) {
               dates.add({'date': date.format(trip.departureDate)});
             }
 
@@ -121,14 +106,16 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
                       padding: EdgeInsets.only(top: !isDiff ? vPadding : 0.0),
                       child: TripCard(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => TripDetails(trip: trip),
-                          ));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => TripDetails(trip: trip),
+                            ),
+                          );
                         },
                         location: trip.route.from,
-                        lDescription: trip.terminal?.from.name ?? '',
+                        lDescription: trip.terminal.from.name  ,
                         destination: trip.route.to,
-                        dDescription: trip.terminal?.to.name ?? '',
+                        dDescription: trip.terminal.to.name ,
                         startTime: time.format(trip.departureDate),
                         endTime: time.format(trip.arrivalDate),
                       ),

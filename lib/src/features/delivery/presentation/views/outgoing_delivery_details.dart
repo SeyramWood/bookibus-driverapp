@@ -138,12 +138,8 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                     height:
                                         MediaQuery.sizeOf(context).height * .02,
                                   ),
-                                  Text(
+                                  const Text(
                                     "Recepient's ID (Front)",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.w600),
                                   )
                                 ],
                               ),
@@ -213,12 +209,8 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
                                     height:
                                         MediaQuery.sizeOf(context).height * .02,
                                   ),
-                                  Text(
+                                  const Text(
                                     "Recepient's ID (Back)",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.w600),
                                   )
                                 ],
                               ),
@@ -232,12 +224,10 @@ class _PackageDetailsViewState extends State<PackageDetailsView> {
               ),
               vSpace,
               vSpace,
+              vSpace,
               CustomButton(
                 onPressed: () async {
-                  print(codeController.text);
                   if (codeController.text.isNotEmpty) {
-                    print(codeController.text);
-
                     await context
                         .read<DeliveryProvider>()
                         .verifyPackageCode('${widget.package.id}',

@@ -1,4 +1,4 @@
-package com.example.bookihub
+package com.bookirides.bookihub
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

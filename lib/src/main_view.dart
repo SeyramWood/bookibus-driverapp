@@ -1,9 +1,6 @@
-
-
 import 'package:bookihub/src/features/reports/presentation/views/accident_report.dart';
 
 import 'shared/utils/exports.dart';
-
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -28,7 +25,6 @@ class _MainPageState extends State<MainPage> {
     const TripsView(),
     const DeliveryView(),
     const ReportView(),
-    const ProfileView()
   ];
   @override
   Widget build(BuildContext context) {
@@ -41,7 +37,6 @@ class _MainPageState extends State<MainPage> {
           type: BottomNavigationBarType.fixed,
           backgroundColor: white,
           elevation: 0,
-
           selectedItemColor: blue,
           unselectedItemColor: grey,
           onTap: onTap,
@@ -62,13 +57,6 @@ class _MainPageState extends State<MainPage> {
                   CustomeImages.report,
                 )),
                 label: "Report"),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage(
-                  CustomeImages.profile,
-                ),
-                ),
-                label: "Profile"),
           ]),
     );
   }
