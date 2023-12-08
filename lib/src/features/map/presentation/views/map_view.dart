@@ -4,7 +4,6 @@ import 'package:bookihub/src/shared/utils/exports.dart';
 import 'package:bookihub/src/shared/widgets/custom_button.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
-import 'package:location/location.dart';
 import '../../../trip/domain/entities/trip_model.dart';
 
 class RouteMap extends StatefulWidget {
