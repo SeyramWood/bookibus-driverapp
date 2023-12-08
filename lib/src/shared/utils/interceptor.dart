@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:bookihub/main.dart';
 import 'package:bookihub/src/shared/constant/base_url.dart';
@@ -164,17 +163,14 @@ Future<String> refreshAccessToken() async {
       url,
       headers: {'X-Refresh-Token': token ?? ''},
     );
-    log('refresh: ${response.statusCode}');
     if (response.statusCode != 200) {
       throw CustomException('Couldn\'t refresh token');
     }
     final jsonData = jsonDecode(response.body)['data'];
     await storage.write(key: 'accessToken', value: jsonData['accessToken']);
     await storage.write(key: 'refreshToken', value: jsonData['refreshToken']);
-    log(jsonData['accessToken']);
     return jsonData['accessToken'];
   } catch (e) {
-    log('$e');
     rethrow;
   }
 }

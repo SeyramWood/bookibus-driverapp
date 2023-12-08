@@ -113,9 +113,9 @@ class _ScheduledTripViewState extends State<ScheduledTripView> {
                           );
                         },
                         location: trip.route.from,
-                        lDescription: trip.terminal?.from.name ?? '',
+                        lDescription: trip.terminal.from.name  ,
                         destination: trip.route.to,
-                        dDescription: trip.terminal?.to.name ?? '',
+                        dDescription: trip.terminal.to.name ,
                         startTime: time.format(trip.departureDate),
                         endTime: time.format(trip.arrivalDate),
                       ),

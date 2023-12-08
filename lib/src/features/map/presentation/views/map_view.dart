@@ -183,36 +183,5 @@ class _RouteMapState extends State<RouteMap> {
       default:
         break;
     }
-    //refresh UI
-    setState(() {});
-  }
-
-  ///LOcation
-  LocationData? currentLocation;
-  void getCurrentLocation() async {
-    Location location = Location();
-    location.getLocation().then(
-      (location) {
-        currentLocation = location;
-      },
-    );
-    // GoogleMapController googleMapController = await _controller.future;
-    location.onLocationChanged.listen(
-      (newLoc) {
-        currentLocation = newLoc;
-        // googleMapController.animateCamera(
-        //   CameraUpdate.newCameraPosition(
-        //     CameraPosition(
-        //       zoom: 13.5,
-        //       target: LatLng(
-        //         newLoc.latitude!,
-        //         newLoc.longitude!,
-        //       ),
-        //     ),
-        // ),
-        // );
-        setState(() {});
-      },
-    );
   }
 }

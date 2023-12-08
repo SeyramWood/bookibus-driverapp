@@ -190,7 +190,6 @@ class Route {
   double fromLongitude;
   double toLatitude;
   double toLongitude;
-  int rate;
   List<Stop> stops;
 
   Route({
@@ -201,7 +200,6 @@ class Route {
     required this.fromLongitude,
     required this.toLatitude,
     required this.toLongitude,
-    required this.rate,
     required this.stops,
   });
 
@@ -213,7 +211,6 @@ class Route {
         fromLongitude: json["fromLongitude"]?.toDouble(),
         toLatitude: json["toLatitude"]?.toDouble(),
         toLongitude: json["toLongitude"]?.toDouble(),
-        rate: json["rate"],
         stops: List<Stop>.from(json["stops"].map((x) => Stop.fromJson(x))),
       );
 
@@ -225,7 +222,6 @@ class Route {
         "fromLongitude": fromLongitude,
         "toLatitude": toLatitude,
         "toLongitude": toLongitude,
-        "rate": rate,
         "stops": List<dynamic>.from(stops.map((x) => x.toJson())),
       };
 }
@@ -286,4 +282,3 @@ class Vehicle {
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }
-

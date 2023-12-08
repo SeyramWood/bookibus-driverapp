@@ -29,8 +29,6 @@ class _TripStartedViewState extends State<TripStartedView> {
     return RouteMap(dimension: .68, trip: widget.trip);
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     var time = context.read<TripProvider>().tripStartedTime ?? DateTime.now();
@@ -50,7 +48,7 @@ class _TripStartedViewState extends State<TripStartedView> {
                 useSafeArea: true,
                 context: context,
                 builder: (context) => SizedBox(
-                    height: MediaQuery.sizeOf(context).height * .8,
+                    height: MediaQuery.sizeOf(context).height * .9,
                     child: const FleetMgtReport()),
               );
             },
